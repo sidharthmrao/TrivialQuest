@@ -3,12 +3,12 @@ name = "trivial_quest"
 version = "0.0.0"
 edition = "2021"
 
-[[bin]]
-name = "main"
-path = "src/bin/main.rs"
+[lib]
+crate-type = ["cdylib"]  # Compile this crate to a dynamic C library.
 
 [dependencies]
 colored = "2"
+godot = { git = "https://github.com/godot-rust/gdext", branch = "master" }
 
 [dev-dependencies]
 proptest = "1.4.0"

@@ -1,1 +1,0 @@
-/Users/ethan/Documents/GitHub/trivial_quest/rust/target/debug/libtrivial_quest.rlib: /Users/ethan/Documents/GitHub/trivial_quest/rust/src/game/player.rs /Users/ethan/Documents/GitHub/trivial_quest/rust/src/game/world.rs /Users/ethan/Documents/GitHub/trivial_quest/rust/src/game.rs /Users/ethan/Documents/GitHub/trivial_quest/rust/src/lib.rs
