@@ -5,3 +5,9 @@
 .vscode
 .vscode/*
 /.vscode
+*vscode*
+*idea*
+rust/.vscode
+rust/.idea
+/rust/.vscode
+/rust/.idea

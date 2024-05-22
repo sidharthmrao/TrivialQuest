@@ -1,0 +1,1 @@
+/home/sloth/Programming/Rust/TrivialQuest/target/debug/main: /home/sloth/Programming/Rust/TrivialQuest/src/bin/main.rs /home/sloth/Programming/Rust/TrivialQuest/src/game/player.rs /home/sloth/Programming/Rust/TrivialQuest/src/game/world.rs /home/sloth/Programming/Rust/TrivialQuest/src/game.rs /home/sloth/Programming/Rust/TrivialQuest/src/lib.rs
