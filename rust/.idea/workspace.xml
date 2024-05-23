@@ -8,64 +8,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="346f0ce7-84b4-4b2a-96f4-c6a476b28163" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../godot/project.godot" beforeDir="false" afterPath="$PROJECT_DIR$/../godot/project.godot" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Cargo.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Cargo.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Cargo.toml" beforeDir="false" afterPath="$PROJECT_DIR$/Cargo.toml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bin/main.rs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game.rs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/player.rs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/world.rs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/lib.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/.rustc_info.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/CACHEDIR.TAG" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/debug/.cargo-lock" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/debug/.fingerprint/colored-76732792ab76c8f6/dep-lib-colored" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/debug/.fingerprint/colored-76732792ab76c8f6/invoked.timestamp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/debug/.fingerprint/colored-76732792ab76c8f6/lib-colored" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/debug/.fingerprint/colored-76732792ab76c8f6/lib-colored.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/debug/.fingerprint/lazy_static-a2ecc66b5900a096/dep-lib-lazy_static" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/debug/.fingerprint/lazy_static-a2ecc66b5900a096/invoked.timestamp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/debug/.fingerprint/lazy_static-a2ecc66b5900a096/lib-lazy_static" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/debug/.fingerprint/lazy_static-a2ecc66b5900a096/lib-lazy_static.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/debug/.fingerprint/trivial_quest-43878897e8452e1a/bin-main" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/debug/.fingerprint/trivial_quest-43878897e8452e1a/bin-main.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/debug/.fingerprint/trivial_quest-43878897e8452e1a/dep-bin-main" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/debug/.fingerprint/trivial_quest-43878897e8452e1a/invoked.timestamp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/debug/.fingerprint/trivial_quest-7ad9e0f6b002b1d3/dep-lib-trivial_quest" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/debug/.fingerprint/trivial_quest-7ad9e0f6b002b1d3/invoked.timestamp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/debug/.fingerprint/trivial_quest-7ad9e0f6b002b1d3/lib-trivial_quest" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/debug/.fingerprint/trivial_quest-7ad9e0f6b002b1d3/lib-trivial_quest.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/debug/deps/colored-76732792ab76c8f6.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/debug/deps/lazy_static-a2ecc66b5900a096.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/debug/deps/libcolored-76732792ab76c8f6.rlib" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/debug/deps/libcolored-76732792ab76c8f6.rmeta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/debug/deps/liblazy_static-a2ecc66b5900a096.rlib" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/debug/deps/liblazy_static-a2ecc66b5900a096.rmeta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/debug/deps/libtrivial_quest-7ad9e0f6b002b1d3.rlib" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/debug/deps/libtrivial_quest-7ad9e0f6b002b1d3.rmeta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/debug/deps/main-43878897e8452e1a" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/debug/deps/main-43878897e8452e1a.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/debug/deps/trivial_quest-7ad9e0f6b002b1d3.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/debug/incremental/main-1ju2v8dbvueui/s-gwf3yppng9-101okiu-djt2vskascnz7wxxq0ysqwy4c/1a8ldykgmj6sug5l.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/debug/incremental/main-1ju2v8dbvueui/s-gwf3yppng9-101okiu-djt2vskascnz7wxxq0ysqwy4c/2e8pu4o3j19e60ei.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/debug/incremental/main-1ju2v8dbvueui/s-gwf3yppng9-101okiu-djt2vskascnz7wxxq0ysqwy4c/2zd4kknhd90xx5ag.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/debug/incremental/main-1ju2v8dbvueui/s-gwf3yppng9-101okiu-djt2vskascnz7wxxq0ysqwy4c/38ao1arextn0bhss.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/debug/incremental/main-1ju2v8dbvueui/s-gwf3yppng9-101okiu-djt2vskascnz7wxxq0ysqwy4c/3jii9r0ihnsalmip.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/debug/incremental/main-1ju2v8dbvueui/s-gwf3yppng9-101okiu-djt2vskascnz7wxxq0ysqwy4c/4km3nxrmqwh8iz4o.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/debug/incremental/main-1ju2v8dbvueui/s-gwf3yppng9-101okiu-djt2vskascnz7wxxq0ysqwy4c/dep-graph.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/debug/incremental/main-1ju2v8dbvueui/s-gwf3yppng9-101okiu-djt2vskascnz7wxxq0ysqwy4c/query-cache.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/debug/incremental/main-1ju2v8dbvueui/s-gwf3yppng9-101okiu-djt2vskascnz7wxxq0ysqwy4c/work-products.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/debug/incremental/main-1ju2v8dbvueui/s-gwf3yppng9-101okiu.lock" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/debug/incremental/trivial_quest-1hf01gwhc3gk2/s-gwf3ypodbe-dmk0yo-1hs6dycvnelz9cbpvzjl5gfw3/58b1iufbggpoalay.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/debug/incremental/trivial_quest-1hf01gwhc3gk2/s-gwf3ypodbe-dmk0yo-1hs6dycvnelz9cbpvzjl5gfw3/dep-graph.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/debug/incremental/trivial_quest-1hf01gwhc3gk2/s-gwf3ypodbe-dmk0yo-1hs6dycvnelz9cbpvzjl5gfw3/query-cache.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/debug/incremental/trivial_quest-1hf01gwhc3gk2/s-gwf3ypodbe-dmk0yo-1hs6dycvnelz9cbpvzjl5gfw3/work-products.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/debug/incremental/trivial_quest-1hf01gwhc3gk2/s-gwf3ypodbe-dmk0yo.lock" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/debug/libtrivial_quest.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/debug/libtrivial_quest.rlib" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/debug/main" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/debug/main.d" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -88,6 +32,8 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;Cargo.Test add_test::tests.executor&quot;: &quot;Run&quot;,
+    &quot;Cargo.Test trivial_quest.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.rust.reset.selective.auto.import&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
@@ -130,7 +76,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1716420064990</updated>
-      <workItem from="1716420065993" duration="1068000" />
+      <workItem from="1716420065993" duration="3063000" />
     </task>
     <servers />
   </component>
