@@ -4,11 +4,11 @@ version = "0.0.0"
 edition = "2021"
 
 [lib]
-crate-type = ["lib", "cdylib"]
+crate-type = ["lib"]
 
 [dependencies]
+bevy = "0.13.2"
 colored = "2"
-godot = { git = "https://github.com/godot-rust/gdext", branch = "master" }
 
 [dev-dependencies]
 proptest = "1.4.0"
