@@ -19,6 +19,7 @@ deps:
 	@echo '[INFO] Installing dependencies'
 	@cargo install cargo-nextest
 	@curl -LsSf https://insta.rs/install.sh | sh
+	@cargo install bevy
 
 .PHONY: clean
 clean:
