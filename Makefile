@@ -5,28 +5,27 @@ BUILD	:= debug
 .PHONY: build
 build:
 	@echo '[INFO] Building project'
-	@cd rust; cargo build
-	@cd rust; echo 'godot godot/project.godot' > ./main
-	@cd rust; chmod u+x ./main
-	@cd rust; mv ./main ..
+	@cargo build
+	@echo './target/$(BUILD)/trivial_quest "$$@"' > ./main
+	@chmod u+x ./main
 
 .PHONY: test
 test: build
 	@echo '[INFO] Running tests'
-	@cd rust; cargo nextest run --features disable_color
+	@cargo nextest run --features disable_color
 
 .PHONY: deps
 deps:
 	@echo '[INFO] Installing dependencies'
-	@cd rust; cargo install cargo-nextest
+	@cargo install cargo-nextest
 	@curl -LsSf https://insta.rs/install.sh | sh
 
 .PHONY: clean
 clean:
 	@echo '[INFO] Removing build files'
-	@cd rust; cargo clean
+	@cargo clean
 
 .PHONY: docs
 docs:
 	@echo '[INFO] Building and viewing documentation'
-	@cd rust; cargo doc --no-deps --open
+	@cargo doc --no-deps --open
