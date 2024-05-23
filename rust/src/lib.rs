@@ -1,6 +1,7 @@
 use godot::prelude::*;
+mod game;
 
-struct MyExtension;
+struct TrivialExtension;
 
 #[gdextension]
-unsafe impl ExtensionLibrary for MyExtension {}
+unsafe impl ExtensionLibrary for TrivialExtension {}
