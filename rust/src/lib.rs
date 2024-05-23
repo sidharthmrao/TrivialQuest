@@ -1,5 +1,5 @@
 use godot::prelude::*;
-mod game;
+pub mod game;
 
 struct TrivialExtension;
 
