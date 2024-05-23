@@ -8,6 +8,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="346f0ce7-84b4-4b2a-96f4-c6a476b28163" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../godot/sprite_2d.tscn" beforeDir="false" afterPath="$PROJECT_DIR$/../godot/sprite_2d.tscn" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/game.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/sprites.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/sprites.rs" afterDir="false" />

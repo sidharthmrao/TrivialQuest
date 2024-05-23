@@ -26,5 +26,11 @@ impl ISprite2D for Player {
     fn physics_process(&mut self, delta: f64) {
         let radians = (self.angular_speed * delta) as f32;
         self.base_mut().rotate(radians);
+
+        let rotation = self.base().get_rotation();
+        let direction = Vector2::new(rotation.cos(), rotation.sin());
+        let velocity = direction * self.speed as f32;
+
+        self.base_mut().translate(velocity * delta as f32);
     }
 }
