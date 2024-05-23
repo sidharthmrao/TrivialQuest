@@ -6,7 +6,7 @@ BUILD	:= debug
 build:
 	@echo '[INFO] Building project'
 	@cd rust; cargo build
-	@cd rust; echo './rust/target/$(BUILD)/main "$$@"' > ./main
+	@cd rust; echo 'godot godot/project.godot' > ./main
 	@cd rust; chmod u+x ./main
 	@cd rust; mv ./main ..
 

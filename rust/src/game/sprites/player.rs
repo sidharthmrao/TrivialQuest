@@ -1,5 +1,5 @@
-use godot::prelude::*;
 use godot::engine::Sprite2D;
+use godot::prelude::*;
 
 #[derive(GodotClass)]
 #[class(init, base=Sprite2D)]
