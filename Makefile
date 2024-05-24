@@ -9,6 +9,14 @@ build:
 	@echo './target/$(BUILD)/trivial_quest "$$@"' > ./main
 	@chmod u+x ./main
 
+.PHONY: run
+run:
+	@echo '[INFO] Building and running project'
+	@cargo build
+	@echo './target/$(BUILD)/trivial_quest "$$@"' > ./main
+	@chmod u+x ./main
+	@./main
+
 .PHONY: test
 test: build
 	@echo '[INFO] Running tests'
@@ -29,3 +37,9 @@ clean:
 docs:
 	@echo '[INFO] Building and viewing documentation'
 	@cargo doc --no-deps --open
+
+.PHONY: format fmt
+format fmt:
+	@echo '[INFO] Formatting'
+	@cargo +nightly fmt
+	@echo '[INFO] Done'
