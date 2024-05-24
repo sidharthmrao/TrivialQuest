@@ -43,3 +43,9 @@ format fmt:
 	@echo '[INFO] Formatting'
 	@cargo +nightly fmt
 	@echo '[INFO] Done'
+
+.PHONY: check
+check:
+	@echo '[INFO] Checking'
+	@cargo check
+	@echo '[INFO] Done'
