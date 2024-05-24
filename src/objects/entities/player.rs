@@ -6,10 +6,5 @@ use super::shared_components::*;
 pub struct Player;
 
 pub fn spawn_player(mut commands: Commands, player_name: String) {
-    commands.spawn((
-        Player,
-        Name(player_name),
-        Health(100),
-        Strength(10),
-    ));
+    commands.spawn((Player, Name(player_name), Health(100), Strength(10)));
 }

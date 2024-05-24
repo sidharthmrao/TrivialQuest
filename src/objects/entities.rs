@@ -1,3 +1,3 @@
-pub mod shared_components;
-pub mod player;
 pub mod enemy;
+pub mod player;
+pub mod shared_components;
