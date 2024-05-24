@@ -1,6 +1,8 @@
 use bevy::prelude::*;
-use trivial_quest::plugins::hello::HelloPlugin;
+use trivial_quest::graphics::GraphicsPlugin;
 
 fn main() {
-    App::new().add_plugins((DefaultPlugins, HelloPlugin)).run();
+    App::new()
+        .add_plugins((DefaultPlugins, GraphicsPlugin))
+        .run();
 }
