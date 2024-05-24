@@ -7,7 +7,7 @@ edition = "2021"
 crate-type = ["lib"]
 
 [dependencies]
-bevy = {  version = "0.13.2", features = ["dynamic_linking"] } # Revert before game release
+bevy = { version = "0.13.2" } # Revert before game release
 colored = "2"
 
 [dev-dependencies]
