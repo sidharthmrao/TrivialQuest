@@ -1,0 +1,30 @@
+[package]
+name = "trivial_quest"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["lib"]
+
+[dependencies]
+bevy = { version = "0.13.2" } # Revert before game release
+colored = "2"
+
+[dev-dependencies]
+proptest = "1.4.0"
+insta = { version = "1.38.0" }
+
+# Enable a small amount of optimization in debug mode
+[profile.dev]
+opt-level = 1
+
+# Enable high optimizations for dependencies
+[profile.dev.package."*"]
+opt-level = 3
+
+[profile.dev.package]
+insta.opt-level = 3
+similar.opt-level = 3
+
+[features]
+disable_color = ["colored/no-color"]
