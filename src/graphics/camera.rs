@@ -7,10 +7,7 @@ struct MainCamera;
 pub fn setup_camera(mut commands: Commands) {
     info("Setting up camera.");
     commands.spawn((
-        Camera2dBundle {
-            transform: Transform::from_xyz(0.0, 0.0, 0.0),
-            ..default()
-        },
+        Camera2dBundle::default(),
         MainCamera
     ));
 }

@@ -8,19 +8,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d43c63cb-5fda-467d-8d42-1170bd3c17a1" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/graphics/camera.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/objects.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/objects/entities.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/objects/entities/enemy.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/objects/entities/player.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/objects/entities/shared_components.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/.gitkeep" beforeDir="false" afterPath="$PROJECT_DIR$/src/graphics.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components.rs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/name.rs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/person.rs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/graphics/camera.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/graphics/camera.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/lib.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/plugins.rs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/plugins/hello.rs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/systems.rs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/systems/hello.rs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/systems/people.rs" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,23 +43,31 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.rust.reset.selective.auto.import": "true",
-    "git-widget-placeholder": "bevy",
-    "last_opened_file_path": "/home/sloth/Programming/Rust/TrivialQuest",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "org.rust.cargo.project.model.PROJECT_DISCOVERY": "true",
-    "org.rust.cargo.project.model.impl.CargoExternalSystemProjectAware.subscribe.first.balloon": "",
-    "org.rust.disableDetachedFileInspection/home/sloth/Programming/Rust/TrivialQuest/src/graphics/camera.rs": "true",
-    "org.rust.disableDetachedFileInspection/home/sloth/Programming/Rust/TrivialQuest/src/plugins/hello.rs": "true",
-    "org.rust.first.attach.projects": "true",
-    "settings.editor.selected.configurable": "language.rust.cargo.check"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.rust.reset.selective.auto.import&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;bevy&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/sloth/Programming/Rust/TrivialQuest&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;org.rust.cargo.project.model.PROJECT_DISCOVERY&quot;: &quot;true&quot;,
+    &quot;org.rust.cargo.project.model.impl.CargoExternalSystemProjectAware.subscribe.first.balloon&quot;: &quot;&quot;,
+    &quot;org.rust.disableDetachedFileInspection/home/sloth/Programming/Rust/TrivialQuest/src/graphics/camera.rs&quot;: &quot;true&quot;,
+    &quot;org.rust.disableDetachedFileInspection/home/sloth/Programming/Rust/TrivialQuest/src/objects/entities.rs&quot;: &quot;true&quot;,
+    &quot;org.rust.disableDetachedFileInspection/home/sloth/Programming/Rust/TrivialQuest/src/objects/entities/shared_components.rs&quot;: &quot;true&quot;,
+    &quot;org.rust.disableDetachedFileInspection/home/sloth/Programming/Rust/TrivialQuest/src/player/player.rs&quot;: &quot;true&quot;,
+    &quot;org.rust.disableDetachedFileInspection/home/sloth/Programming/Rust/TrivialQuest/src/plugins/hello.rs&quot;: &quot;true&quot;,
+    &quot;org.rust.first.attach.projects&quot;: &quot;true&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;language.rust.cargo.check&quot;
   }
-}]]></component>
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/objects/entities" />
+    </key>
+  </component>
   <component name="RsExternalLinterProjectSettings">
     <option name="runOnTheFly" value="true" />
   </component>
@@ -84,7 +87,8 @@
       <workItem from="1716501265462" duration="5365000" />
       <workItem from="1716510797987" duration="4625000" />
       <workItem from="1716520762305" duration="1000" />
-      <workItem from="1716520769294" duration="9330000" />
+      <workItem from="1716520769294" duration="11266000" />
+      <workItem from="1716587157541" duration="820000" />
     </task>
     <servers />
   </component>
