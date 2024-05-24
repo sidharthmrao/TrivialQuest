@@ -15,8 +15,7 @@ pub fn add_people(mut commands: Commands) {
 }
 
 pub fn update_people(
-    time: Res<Time>,
-    mut timer: ResMut<UpdateTimer>,
+    time: Res<Time>, mut timer: ResMut<UpdateTimer>,
     mut query: Query<&mut Name, With<Person>>
 ) {
     if timer.0.tick(time.delta()).just_finished() {
@@ -32,8 +31,7 @@ pub fn update_people(
 }
 
 pub fn greet_people(
-    time: Res<Time>,
-    mut timer: ResMut<GreetTimer>,
+    time: Res<Time>, mut timer: ResMut<GreetTimer>,
     query: Query<&Name, With<Person>>
 ) {
     if timer.0.tick(time.delta()).just_finished() {
