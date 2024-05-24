@@ -41,15 +41,16 @@ impl Taxonomy {
 #[derive(Component)]
 pub struct Enemy {
     pub taxonomy: Taxonomy,
+    pub strength: Strength,
+    pub health: Health,
+    pub name: Name,
 }
 
 pub fn spawn_enemy(mut commands: Commands, enemy_type: Taxonomy, name: Option<String>) {
-    commands.spawn((
-        Health(enemy_type.health()),
-        Strength(enemy_type.strength()),
-        Enemy {
-            taxonomy: enemy_type,
-        },
-        Name(name.unwrap_or("Enemy".to_string())),
-    ));
+    commands.spawn(Enemy {
+        health: Health(enemy_type.health()),
+        strength: Strength(enemy_type.strength()),
+        taxonomy: enemy_type,
+        name: Name(name.unwrap_or("Enemy".to_string())),
+    });
 }
