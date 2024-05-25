@@ -1,7 +1,11 @@
+use crate::plugins::game::{
+    entities::{
+        enemy::{Enemy, Taxonomy},
+        player::Player
+    },
+    objects::platform::Platform
+};
 use bevy::prelude::*;
-use crate::plugins::game::entities::enemy::{Enemy, Taxonomy};
-use crate::plugins::game::entities::player::Player;
-use crate::plugins::game::objects::platform::Platform;
 
 use super::physics::Movable;
 

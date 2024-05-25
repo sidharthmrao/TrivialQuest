@@ -1,14 +1,11 @@
 use std::fmt::Display;
 
-use crate::{
-    plugins::{
-        game::{Health, Name, Strength},
-        physics::{Gravity, Movable},
-        render::AssetPath
-    },
+use crate::plugins::{
+    game::{shared::SpritePaths, Health, Name, Strength},
+    physics::{Gravity, Movable},
+    render::AssetPath
 };
 use bevy::prelude::*;
-use crate::plugins::game::shared::SpritePaths;
 
 #[derive(Component)]
 pub struct Enemy(pub Taxonomy);
