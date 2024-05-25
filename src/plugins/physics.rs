@@ -72,10 +72,7 @@ impl Movable {
     }
 
     pub fn from(position: Vec2, velocity: Vec2) -> Movable {
-        Movable {
-            position,
-            velocity
-        }
+        Movable { position, velocity }
     }
 
     pub fn pos(&self) -> &Vec2 {

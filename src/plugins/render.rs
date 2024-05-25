@@ -48,6 +48,6 @@ impl Plugin for RenderPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(Startup, setup_camera);
         app.add_systems(Update, make_sprites);
-        app.add_systems(Update, camera_follow_player);
+        app.add_systems(PostUpdate, camera_follow_player);
     }
 }
