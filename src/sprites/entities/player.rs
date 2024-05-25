@@ -1,9 +1,11 @@
 use crate::{
-    plugins::physics::{Gravity, Velocity},
+    plugins::{
+        physics::{Gravity, Velocity},
+        render::CameraFollow
+    },
     sprites::shared::{AssetPath, Health, Name, SpritePaths, Strength}
 };
 use bevy::prelude::*;
-use crate::plugins::render::CameraFollow;
 
 #[derive(Component)]
 pub struct Player;

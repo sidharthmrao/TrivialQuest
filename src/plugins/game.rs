@@ -62,20 +62,24 @@ fn setup_game(mut commands: Commands) {
 /// Moves the player left or right when the arrow keys are pressed.
 pub fn move_player(
     keyboard_input: Res<ButtonInput<KeyCode>>,
-    mut query: Query<&mut Transform, With<Player>>, time: Res<Time>
+    mut query: Query<(&mut Transform, &mut Velocity), With<Player>>, time: Res<Time>
 ) {
     if query.iter().count() != 1 {
         return;
     }
 
-    let mut transform = query.single_mut();
+    let (mut transform, mut velocity) = query.single_mut();
 
     let mut direction = 0.0;
+
     if keyboard_input.pressed(KeyCode::ArrowLeft) {
         direction -= 1.0;
     }
     if keyboard_input.pressed(KeyCode::ArrowRight) {
         direction += 1.0;
+    }
+    if keyboard_input.pressed(KeyCode::Space) {
+        velocity.0.y += 1000.0 * time.delta_seconds();
     }
 
     transform.translation.x += direction * PLAYER_SPEED * time.delta_seconds();

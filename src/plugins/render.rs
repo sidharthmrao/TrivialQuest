@@ -1,6 +1,8 @@
-use crate::sprites::shared::{AssetPath, SpritePaths};
+use crate::sprites::{
+    entities::player::Player,
+    shared::{AssetPath, SpritePaths}
+};
 use bevy::prelude::*;
-use crate::sprites::entities::player::Player;
 
 // Handles game rendering, texturing, and cameras.
 pub struct RenderPlugin;
