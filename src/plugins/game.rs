@@ -6,6 +6,7 @@ use crate::plugins::game::{
     objects::platform::Platform
 };
 use bevy::prelude::*;
+use crate::plugins::game::objects::platform::PlatformType;
 
 use super::physics::Movable;
 
@@ -44,8 +45,11 @@ fn setup_game(mut commands: Commands) {
     // Make enemy
     Enemy::spawn(&mut commands, Taxonomy::Human, None, Vec2::new(-20.0, 80.0), Vec2::new(0.0, 0.0));
 
-    // Make platform
-    Platform::spawn(&mut commands, Vec2::new(0.0, 0.0), 200.0, 100.0);
+    Platform::spawn(
+        &mut commands,
+        Vec2::new(0.0, -100.0),
+        PlatformType::Grass
+    );
 }
 
 /// Moves the player left or right when the arrow keys are pressed.

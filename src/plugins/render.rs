@@ -94,6 +94,5 @@ impl Plugin for RenderPlugin {
         app.add_systems(Startup, setup_camera);
         app.add_systems(Update, make_sprites);
         app.add_systems(PostUpdate, camera_follow_player);
-        app.add_systems(Update, print_rect);
     }
 }
