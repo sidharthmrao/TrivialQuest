@@ -7,12 +7,7 @@
     <cargoProject FILE="$PROJECT_DIR$/Cargo.toml" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d43c63cb-5fda-467d-8d42-1170bd3c17a1" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/plugins/game.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/plugins/game.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/plugins/game/entities/enemy.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/plugins/game/entities/enemy.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/plugins/game/entities/player.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/plugins/game/entities/player.rs" afterDir="false" />
-    </list>
+    <list default="true" id="d43c63cb-5fda-467d-8d42-1170bd3c17a1" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -87,7 +82,7 @@
       <workItem from="1716520762305" duration="1000" />
       <workItem from="1716520769294" duration="11266000" />
       <workItem from="1716587157541" duration="3303000" />
-      <workItem from="1716664330982" duration="3949000" />
+      <workItem from="1716664330982" duration="4162000" />
     </task>
     <servers />
   </component>
