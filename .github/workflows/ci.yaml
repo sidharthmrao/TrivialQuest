@@ -1,4 +1,4 @@
-name: CI 
+name: Build, Test, Docs
 
 on:
   pull_request:
@@ -27,4 +27,18 @@ jobs:
       run: make build
     - name: Test
       run: make test
+    - name: Build documentation
+      run: cargo doc --no-deps
+    - name: Deploy to GitHub Pages
+      run: |
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+        git clone --branch=docs https://github.com/${{ github.repository }}.git docs-output
+        rsync -av --delete target/doc/ docs-output/
+        cd docs-output
+        git add --all
+        git commit -m "Update documentation"
+        git push
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
