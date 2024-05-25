@@ -22,7 +22,7 @@ jobs:
     # - name: Rust Cargo cache
       # uses: raviqqe/cargo-cache@v1
     - name: Install Dependencies
-      run: sudo apt-get install -y libudev-dev; make deps
+      run: sudo apt-get install -y libudev-dev alsa; make deps
     - name: Build
       run: make build
     - name: Test
