@@ -36,7 +36,7 @@ jobs:
       - name: Generate Docs
         run: cargo doc --no-deps
       - name: Create index.html
-        run: echo "<meta http-equiv='refresh' content='0;url=https://sidharthmrao.github.io/TrivialQuest/trivial_quest/index.html'>" > index.html
+        run: echo "<meta http-equiv='refresh' content='0;url=https://sidharthmrao.github.io/TrivialQuest/trivial_quest/index.html'>" > ./target/doc/index.html
       - name: Deploy Docs to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
