@@ -1,0 +1,3 @@
+(function() {var implementors = {
+"trivial_quest":[["impl Plugin for <a class=\"struct\" href=\"trivial_quest/plugins/game/struct.GamePlugin.html\" title=\"struct trivial_quest::plugins::game::GamePlugin\">GamePlugin</a>"],["impl Plugin for <a class=\"struct\" href=\"trivial_quest/plugins/physics/struct.PhysicsPlugin.html\" title=\"struct trivial_quest::plugins::physics::PhysicsPlugin\">PhysicsPlugin</a>"],["impl Plugin for <a class=\"struct\" href=\"trivial_quest/plugins/render/struct.RenderPlugin.html\" title=\"struct trivial_quest::plugins::render::RenderPlugin\">RenderPlugin</a>"]]
+};if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"constant":["GRAVITY"],"enum":["Collider"],"struct":["Fixed","Gravity","Movable","PhysicsPlugin"]};
