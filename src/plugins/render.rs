@@ -28,6 +28,7 @@ use bevy::prelude::*;
 /// Handles game rendering, texturing, and cameras.
 pub struct RenderPlugin;
 
+/// Main camera.
 #[derive(Component)]
 pub struct MainCamera;
 
@@ -35,9 +36,11 @@ pub struct MainCamera;
 #[derive(Component)]
 pub struct CameraFollow;
 
+/// Path to the asset file.
 #[derive(Component)]
 pub struct AssetPath(pub String);
 
+/// Bounding box of a sprite.
 #[derive(Component)]
 pub struct RenderBounds(pub Rect);
 
@@ -78,33 +81,13 @@ fn make_sprites(
             transform: *transform,
             ..default()
         });
+        // Insert a RenderBounds component to serve as sprite bounding box.
         commands.entity(entity).insert(RenderBounds(Rect::from_center_size(
             transform.translation.truncate(),
             Vec2::new(1.0, 1.0)
         )));
     }
 }
-
-fn print_rect(
-    mut query: Query<&RenderBounds>,
-) {
-    for bounds in query.iter() {
-        println!("{:?}", bounds.0);
-    }
-}
-
-// fn print_sprite_bounding_boxes(
-//     mut sprite_query: Query<(&Transform, &Handle<Image>), With<Sprite>>,
-//     assets: Res<Assets<Image>>,
-// ) {
-//     for (transform, image_handle) in sprite_query.iter_mut() {
-//         let image_dimensions = assets.get(image_handle).unwrap().size_f32();
-//         let scaled_image_dimension = image_dimensions * transform.scale.truncate();
-//         let bounding_box = Rect::from_center_size(transform.translation.truncate(), scaled_image_dimension);
-//
-//         println!("image_dimensions: {:?}", bounding_box);
-//     }
-// }
 
 impl Plugin for RenderPlugin {
     fn build(&self, app: &mut App) {
