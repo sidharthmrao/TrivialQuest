@@ -1,6 +1,12 @@
 use crate::{
-    plugins::physics::{Gravity, Velocity},
-    sprites::{entities::player::Player, objects::platform::Platform}
+    plugins::physics::Velocity,
+    sprites::{
+        entities::{
+            enemy::{spawn_enemy, Taxonomy},
+            player::{spawn_player, Player}
+        },
+        objects::platform::Platform
+    }
 };
 use bevy::prelude::*;
 
@@ -18,21 +24,6 @@ pub const PLATFORM_COLOR: Color = Color::rgb(0.0, 0.0, 0.0);
 pub struct GamePlugin;
 
 fn setup_game(mut commands: Commands) {
-    // Make player
-    commands.spawn((
-        Player::new(
-            "Utku CMAKE".to_string(),
-            100,
-            10,
-            "textures/sprites/PNG/Side view/robot_blueBody.png".to_string()
-        ),
-        Transform::from_xyz(0.0, 0.0, 0.0),
-        GlobalTransform::IDENTITY,
-        Velocity::ZERO,
-        Gravity
-    ));
-
-    // Add platform
     commands.spawn((
         SpriteBundle {
             sprite: Sprite {
@@ -48,34 +39,50 @@ fn setup_game(mut commands: Commands) {
         },
         Platform
     ));
+
+    // Make player
+    spawn_player(
+        &mut commands,
+        "Player".to_string(),
+        100,
+        10,
+        Transform::from_translation(Vec3::new(0.0, 0.0, 0.0)),
+        Velocity(Vec2::new(0.0, 0.0))
+    );
+
+    spawn_enemy(
+        &mut commands,
+        Taxonomy::Human,
+        None,
+        Transform::from_translation(Vec3::new(0.0, 0.0, 0.0)),
+        Velocity(Vec2::new(0.0, 0.0))
+    );
 }
 
 /// Moves the player left or right when the arrow keys are pressed.
 pub fn move_player(
     keyboard_input: Res<ButtonInput<KeyCode>>,
-    mut query: Query<&mut Transform, With<Player>>, time: Res<Time>
+    mut query: Query<(&mut Transform, &mut Velocity), With<Player>>, time: Res<Time>
 ) {
-    let mut transform = query.single_mut();
+    if query.iter().count() != 1 {
+        return;
+    }
+
+    let (mut transform, mut velocity) = query.single_mut();
 
     let mut direction = 0.0;
+
     if keyboard_input.pressed(KeyCode::ArrowLeft) {
         direction -= 1.0;
     }
     if keyboard_input.pressed(KeyCode::ArrowRight) {
         direction += 1.0;
     }
+    if keyboard_input.pressed(KeyCode::Space) {
+        velocity.0.y += 1000.0 * time.delta_seconds();
+    }
 
     transform.translation.x += direction * PLAYER_SPEED * time.delta_seconds();
-}
-
-/// Locates the camera at the player.
-pub fn camera_follow_player(
-    mut camera_query: Query<&mut Transform, With<MainCamera>>,
-    player_query: Query<&Transform, (With<Player>, Without<MainCamera>)>
-) {
-    let mut camera_transform = camera_query.single_mut();
-    let player_transform = player_query.single();
-    camera_transform.translation = player_transform.translation;
 }
 
 impl Plugin for GamePlugin {
@@ -83,6 +90,5 @@ impl Plugin for GamePlugin {
         app.insert_resource(ClearColor(BACKGROUND_COLOR));
         app.add_systems(Startup, setup_game);
         app.add_systems(Update, move_player);
-        app.add_systems(Update, camera_follow_player);
     }
 }
