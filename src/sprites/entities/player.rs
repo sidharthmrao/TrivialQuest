@@ -1,6 +1,5 @@
-use bevy::prelude::{Commands, Component};
-
-use super::shared_components::*;
+use crate::sprites::shared_components::{AssetPath, Health, Name, Strength};
+use bevy::prelude::*;
 
 #[derive(Component)]
 pub struct Player {
@@ -11,7 +10,9 @@ pub struct Player {
 }
 
 impl Player {
-    pub fn new(name: String, health: u32, strength: u32, asset_path: String) -> Self {
+    pub fn new(
+        name: String, health: u32, strength: u32, asset_path: String
+    ) -> Self {
         Self {
             name: Name(name),
             health: Health(health),

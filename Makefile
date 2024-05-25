@@ -6,17 +6,12 @@ BUILD	:= debug
 build:
 	@echo '[INFO] Building project'
 	@cargo build
-	@#echo './target/$(BUILD)/trivial_quest "$$@"' > ./main
-	@echo 'cargo run' > ./main
+	@echo 'cargo run -- "$$@"' > ./main
 	@chmod u+x ./main
 
 .PHONY: run
-run:
-	@echo '[INFO] Building and running project'
-	@cargo build
-	@#echo './target/$(BUILD)/trivial_quest "$$@"' > ./main
-	@echo 'cargo run' > ./main
-	@chmod u+x ./main
+run: build
+	@echo '[INFO] Running project'
 	@./main
 
 .PHONY: test

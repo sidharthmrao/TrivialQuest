@@ -1,2 +1,2 @@
-pub mod graphics;
-pub mod objects;
+pub mod plugins;
+pub mod sprites;
