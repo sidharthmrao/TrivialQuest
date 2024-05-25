@@ -5,6 +5,8 @@ use crate::{
     sprites::shared::*
 };
 use bevy::prelude::*;
+use crate::plugins::game::{Health, Name, Strength};
+use crate::plugins::render::AssetPath;
 
 #[derive(Component)]
 pub struct Enemy(pub Taxonomy);

@@ -1,18 +1,28 @@
-use crate::sprites::{
-    entities::{
-        enemy::{Enemy, Taxonomy},
-        player::Player
-    },
-    objects::platform::Platform
-};
 use bevy::prelude::*;
+use crate::plugins::game::entities::enemy::{Enemy, Taxonomy};
+use crate::plugins::game::entities::player::Player;
+use crate::sprites::objects::platform::Platform;
 
 use super::physics::Movable;
+
+pub mod entities;
 
 pub const BACKGROUND_COLOR: Color = Color::rgb(0.9, 0.9, 0.9);
 pub const PLAYER_SPEED: f32 = 200.0;
 
 pub struct GamePlugin;
+
+#[derive(Component)]
+pub struct Entity;
+
+#[derive(Component)]
+pub struct Name(pub String);
+
+#[derive(Component)]
+pub struct Health(pub u32);
+
+#[derive(Component)]
+pub struct Strength(pub u32);
 
 fn setup_game(mut commands: Commands) {
     // Make player
