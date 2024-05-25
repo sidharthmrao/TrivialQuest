@@ -8,13 +8,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d43c63cb-5fda-467d-8d42-1170bd3c17a1" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/bin/main.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/bin/main.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/plugins/game.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/plugins/game.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/plugins/physics.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/plugins/physics.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/plugins/render.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/plugins/render.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sprites.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/sprites.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sprites/entities/enemy.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/sprites/entities/enemy.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sprites/entities/player.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/sprites/entities/player.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sprites/shared_components.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/sprites/shared.rs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

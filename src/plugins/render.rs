@@ -35,6 +35,7 @@ fn make_sprites(
     for (entity, asset_path, transform) in objects.iter() {
         println!("Loading sprite: {:?}", asset_path.0.clone());
         println!("Transform: {:?}", transform.clone());
+        commands.entity(entity).remove::<Transform>();
         commands.entity(entity).insert(SpriteBundle {
             texture: asset_server.load(asset_path.0.clone()),
             transform: *transform,
