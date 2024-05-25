@@ -1,1 +1,1 @@
-./target/debug/trivial_quest "$@"
+cargo run

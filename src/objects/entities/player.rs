@@ -7,12 +7,16 @@ pub struct Player {
     pub name: Name,
     pub health: Health,
     pub strength: Strength,
+    pub asset_path: AssetPath
 }
 
-pub fn spawn_player(mut commands: Commands, player_name: String) {
-    commands.spawn(Player {
-        name: Name(player_name),
-        health: Health(100),
-        strength: Strength(10),
-    });
+impl Player {
+    pub fn new(name: String, health: u32, strength: u32, asset_path: String) -> Self {
+        Self {
+            name: Name(name),
+            health: Health(health),
+            strength: Strength(strength),
+            asset_path: AssetPath(asset_path)
+        }
+    }
 }
