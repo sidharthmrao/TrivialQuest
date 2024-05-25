@@ -11,7 +11,6 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/bin/main.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/bin/main.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/plugins/game.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/plugins/game.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/plugins/physics.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/plugins/physics.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/plugins/render.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/plugins/render.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sprites.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/sprites.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sprites/entities/enemy.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/sprites/entities/enemy.rs" afterDir="false" />

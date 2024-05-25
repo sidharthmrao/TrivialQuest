@@ -1,12 +1,14 @@
 use crate::{
     plugins::physics::Velocity,
     sprites::{
-        entities::player::{spawn_player, Player},
+        entities::{
+            enemy::{spawn_enemy, Taxonomy},
+            player::{spawn_player, Player}
+        },
         objects::platform::Platform
     }
 };
 use bevy::prelude::*;
-use crate::sprites::entities::enemy::{spawn_enemy, Taxonomy};
 
 use super::render::MainCamera;
 
@@ -53,8 +55,8 @@ fn setup_game(mut commands: Commands) {
         Taxonomy::Human,
         None,
         Transform::from_translation(Vec3::new(0.0, 0.0, 0.0)),
-        Velocity(Vec2::new(0.0, 0.0)
-    ));
+        Velocity(Vec2::new(0.0, 0.0))
+    );
 }
 
 /// Moves the player left or right when the arrow keys are pressed.

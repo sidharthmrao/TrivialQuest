@@ -13,12 +13,12 @@ pub fn setup_camera(mut commands: Commands) {
 
 fn make_sprites(
     mut commands: Commands, asset_server: Res<AssetServer>,
-    objects: Query<(&AssetPath, &mut Transform), Changed<AssetPath>>
+    objects: Query<(Entity, &AssetPath, &mut Transform), Changed<AssetPath>>
 ) {
-    for (asset_path, transform) in objects.iter() {
+    for (entity, asset_path, transform) in objects.iter() {
         println!("Loading sprite: {:?}", asset_path.0.clone());
         println!("Transform: {:?}", transform.clone());
-        commands.spawn(SpriteBundle {
+        commands.entity(entity).insert(SpriteBundle {
             texture: asset_server.load(asset_path.0.clone()),
             transform: *transform,
             ..default()

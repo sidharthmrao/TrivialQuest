@@ -13,9 +13,8 @@ use crate::sprites::shared::*;
 pub struct Enemy(pub Taxonomy);
 
 pub fn spawn_enemy(
-    commands: &mut Commands,
-    enemy_type: Taxonomy, name: Option<String>, location: Transform,
-    init_vel: Velocity
+    commands: &mut Commands, enemy_type: Taxonomy, name: Option<String>,
+    location: Transform, init_vel: Velocity
 ) {
     commands.spawn((
         Name(name.unwrap_or("Enemy".to_string())),
@@ -26,7 +25,7 @@ pub fn spawn_enemy(
         init_vel,
         GlobalTransform::IDENTITY,
         Gravity,
-        Enemy(enemy_type),
+        Enemy(enemy_type)
     ));
 }
 
