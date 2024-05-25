@@ -1,9 +1,7 @@
-use crate::{
-    plugins::{
-        physics::{Collider, Gravity, Movable},
-        render::CameraFollow
-    },
-    sprites::shared::{AssetPath, Health, Name, SpritePaths, Strength}
+use crate::plugins::{
+    game::{shared::SpritePaths, Health, Name, Strength},
+    physics::{Collider, Gravity, Movable},
+    render::{AssetPath, CameraFollow}
 };
 use bevy::{math::bounding::Aabb2d, prelude::*};
 

@@ -1,8 +1,9 @@
 use std::fmt::Display;
 
-use crate::{
-    plugins::physics::{Gravity, Movable},
-    sprites::shared::*
+use crate::plugins::{
+    game::{shared::SpritePaths, Health, Name, Strength},
+    physics::{Gravity, Movable},
+    render::AssetPath
 };
 use bevy::prelude::*;
 

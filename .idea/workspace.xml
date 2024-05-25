@@ -7,15 +7,7 @@
     <cargoProject FILE="$PROJECT_DIR$/Cargo.toml" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d43c63cb-5fda-467d-8d42-1170bd3c17a1" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/bin/main.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/bin/main.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/plugins/game.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/plugins/game.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/plugins/render.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/plugins/render.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sprites.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/sprites.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sprites/entities/enemy.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/sprites/entities/enemy.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sprites/entities/player.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/sprites/entities/player.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sprites/shared_components.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/sprites/shared.rs" afterDir="false" />
-    </list>
+    <list default="true" id="d43c63cb-5fda-467d-8d42-1170bd3c17a1" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -59,11 +51,12 @@
     "org.rust.disableDetachedFileInspection/home/sloth/Programming/Rust/TrivialQuest/src/player/player.rs": "true",
     "org.rust.disableDetachedFileInspection/home/sloth/Programming/Rust/TrivialQuest/src/plugins/hello.rs": "true",
     "org.rust.first.attach.projects": "true",
-    "settings.editor.selected.configurable": "language.rust.cargo.check"
+    "settings.editor.selected.configurable": "preferences.pluginManager"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/plugins/game" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/src/objects/entities" />
     </key>
@@ -89,6 +82,7 @@
       <workItem from="1716520762305" duration="1000" />
       <workItem from="1716520769294" duration="11266000" />
       <workItem from="1716587157541" duration="3303000" />
+      <workItem from="1716664330982" duration="4162000" />
     </task>
     <servers />
   </component>
