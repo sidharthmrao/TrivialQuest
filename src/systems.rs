@@ -1,9 +1,8 @@
-use super::components::{Gravity, Player, Velocity};
+use super::components::Player;
 use crate::{
     components::Platform,
-    defines::{
-        GRAVITY, PLATFORM_COLOR, PLAYER_COLOR, PLAYER_SIZE, PLAYER_SPEED
-    }
+    defines::{PLATFORM_COLOR, PLAYER_COLOR, PLAYER_SIZE, PLAYER_SPEED},
+    plugins::physics::{Gravity, Velocity}
 };
 use bevy::prelude::*;
 
@@ -71,18 +70,6 @@ pub fn move_player(
     }
 
     transform.translation.x += direction * PLAYER_SPEED * time.delta_seconds();
-}
-
-/// Applies a constant acceleration to all `Gravity` objects.
-pub fn apply_gravity(
-    mut query: Query<(&mut Transform, &mut Velocity), With<Gravity>>,
-    time: Res<Time>
-) {
-    for (mut transform, mut velocity) in query.iter_mut() {
-        velocity.0 += GRAVITY * time.delta_seconds();
-        transform.translation.x += velocity.0.x * time.delta_seconds();
-        transform.translation.y += velocity.0.y * time.delta_seconds();
-    }
 }
 
 /// Locates the camera at the player.
