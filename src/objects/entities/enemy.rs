@@ -2,6 +2,24 @@ use bevy::prelude::{Commands, Component};
 
 use super::shared_components::*;
 
+#[derive(Component)]
+pub struct Enemy {
+    pub taxonomy: Taxonomy,
+    pub strength: Strength,
+    pub health: Health,
+    pub name: Name,
+}
+
+pub fn spawn_enemy(mut commands: Commands, enemy_type: Taxonomy, name: Option<String>) {
+    commands.spawn(Enemy {
+        health: Health(enemy_type.health()),
+        strength: Strength(enemy_type.strength()),
+        taxonomy: enemy_type,
+        name: Name(name.unwrap_or("Enemy".to_string())),
+    });
+}
+
+// Describes the enemy type. This is used to determine the enemy's health and strength.
 pub enum Taxonomy {
     Human,
     Dwarf,
@@ -36,21 +54,4 @@ impl Taxonomy {
             Taxonomy::NontrivialSolution => 100,
         }
     }
-}
-
-#[derive(Component)]
-pub struct Enemy {
-    pub taxonomy: Taxonomy,
-    pub strength: Strength,
-    pub health: Health,
-    pub name: Name,
-}
-
-pub fn spawn_enemy(mut commands: Commands, enemy_type: Taxonomy, name: Option<String>) {
-    commands.spawn(Enemy {
-        health: Health(enemy_type.health()),
-        strength: Strength(enemy_type.strength()),
-        taxonomy: enemy_type,
-        name: Name(name.unwrap_or("Enemy".to_string())),
-    });
 }
