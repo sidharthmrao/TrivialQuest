@@ -10,8 +10,12 @@ pub struct Player;
 
 impl Player {
     pub fn spawn(
-        commands: &mut Commands, name: String, health: u32, strength: u32,
-        location: Vec2, velocity: Vec2
+        commands: &mut Commands,
+        name: String,
+        health: u32,
+        strength: u32,
+        location: Vec2,
+        velocity: Vec2
     ) {
         commands.spawn((
             Player,

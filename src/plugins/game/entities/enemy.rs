@@ -1,4 +1,5 @@
 use std::fmt::Display;
+use bevy::math::bounding::Aabb2d;
 
 use crate::plugins::{
     game::{shared::SpritePaths, Health, Name, Strength},
@@ -6,14 +7,20 @@ use crate::plugins::{
     render::AssetPath
 };
 use bevy::prelude::*;
+use crate::plugins::game::entities::player::Player;
+use crate::plugins::physics::Collider;
+use crate::plugins::render::CameraFollow;
 
 #[derive(Component)]
 pub struct Enemy(pub Taxonomy);
 
 impl Enemy {
     pub fn spawn(
-        commands: &mut Commands, enemy_type: Taxonomy, name: Option<String>,
-        location: Vec2
+        commands: &mut Commands,
+        enemy_type: Taxonomy,
+        name: Option<String>,
+        location: Vec2,
+        velocity: Vec2
     ) {
         commands.spawn((
             Name(name.unwrap_or("Enemy".to_string())),
@@ -23,8 +30,14 @@ impl Enemy {
             Transform::from_xyz(location.x, location.y, 0.0),
             GlobalTransform::IDENTITY,
             Gravity,
-            Movable::new(),
-            Enemy(enemy_type)
+            Movable::from(location, velocity),
+            Collider::AABB(Aabb2d::new(
+                Vec2 { x: 0.0, y: 0.0 },
+                Vec2 {
+                    x: SpritePaths::TILE_SIZE / 2.0,
+                    y: SpritePaths::TILE_SIZE / 2.0
+                }
+            ))
         ));
     }
 }

@@ -42,7 +42,7 @@ fn setup_game(mut commands: Commands) {
     );
 
     // Make enemy
-    Enemy::spawn(&mut commands, Taxonomy::Human, None, Vec2::new(-20.0, 80.0));
+    Enemy::spawn(&mut commands, Taxonomy::Human, None, Vec2::new(-20.0, 80.0), Vec2::new(0.0, 0.0));
 
     // Make platform
     Platform::spawn(&mut commands, Vec2::new(0.0, 0.0), 200.0, 100.0);
