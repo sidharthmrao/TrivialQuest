@@ -23,6 +23,9 @@ jobs:
         uses: actions/checkout@v4
       - name: Configure cache
         uses: Swatinem/rust-cache@v2.7.3
+        with:
+          path: ~/.cargo
+          key: ${{ runner.os }}-rust-${{ hashFiles('**/Cargo.lock') }}
       - name: Install Dependencies
         run: |
           sudo apt-get install -y libudev-dev alsa librust-alsa-sys-dev
@@ -33,6 +36,8 @@ jobs:
         run: make test
       - name: Generate Docs
         run: cargo doc --no-deps
+      - name: Create index.html
+        run: echo "<meta http-equiv='refresh' content='0;url=https://sidharthmrao.github.io/TrivialQuest/trivial_quest/index.html'>" > index.html
       - name: Deploy Docs to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
