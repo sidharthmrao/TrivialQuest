@@ -1,4 +1,4 @@
-name: Build, Test, Docs
+name: CI
 
 on:
   pull_request:
@@ -8,7 +8,16 @@ on:
 
 env:
   CARGO_TERM_COLOR: always
-  
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
 jobs:
   build_and_test:
     strategy:
@@ -16,29 +25,38 @@ jobs:
         os: [ubuntu-latest]
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v4
-    - name: Rust Cache
-      uses: Swatinem/rust-cache@v2.7.3
-    # - name: Rust Cargo cache
-      # uses: raviqqe/cargo-cache@v1
-    - name: Install Dependencies
-      run: sudo apt-get install -y libudev-dev alsa librust-alsa-sys-dev; make deps
-    - name: Build
-      run: make build
-    - name: Test
-      run: make test
-    - name: Build documentation
-      run: cargo doc --no-deps
-    - name: Deploy to GitHub Pages
-      run: |
-        git config --global user.name 'github-actions[bot]'
-        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-        git clone --branch=docs https://github.com/${{ github.repository }}.git docs-output
-        rsync -av --delete target/doc/ docs-output/
-        cd docs-output
-        git add --all
-        git commit -m "Update documentation"
-        git push
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+      - name: Configure cache
+        uses: Swatinem/rust-cache@v2.7.3
+      - name: Install Dependencies
+        run: sudo apt-get install -y libudev-dev alsa librust-alsa-sys-dev; make deps
+      - name: Build
+        run: make build
+      - name: Test
+        run: make test
+      - name: Clean docs folder
+        run: cargo clean --doc
+      - name: Build docs
+        run: cargo doc --no-deps
+      - name: Add redirect
+        run: echo '<meta http-equiv="refresh" content="0;url=aoc/index.html">' > target/doc/index.html
+      - name: Remove lock file
+        run: rm target/doc/.lock
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: target/doc
+
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    needs: build_and_test
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+        with:
+          branch: docs
