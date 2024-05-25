@@ -8,8 +8,12 @@ use bevy::prelude::*;
 pub struct Player;
 
 pub fn spawn_player(
-    commands: &mut Commands, name: String, health: u32, strength: u32,
-    location: Transform, init_vel: Velocity
+    commands: &mut Commands,
+    name: String,
+    health: u32,
+    strength: u32,
+    location: Transform,
+    init_vel: Velocity
 ) {
     commands.spawn((
         Player,
@@ -20,6 +24,6 @@ pub fn spawn_player(
         location,
         GlobalTransform::IDENTITY,
         init_vel,
-        Gravity
+        Gravity,
     ));
 }
