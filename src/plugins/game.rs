@@ -24,31 +24,31 @@ pub const PLATFORM_COLOR: Color = Color::rgb(0.0, 0.0, 0.0);
 pub struct GamePlugin;
 
 fn setup_game(mut commands: Commands) {
-    // commands.spawn((
-    //     SpriteBundle {
-    //         sprite: Sprite {
-    //             color: PLATFORM_COLOR,
-    //             ..default()
-    //         },
-    //         transform: Transform {
-    //             translation: Vec2::new(0.0, 0.0).extend(0.0),
-    //             scale: Vec3::new(100.0, 100.0, 1.0),
-    //             ..default()
-    //         },
-    //         ..default()
-    //     },
-    //     Platform
-    // ));
+    commands.spawn((
+        SpriteBundle {
+            sprite: Sprite {
+                color: PLATFORM_COLOR,
+                ..default()
+            },
+            transform: Transform {
+                translation: Vec2::new(0.0, 0.0).extend(0.0),
+                scale: Vec3::new(100.0, 100.0, 1.0),
+                ..default()
+            },
+            ..default()
+        },
+        Platform
+    ));
 
     // Make player
-    // spawn_player(
-    //     &mut commands,
-    //     "Player".to_string(),
-    //     100,
-    //     10,
-    //     Transform::from_translation(Vec3::new(0.0, 0.0, 0.0)),
-    //     Velocity(Vec2::new(0.0, 0.0))
-    // );
+    spawn_player(
+        &mut commands,
+        "Player".to_string(),
+        100,
+        10,
+        Transform::from_translation(Vec3::new(0.0, 0.0, 0.0)),
+        Velocity(Vec2::new(0.0, 0.0))
+    );
 
     spawn_enemy(
         &mut commands,

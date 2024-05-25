@@ -20,6 +20,6 @@ pub fn spawn_player(
         location,
         GlobalTransform::IDENTITY,
         init_vel,
-        Gravity,
+        Gravity
     ));
 }
