@@ -81,25 +81,10 @@ pub fn move_player(
     transform.translation.x += direction * PLAYER_SPEED * time.delta_seconds();
 }
 
-/// Locates the camera at the player.
-pub fn camera_follow_player(
-    mut camera_query: Query<&mut Transform, With<MainCamera>>,
-    player_query: Query<&Transform, (With<Player>, Without<MainCamera>)>
-) {
-    if player_query.iter().count() != 1 {
-        return;
-    }
-
-    let mut camera_transform = camera_query.single_mut();
-    let player_transform = player_query.single();
-    camera_transform.translation = player_transform.translation;
-}
-
 impl Plugin for GamePlugin {
     fn build(&self, app: &mut App) {
         app.insert_resource(ClearColor(BACKGROUND_COLOR));
         app.add_systems(Startup, setup_game);
         app.add_systems(Update, move_player);
-        app.add_systems(Update, camera_follow_player);
     }
 }

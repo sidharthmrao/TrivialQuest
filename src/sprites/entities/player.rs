@@ -3,6 +3,7 @@ use crate::{
     sprites::shared::{AssetPath, Health, Name, SpritePaths, Strength}
 };
 use bevy::prelude::*;
+use crate::plugins::render::CameraFollow;
 
 #[derive(Component)]
 pub struct Player;
@@ -20,6 +21,7 @@ pub fn spawn_player(
         location,
         GlobalTransform::IDENTITY,
         init_vel,
-        Gravity
+        Gravity,
+        CameraFollow
     ));
 }
