@@ -6,6 +6,7 @@ use crate::{
     }
 };
 use bevy::prelude::*;
+use crate::sprites::entities::enemy::{spawn_enemy, Taxonomy};
 
 use super::render::MainCamera;
 
@@ -21,31 +22,38 @@ pub const PLATFORM_COLOR: Color = Color::rgb(0.0, 0.0, 0.0);
 pub struct GamePlugin;
 
 fn setup_game(mut commands: Commands) {
-    // Make player
-    spawn_player(
-        &mut commands,
-        "Player".to_string(),
-        100,
-        10,
-        Transform::from_translation(Vec3::new(0.0, 0.0, 0.0)),
-        Velocity(Vec2::new(0.0, 0.0))
-    );
+    // commands.spawn((
+    //     SpriteBundle {
+    //         sprite: Sprite {
+    //             color: PLATFORM_COLOR,
+    //             ..default()
+    //         },
+    //         transform: Transform {
+    //             translation: Vec2::new(0.0, 0.0).extend(0.0),
+    //             scale: Vec3::new(100.0, 100.0, 1.0),
+    //             ..default()
+    //         },
+    //         ..default()
+    //     },
+    //     Platform
+    // ));
 
-    // Add platform
-    commands.spawn((
-        SpriteBundle {
-            sprite: Sprite {
-                color: PLATFORM_COLOR,
-                ..default()
-            },
-            transform: Transform {
-                translation: Vec2::new(0.0, 0.0).extend(0.0),
-                scale: Vec3::new(100.0, 100.0, 1.0),
-                ..default()
-            },
-            ..default()
-        },
-        Platform
+    // Make player
+    // spawn_player(
+    //     &mut commands,
+    //     "Player".to_string(),
+    //     100,
+    //     10,
+    //     Transform::from_translation(Vec3::new(0.0, 0.0, 0.0)),
+    //     Velocity(Vec2::new(0.0, 0.0))
+    // );
+
+    spawn_enemy(
+        &mut commands,
+        Taxonomy::Human,
+        None,
+        Transform::from_translation(Vec3::new(0.0, 0.0, 0.0)),
+        Velocity(Vec2::new(0.0, 0.0)
     ));
 }
 
@@ -54,6 +62,10 @@ pub fn move_player(
     keyboard_input: Res<ButtonInput<KeyCode>>,
     mut query: Query<&mut Transform, With<Player>>, time: Res<Time>
 ) {
+    if query.iter().count() != 1 {
+        return;
+    }
+
     let mut transform = query.single_mut();
 
     let mut direction = 0.0;
@@ -72,6 +84,10 @@ pub fn camera_follow_player(
     mut camera_query: Query<&mut Transform, With<MainCamera>>,
     player_query: Query<&Transform, (With<Player>, Without<MainCamera>)>
 ) {
+    if player_query.iter().count() != 1 {
+        return;
+    }
+
     let mut camera_transform = camera_query.single_mut();
     let player_transform = player_query.single();
     camera_transform.translation = player_transform.translation;

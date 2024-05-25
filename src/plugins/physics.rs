@@ -26,6 +26,7 @@ fn apply_gravity(
     time: Res<Time>
 ) {
     for (mut transform, mut velocity) in query.iter_mut() {
+        println!("Applying gravity to {:?}", transform.translation.clone());
         velocity.0 += GRAVITY * time.delta_seconds();
         transform.translation.x += velocity.0.x * time.delta_seconds();
         transform.translation.y += velocity.0.y * time.delta_seconds();

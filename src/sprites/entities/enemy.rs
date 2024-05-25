@@ -1,6 +1,11 @@
-use bevy::asset::AssetServer;
 use crate::plugins::physics::{Gravity, Velocity};
-use bevy::prelude::{Commands, Component, default, GlobalTransform, Res, SpriteBundle, Transform};
+use bevy::{
+    asset::AssetServer,
+    prelude::{
+        default, Commands, Component, GlobalTransform, Res, SpriteBundle,
+        Transform
+    }
+};
 
 use crate::sprites::shared::*;
 
@@ -8,11 +13,8 @@ use crate::sprites::shared::*;
 pub struct Enemy(pub Taxonomy);
 
 pub fn spawn_enemy(
-    mut commands: Commands,
-    asset_server: Res<AssetServer>,
-    enemy_type: Taxonomy, 
-    name: Option<String>,
-    location: Transform, 
+    commands: &mut Commands,
+    enemy_type: Taxonomy, name: Option<String>, location: Transform,
     init_vel: Velocity
 ) {
     commands.spawn((
@@ -25,10 +27,6 @@ pub fn spawn_enemy(
         GlobalTransform::IDENTITY,
         Gravity,
         Enemy(enemy_type),
-        SpriteBundle {
-            texture: asset_server.load(SpritePaths::PLAYER.to_string()),
-            ..default()
-        }
     ));
 }
 
