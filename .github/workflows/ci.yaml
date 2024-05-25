@@ -1,4 +1,4 @@
-name: Build, Test, Docs
+name: Build, Test, Docs, and Deploy
 
 on:
   pull_request:
@@ -8,37 +8,37 @@ on:
 
 env:
   CARGO_TERM_COLOR: always
-  
+
+permissions: write-all
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
 jobs:
-  build_and_test:
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-    runs-on: ${{ matrix.os }}
+  build_test_and_deploy:
+    runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - name: Rust Cache
-      uses: Swatinem/rust-cache@v2.7.3
-    # - name: Rust Cargo cache
-      # uses: raviqqe/cargo-cache@v1
-    - name: Install Dependencies
-      run: sudo apt-get install -y libudev-dev alsa librust-alsa-sys-dev; make deps
-    - name: Build
-      run: make build
-    - name: Test
-      run: make test
-    - name: Build documentation
-      run: cargo doc --no-deps
-    - name: Deploy to GitHub Pages
-      run: |
-        git config --global user.name 'github-actions[bot]'
-        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-        git clone --branch=docs https://github.com/${{ github.repository }}.git docs-output
-        rsync -av --delete target/doc/ docs-output/
-        cd docs-output
-        git add --all
-        git commit -m "Update documentation"
-        git push
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Configure cache
+        uses: Swatinem/rust-cache@v2.7.3
+        with:
+          shared-key: ${{ runner.os }}-rust-${{ hashFiles('**/Cargo.lock') }}
+      - name: Install Dependencies
+        run: |
+          sudo apt-get install -y libudev-dev alsa librust-alsa-sys-dev
+          make deps
+      - name: Build
+        run: make build
+      - name: Test
+        run: make test
+      - name: Generate Docs
+        run: cargo doc --no-deps
+      - name: Create index.html
+        run: echo "<meta http-equiv='refresh' content='0;url=https://sidharthmrao.github.io/TrivialQuest/trivial_quest/index.html'>" > index.html
+      - name: Deploy Docs to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./target/doc
