@@ -1,7 +1,4 @@
-use crate::sprites::{
-    entities::player::Player,
-    shared::{AssetPath, SpritePaths}
-};
+use crate::sprites::shared::AssetPath;
 use bevy::prelude::*;
 
 // Handles game rendering, texturing, and cameras.

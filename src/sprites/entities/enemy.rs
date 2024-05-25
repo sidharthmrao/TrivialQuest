@@ -1,32 +1,31 @@
-use crate::plugins::physics::{Gravity, Velocity};
-use bevy::{
-    asset::AssetServer,
-    prelude::{
-        default, Commands, Component, GlobalTransform, Res, SpriteBundle,
-        Transform
-    }
-};
+use std::fmt::Display;
 
-use crate::sprites::shared::*;
+use crate::{
+    plugins::physics::{Gravity, Movable},
+    sprites::shared::*
+};
+use bevy::prelude::*;
 
 #[derive(Component)]
 pub struct Enemy(pub Taxonomy);
 
-pub fn spawn_enemy(
-    commands: &mut Commands, enemy_type: Taxonomy, name: Option<String>,
-    location: Transform, init_vel: Velocity
-) {
-    commands.spawn((
-        Name(name.unwrap_or("Enemy".to_string())),
-        Health(enemy_type.health()),
-        Strength(enemy_type.strength()),
-        AssetPath(enemy_type.image_path()),
-        location,
-        init_vel,
-        GlobalTransform::IDENTITY,
-        Gravity,
-        Enemy(enemy_type)
-    ));
+impl Enemy {
+    pub fn spawn(
+        commands: &mut Commands, enemy_type: Taxonomy, name: Option<String>,
+        location: Vec2
+    ) {
+        commands.spawn((
+            Name(name.unwrap_or("Enemy".to_string())),
+            Health(enemy_type.health()),
+            Strength(enemy_type.strength()),
+            AssetPath(enemy_type.image_path()),
+            Transform::from_xyz(location.x, location.y, 0.0),
+            GlobalTransform::IDENTITY,
+            Gravity,
+            Movable::new(),
+            Enemy(enemy_type)
+        ));
+    }
 }
 
 // Describes the enemy type. This is used to determine the enemy's health and
@@ -39,16 +38,6 @@ pub enum Taxonomy {
 }
 
 impl Taxonomy {
-    pub fn to_string(&self) -> String {
-        match self {
-            Taxonomy::Human => "Enemy Human",
-            Taxonomy::Dwarf => "Enemy Dwarf",
-            Taxonomy::Elf => "Enemy Elf",
-            Taxonomy::NontrivialSolution => "Nontrivial Solution"
-        }
-        .into()
-    }
-
     pub fn health(&self) -> u32 {
         match self {
             Taxonomy::Human => 100,
@@ -75,5 +64,17 @@ impl Taxonomy {
             Taxonomy::NontrivialSolution => SpritePaths::ENEMY
         }
         .into()
+    }
+}
+
+impl Display for Taxonomy {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Taxonomy::Human => "Enemy Human",
+            Taxonomy::Dwarf => "Enemy Dwarf",
+            Taxonomy::Elf => "Enemy Elf",
+            Taxonomy::NontrivialSolution => "Nontrivial Solution"
+        }
+        .fmt(f)
     }
 }
