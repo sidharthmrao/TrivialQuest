@@ -17,10 +17,12 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v4
-    - name: Rust Cache
-      uses: Swatinem/rust-cache@v2.7.3
-    # - name: Rust Cargo cache
-      # uses: raviqqe/cargo-cache@v1
+    # - name: Rust Cache
+    #   uses: Swatinem/rust-cache@v2.7.3
+    - name: Rust Cargo cache
+      uses: raviqqe/cargo-cache@v1
+    - name: Install Dependencies
+      run: make deps
     - name: Build
       run: make build
     - name: Test
