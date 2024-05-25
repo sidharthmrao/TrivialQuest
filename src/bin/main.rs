@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 use trivial_quest::{
     defines::BACKGROUND_COLOR,
-    systems::{move_player, setup}
+    systems::{apply_gravity, camera_follow_player, move_player, setup}
 };
 
 fn main() {
@@ -9,6 +9,9 @@ fn main() {
         .add_plugins(DefaultPlugins)
         .insert_resource(ClearColor(BACKGROUND_COLOR))
         .add_systems(Startup, setup)
-        .add_systems(Update, (move_player).chain())
+        .add_systems(
+            Update,
+            (move_player, apply_gravity, camera_follow_player).chain()
+        )
         .run();
 }
