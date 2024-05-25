@@ -2,21 +2,24 @@
 //!
 //! The render plugin handles game rendering, texturing, and cameras.
 //!
-//! It creates a [`MainCamera`] entity and follows an entity with the [`CameraFollow`] component
-//! (usually the player). If no entity has the [`CameraFollow`] component, the camera will remain
-//! stationary. There can be at most one entity with the [`MainCamera`] component.
+//! It creates a [`MainCamera`] entity and follows an entity with the
+//! [`CameraFollow`] component (usually the player). If no entity has the
+//! [`CameraFollow`] component, the camera will remain stationary. There can be
+//! at most one entity with the [`MainCamera`] component.
 //!
-//! The plugin also loads sprites by querying for entities with the [`AssetPath`] component and
-//! the [`Transform`] component. It then replaces the [`Transform`] component with a
-//! [`SpriteBundle`] component containing the texture loaded from the [`AssetPath`] component and
-//! the original [`Transform`] component.
+//! The plugin also loads sprites by querying for entities with the
+//! [`AssetPath`] component and the [`Transform`] component. It then replaces
+//! the [`Transform`] component with a [`SpriteBundle`] component containing the
+//! texture loaded from the [`AssetPath`] component and the original
+//! [`Transform`] component.
 //!
 //! Schedule:
 //!     - Startup: Sets up the main camera.
-//!     - Update: Loads sprites. Only processes entities with the [`AssetPath`] component that has
-//!       changed. This means that users can change the texture of an entity by changing the
-//!       [`AssetPath`] component.
-//!     - PostUpdate: Follows the entity (or no entity) with the [`CameraFollow`] component.
+//!     - Update: Loads sprites. Only processes entities with the [`AssetPath`]
+//!       component that has changed. This means that users can change the
+//!       texture of an entity by changing the [`AssetPath`] component.
+//!     - PostUpdate: Follows the entity (or no entity) with the
+//!       [`CameraFollow`] component.
 
 use bevy::prelude::*;
 
@@ -54,15 +57,16 @@ fn camera_follow_player(
     camera_transform.translation = transform.translation;
 }
 
-
 // Loads sprites from AssetPath components.
 fn make_sprites(
-    mut commands: Commands, asset_server: Res<AssetServer>,
+    mut commands: Commands,
+    asset_server: Res<AssetServer>,
     // Only process entities with an AssetPath component that has changed.
     objects: Query<(Entity, &AssetPath, &mut Transform), Changed<AssetPath>>
 ) {
     for (entity, asset_path, transform) in objects.iter() {
-        // Remove the old Transform component and insert a SpriteBundle component.
+        // Remove the old Transform component and insert a SpriteBundle
+        // component.
         commands.entity(entity).remove::<Transform>();
         commands.entity(entity).insert(SpriteBundle {
             texture: asset_server.load(asset_path.0.clone()),

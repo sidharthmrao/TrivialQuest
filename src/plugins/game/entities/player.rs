@@ -1,8 +1,12 @@
+use crate::{
+    plugins::{
+        game::{Health, Name, Strength},
+        physics::{Collider, Gravity, Movable},
+        render::{AssetPath, CameraFollow}
+    },
+};
 use bevy::{math::bounding::Aabb2d, prelude::*};
-use crate::plugins::game::{Health, Name, Strength};
-use crate::plugins::physics::{Collider, Gravity, Movable};
-use crate::plugins::render::{AssetPath, CameraFollow};
-use crate::sprites::shared::SpritePaths;
+use crate::plugins::game::shared::SpritePaths;
 
 #[derive(Component)]
 pub struct Player;

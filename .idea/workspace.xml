@@ -9,13 +9,15 @@
   <component name="ChangeListManager">
     <list default="true" id="d43c63cb-5fda-467d-8d42-1170bd3c17a1" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lib.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/plugins/game.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/plugins/game.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/plugins/game/entities/enemy.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/plugins/game/entities/enemy.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/plugins/game/entities/player.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/plugins/game/entities/player.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/plugins/render.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/plugins/render.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sprites.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/sprites.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sprites/entities.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/plugins/game/entities.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sprites/entities/enemy.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/plugins/game/entities/enemy.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sprites/entities/player.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/plugins/game/entities/player.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sprites/shared.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/sprites/shared.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sprites.rs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sprites/objects.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/plugins/game/objects.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sprites/objects/platform.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/plugins/game/objects/platform.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sprites/shared.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/plugins/game/shared.rs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -91,7 +93,7 @@
       <workItem from="1716520762305" duration="1000" />
       <workItem from="1716520769294" duration="11266000" />
       <workItem from="1716587157541" duration="3303000" />
-      <workItem from="1716664330982" duration="1942000" />
+      <workItem from="1716664330982" duration="2418000" />
     </task>
     <servers />
   </component>

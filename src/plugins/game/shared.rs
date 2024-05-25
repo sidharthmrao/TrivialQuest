@@ -1,5 +1,3 @@
-use bevy::prelude::*;
-
 pub struct SpritePaths;
 
 impl SpritePaths {

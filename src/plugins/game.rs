@@ -1,11 +1,13 @@
 use bevy::prelude::*;
 use crate::plugins::game::entities::enemy::{Enemy, Taxonomy};
 use crate::plugins::game::entities::player::Player;
-use crate::sprites::objects::platform::Platform;
+use crate::plugins::game::objects::platform::Platform;
 
 use super::physics::Movable;
 
 pub mod entities;
+pub mod objects;
+pub mod shared;
 
 pub const BACKGROUND_COLOR: Color = Color::rgb(0.9, 0.9, 0.9);
 pub const PLAYER_SPEED: f32 = 200.0;
