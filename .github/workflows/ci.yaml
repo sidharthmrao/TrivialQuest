@@ -1,4 +1,4 @@
-name: CI
+name: Build, Test, Docs
 
 on:
   pull_request:
@@ -27,8 +27,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Setup Rust
-        uses: dtolnay/rust-toolchain@stable
       - name: Configure cache
         uses: Swatinem/rust-cache@v2.7.3
       - name: Install Dependencies
@@ -58,5 +56,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-        with:
-          branch: docs
