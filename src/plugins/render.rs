@@ -22,6 +22,7 @@
 //!       [`CameraFollow`] component.
 
 use bevy::math::bounding::Aabb2d;
+use bevy::math::Rect;
 use bevy::prelude::*;
 
 /// Handles game rendering, texturing, and cameras.
@@ -38,9 +39,7 @@ pub struct CameraFollow;
 pub struct AssetPath(pub String);
 
 #[derive(Component)]
-pub enum RenderBounds {
-    AABB(Aabb2d)
-}
+pub struct RenderBounds(pub Rect);
 
 // Initializes the main camera as a 2D camera.
 fn setup_camera(mut commands: Commands) {
@@ -79,28 +78,39 @@ fn make_sprites(
             transform: *transform,
             ..default()
         });
+        commands.entity(entity).insert(RenderBounds(Rect::from_center_size(
+            transform.translation.truncate(),
+            Vec2::new(1.0, 1.0)
+        )));
     }
 }
 
-fn print_sprite_bounding_boxes(
-    mut sprite_query: Query<(&Transform, &Handle<Image>), With<Sprite>>,
-    assets: Res<Assets<Image>>,
+fn print_rect(
+    mut query: Query<&RenderBounds>,
 ) {
-    for (transform, image_handle) in sprite_query.iter_mut() {
-        let image_dimensions = assets.get(image_handle).unwrap().size_f32();
-        let scaled_image_dimension = image_dimensions * transform.scale.truncate();
-        let bounding_box = Rect::from_center_size(transform.translation.truncate(), scaled_image_dimension);
-
-        // println!("bounding_box: {:?}", bounding_box);
-        println!("image_dimensions: {:?}", bounding_box);
+    for bounds in query.iter() {
+        println!("{:?}", bounds.0);
     }
 }
+
+// fn print_sprite_bounding_boxes(
+//     mut sprite_query: Query<(&Transform, &Handle<Image>), With<Sprite>>,
+//     assets: Res<Assets<Image>>,
+// ) {
+//     for (transform, image_handle) in sprite_query.iter_mut() {
+//         let image_dimensions = assets.get(image_handle).unwrap().size_f32();
+//         let scaled_image_dimension = image_dimensions * transform.scale.truncate();
+//         let bounding_box = Rect::from_center_size(transform.translation.truncate(), scaled_image_dimension);
+//
+//         println!("image_dimensions: {:?}", bounding_box);
+//     }
+// }
 
 impl Plugin for RenderPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(Startup, setup_camera);
         app.add_systems(Update, make_sprites);
         app.add_systems(PostUpdate, camera_follow_player);
-        app.add_systems(Update, print_sprite_bounding_boxes);
+        app.add_systems(Update, print_rect);
     }
 }
