@@ -1,47 +1,30 @@
-use bevy::pbr::light_consts::lux::DIRECT_SUNLIGHT;
 use bevy::prelude::*;
-use trivial_quest::graphics::GraphicsPlugin;
+use trivial_quest::objects::entities::player::Player;
+use trivial_quest::objects::entities::shared_components::AssetPath;
 
 fn main() {
     App::new()
-        .add_plugins((DefaultPlugins, GraphicsPlugin))
-        .add_systems(Startup, setup)
+        .add_plugins(DefaultPlugins.set(ImagePlugin::default_nearest())) // prevents blurry sprites
+        .add_systems(Startup, (setup, render_assets).chain())
         .run();
 }
 
-/// set up a simple 3D scene
-fn setup(
+fn render_assets(
     mut commands: Commands,
-    mut meshes: ResMut<Assets<Mesh>>,
-    mut materials: ResMut<Assets<StandardMaterial>>,
-) {
-    // circular base
-    commands.spawn(PbrBundle {
-        mesh: meshes.add(Circle::new(2.0)),
-        material: materials.add(Color::WHITE),
-        transform: Transform::from_rotation(Quat::from_rotation_x(-std::f32::consts::FRAC_PI_2)),
-        ..default()
-    });
-    // cube
-    commands.spawn(PbrBundle {
-        mesh: meshes.add(Cuboid::new(1.0, 1.0, 1.0)),
-        material: materials.add(Color::rgb_u8(124, 144, 255)),
-        transform: Transform::from_xyz(0.0, 0.5, 0.0),
-        ..default()
-    });
-    // light
-    commands.spawn(PointLightBundle {
-        point_light: PointLight {
-            shadows_enabled: true,
-            intensity: DIRECT_SUNLIGHT,
+    asset_server: Res<AssetServer>,
+    assets: Query<&AssetPath>)
+{
+    println!("Rendering assets");
+    for asset in assets.iter() {
+        println!("Rendering asset: {}", asset.0.clone());
+        commands.spawn(SpriteBundle {
+            texture: asset_server.load(asset.0.clone()),
             ..default()
-        },
-        transform: Transform::from_xyz(4.0, 8.0, 4.0),
-        ..default()
-    });
-    // camera
-    commands.spawn(Camera3dBundle {
-        transform: Transform::from_xyz(-2.5, 4.5, 9.0).looking_at(Vec3::ZERO, Vec3::Y),
-        ..default()
-    });
+        });
+    }
+}
+
+fn setup(mut commands: Commands) {
+    commands.spawn(Camera2dBundle::default());
+    commands.spawn(Player::new("Player".to_string(), 100, 10, "textures/sprites/PNG/Side view/robot_blueBody.png".to_string()));
 }

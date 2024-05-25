@@ -8,12 +8,14 @@ pub struct Enemy {
     pub strength: Strength,
     pub health: Health,
     pub name: Name,
+    pub asset_path: AssetPath
 }
 
 pub fn spawn_enemy(mut commands: Commands, enemy_type: Taxonomy, name: Option<String>) {
     commands.spawn(Enemy {
         health: Health(enemy_type.health()),
         strength: Strength(enemy_type.strength()),
+        asset_path: AssetPath(enemy_type.image_path()),
         taxonomy: enemy_type,
         name: Name(name.unwrap_or("Enemy".to_string())),
     });
@@ -30,11 +32,11 @@ pub enum Taxonomy {
 impl Taxonomy {
     pub fn to_string(&self) -> String {
         match self {
-            Taxonomy::Human => "Enemy Human".to_string(),
-            Taxonomy::Dwarf => "Enemy Dwarf".to_string(),
-            Taxonomy::Elf => "Enemy Elf".to_string(),
-            Taxonomy::NontrivialSolution => "Nontrivial Solution".to_string(),
-        }
+            Taxonomy::Human => "Enemy Human",
+            Taxonomy::Dwarf => "Enemy Dwarf",
+            Taxonomy::Elf => "Enemy Elf",
+            Taxonomy::NontrivialSolution => "Nontrivial Solution",
+        }.into()
     }
 
     pub fn health(&self) -> u32 {
@@ -53,5 +55,14 @@ impl Taxonomy {
             Taxonomy::Elf => 5,
             Taxonomy::NontrivialSolution => 100,
         }
+    }
+
+    pub fn image_path(&self) -> String {
+        match self {
+            Taxonomy::Human => "textures/sprites/PNG/Side view/robot_blueBody.png",
+            Taxonomy::Dwarf => "textures/sprites/PNG/Side view/robot_greenBody.png",
+            Taxonomy::Elf => "textures/sprites/PNG/Side view/robot_redBody.png",
+            Taxonomy::NontrivialSolution => "textures/sprites/PNG/Side view/robot_yellowBody.png",
+        }.into()
     }
 }
