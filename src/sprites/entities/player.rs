@@ -1,23 +1,25 @@
-use crate::sprites::shared_components::{AssetPath, Health, Name, Strength};
+use crate::{
+    plugins::physics::{Gravity, Velocity},
+    sprites::shared::{AssetPath, Health, Name, SpritePaths, Strength}
+};
 use bevy::prelude::*;
 
 #[derive(Component)]
-pub struct Player {
-    pub name: Name,
-    pub health: Health,
-    pub strength: Strength,
-    pub asset_path: AssetPath
-}
+pub struct Player;
 
-impl Player {
-    pub fn new(
-        name: String, health: u32, strength: u32, asset_path: String
-    ) -> Self {
-        Self {
-            name: Name(name),
-            health: Health(health),
-            strength: Strength(strength),
-            asset_path: AssetPath(asset_path)
-        }
-    }
+pub fn spawn_player(
+    commands: &mut Commands, name: String, health: u32, strength: u32,
+    location: Transform, init_vel: Velocity
+) {
+    commands.spawn((
+        Player,
+        Name(name),
+        Health(health),
+        Strength(strength),
+        AssetPath(SpritePaths::PLAYER.to_string()),
+        location,
+        GlobalTransform::IDENTITY,
+        init_vel,
+        Gravity
+    ));
 }

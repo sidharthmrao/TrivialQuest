@@ -1,26 +1,26 @@
-use bevy::prelude::{Commands, Component};
+use crate::plugins::physics::{Gravity, Velocity};
+use bevy::prelude::{Commands, Component, GlobalTransform, Transform};
 
-use crate::sprites::shared_components::*;
+use crate::sprites::shared::*;
 
 #[derive(Component)]
-pub struct Enemy {
-    pub taxonomy: Taxonomy,
-    pub strength: Strength,
-    pub health: Health,
-    pub name: Name,
-    pub asset_path: AssetPath
-}
+pub struct Enemy(pub Taxonomy);
 
 pub fn spawn_enemy(
-    mut commands: Commands, enemy_type: Taxonomy, name: Option<String>
+    mut commands: Commands, enemy_type: Taxonomy, name: Option<String>,
+    location: Transform, init_vel: Velocity
 ) {
-    commands.spawn(Enemy {
-        health: Health(enemy_type.health()),
-        strength: Strength(enemy_type.strength()),
-        asset_path: AssetPath(enemy_type.image_path()),
-        taxonomy: enemy_type,
-        name: Name(name.unwrap_or("Enemy".to_string()))
-    });
+    commands.spawn((
+        Name(name.unwrap_or("Enemy".to_string())),
+        Health(enemy_type.health()),
+        Strength(enemy_type.strength()),
+        AssetPath(enemy_type.image_path()),
+        location,
+        init_vel,
+        GlobalTransform::IDENTITY,
+        Gravity,
+        Enemy(enemy_type)
+    ));
 }
 
 // Describes the enemy type. This is used to determine the enemy's health and
@@ -63,16 +63,10 @@ impl Taxonomy {
 
     pub fn image_path(&self) -> String {
         match self {
-            Taxonomy::Human => {
-                "textures/sprites/PNG/Side view/robot_blueBody.png"
-            }
-            Taxonomy::Dwarf => {
-                "textures/sprites/PNG/Side view/robot_greenBody.png"
-            }
-            Taxonomy::Elf => "textures/sprites/PNG/Side view/robot_redBody.png",
-            Taxonomy::NontrivialSolution => {
-                "textures/sprites/PNG/Side view/robot_yellowBody.png"
-            }
+            Taxonomy::Human => SpritePaths::ENEMY,
+            Taxonomy::Dwarf => SpritePaths::ENEMY,
+            Taxonomy::Elf => SpritePaths::ENEMY,
+            Taxonomy::NontrivialSolution => SpritePaths::ENEMY
         }
         .into()
     }

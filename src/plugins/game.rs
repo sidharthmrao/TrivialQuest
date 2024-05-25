@@ -1,6 +1,9 @@
 use crate::{
-    plugins::physics::{Gravity, Velocity},
-    sprites::{entities::player::Player, objects::platform::Platform}
+    plugins::physics::Velocity,
+    sprites::{
+        entities::player::{spawn_player, Player},
+        objects::platform::Platform
+    }
 };
 use bevy::prelude::*;
 
@@ -19,18 +22,14 @@ pub struct GamePlugin;
 
 fn setup_game(mut commands: Commands) {
     // Make player
-    commands.spawn((
-        Player::new(
-            "Utku CMAKE".to_string(),
-            100,
-            10,
-            "textures/sprites/PNG/Side view/robot_blueBody.png".to_string()
-        ),
-        Transform::from_xyz(0.0, 0.0, 0.0),
-        GlobalTransform::IDENTITY,
-        Velocity::ZERO,
-        Gravity
-    ));
+    spawn_player(
+        &mut commands,
+        "Player".to_string(),
+        100,
+        10,
+        Transform::from_translation(Vec3::new(0.0, 0.0, 0.0)),
+        Velocity(Vec2::new(0.0, 0.0))
+    );
 
     // Add platform
     commands.spawn((
