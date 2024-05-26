@@ -12,13 +12,10 @@ use crate::plugins::{
     game::{
         config::{BACKGROUND_COLOR, PLAYER_HORIZONTAL_MOVEMENT_SPEED},
         entities::{
-            enemy::{Enemy, Taxonomy},
             player::Player
         },
-        objects::platform::{Platform, PlatformType}
     },
     physics::Movable,
-    render::{Asset}
 };
 use bevy::prelude::*;
 use crate::plugins::game::level::load_objects;
@@ -36,55 +33,6 @@ pub struct Health(pub u32);
 pub struct Strength(pub u32);
 
 fn setup_game(mut commands: Commands) {
-    // Make player
-    // Player::spawn(
-    //     &mut commands,
-    //     "Player".into(),
-    //     100,
-    //     10,
-    //     Vec2::new(20.0, 80.0),
-    //     Vec2::new(1.0, 1.0),
-    //     Vec2::new(0.0, 0.0)
-    // );
-
-    // Make enemy
-    // Enemy::spawn(
-    //     &mut commands,
-    //     Taxonomy::Human,
-    //     None,
-    //     Vec2::new(-20.0, 80.0),
-    //     Vec2::new(1., 1.),
-    //     Vec2::new(0.0, 0.0)
-    // );
-
-    // Platform::spawn(
-    //     &mut commands,
-    //     Vec2::new(0.0, -100.0),
-    //     PlatformType::Grass,
-    //     Vec2::new(1.0, 1.0)
-    // );
-    //
-    // Platform::spawn(
-    //     &mut commands,
-    //     Vec2::new(18.0, -100.0),
-    //     PlatformType::Grass,
-    //     Vec2::new(1.0, 1.0)
-    // );
-    //
-    // Platform::spawn(
-    //     &mut commands,
-    //     Vec2::new(-18.0, -118.0),
-    //     PlatformType::Grass,
-    //     Vec2::new(1.0, 1.0)
-    // );
-    //
-    // Platform::spawn(
-    //     &mut commands,
-    //     Vec2::new(36.0, -118.0),
-    //     PlatformType::Grass,
-    //     Vec2::new(1.0, 1.0)
-    // );
-
     commands.insert_resource(CameraZoom { zoom: 0.5 });
 }
 
