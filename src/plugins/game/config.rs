@@ -8,7 +8,8 @@ pub const PLAYER_HORIZONTAL_MOVEMENT_SPEED: f32 = 200.0;
 pub enum SpritePaths {
     PLAYER,
     ENEMY,
-    GRASS
+    GRASS,
+    SLIME
 }
 
 impl SpritePaths {
@@ -24,6 +25,10 @@ impl SpritePaths {
             ),
             SpritePaths::GRASS => Asset::new(
                 "textures/environment/Tiles/tile_0000.png",
+                Vec2::new(18.0, 18.0)
+            ),
+            SpritePaths::SLIME => Asset::new(
+                "textures/environment/Tiles/tile_0018.png",
                 Vec2::new(18.0, 18.0)
             )
         }

@@ -11,7 +11,6 @@ use crate::{
 };
 use bevy::prelude::*;
 use std::fmt::Display;
-use crate::plugins::game::entities::enemy::Taxonomy;
 
 pub const PLATFORM_COLOR: Color = Color::rgb(0.0, 0.0, 0.0);
 
@@ -51,13 +50,15 @@ impl Platform {
 
 // Describes the platform type.
 pub enum PlatformType {
-    Grass
+    Grass,
+    Slime
 }
 
 impl PlatformType {
     pub(crate) fn from_string(str: &str) -> Option<PlatformType> {
         match str {
             "Grass" => Some(PlatformType::Grass),
+            "Slime" => Some(PlatformType::Slime),
             _ => None
         }
     }
@@ -66,7 +67,8 @@ impl PlatformType {
 impl PlatformType {
     pub fn asset(&self) -> Asset {
         match self {
-            PlatformType::Grass => SpritePaths::GRASS.asset()
+            PlatformType::Grass => SpritePaths::GRASS.asset(),
+            PlatformType::Slime => SpritePaths::SLIME.asset()
         }
     }
 }
@@ -74,7 +76,8 @@ impl PlatformType {
 impl Display for PlatformType {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            PlatformType::Grass => write!(f, "Grass")
+            PlatformType::Grass => write!(f, "Grass"),
+            PlatformType::Slime => write!(f, "Slime")
         }
     }
 }
