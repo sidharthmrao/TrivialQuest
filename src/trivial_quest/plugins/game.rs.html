@@ -89,31 +89,24 @@
 <a href="#89" id="89">89</a>
 <a href="#90" id="90">90</a>
 <a href="#91" id="91">91</a>
-<a href="#92" id="92">92</a>
-<a href="#93" id="93">93</a>
-<a href="#94" id="94">94</a>
 </pre></div><pre class="rust"><code><span class="kw">pub mod </span>config;
 <span class="kw">pub mod </span>entities;
-<span class="kw">pub mod </span>objects;
 <span class="kw">pub mod </span>level;
+<span class="kw">pub mod </span>objects;
 
 <span class="kw">use </span><span class="self">self</span>::entities::player::PLAYER_JUMP;
 
-<span class="kw">use </span><span class="kw">super</span>::physics::{
-    movement::CollisionEvent, PhysicsObject
-};
+<span class="kw">use </span><span class="kw">super</span>::physics::{movement::CollisionEvent, PhysicsObject};
 <span class="kw">use </span><span class="kw">crate</span>::plugins::{
     game::{
         config::{BACKGROUND_COLOR, PLAYER_HORIZONTAL_MOVEMENT_SPEED},
-        entities::{
-            player::Player
-        },
+        entities::player::Player,
+        level::{load_objects, LevelFile}
     },
     physics::Movable,
+    render::CameraZoom
 };
 <span class="kw">use </span>bevy::prelude::<span class="kw-2">*</span>;
-<span class="kw">use </span><span class="kw">crate</span>::plugins::game::level::{LevelFile, load_objects};
-<span class="kw">use </span><span class="kw">crate</span>::plugins::render::CameraZoom;
 
 <span class="kw">pub struct </span>GamePlugin;
 
@@ -126,8 +119,7 @@
 <span class="attr">#[derive(Component)]
 </span><span class="kw">pub struct </span>Strength(<span class="kw">pub </span>u32);
 
-<span class="kw">fn </span>setup_game() {
-}
+<span class="kw">fn </span>setup_game() {}
 
 <span class="doccomment">/// Moves the player left or right when the arrow keys are pressed.
 </span><span class="kw">pub fn </span>move_player_left_right(
@@ -179,7 +171,9 @@
     <span class="kw">fn </span>build(<span class="kw-2">&amp;</span><span class="self">self</span>, app: <span class="kw-2">&amp;mut </span>App) {
         app.insert_resource(ClearColor(BACKGROUND_COLOR));
         app.insert_resource(CameraZoom { zoom: <span class="number">0.5 </span>});
-        app.insert_resource(LevelFile { path: <span class="string">"assets/levels/level_0.xml"</span>.into() });
+        app.insert_resource(LevelFile {
+            path: <span class="string">"assets/levels/level_0.xml"</span>.into()
+        });
         app.add_systems(Startup, setup_game);
         app.add_systems(Startup, load_objects);
         app.add_systems(Update, move_player_left_right);
