@@ -6,6 +6,7 @@ use crate::plugins::{
     },
 };
 use bevy::prelude::*;
+use bevy::utils::info;
 
 pub const PLAYER_JUMP: f32 = 1000.0;
 
@@ -17,6 +18,9 @@ impl Player {
         commands: &mut Commands, name: String, health: u32, strength: u32,
         location: Vec2, scale: Vec2, velocity: Vec2
     ) {
+        info("Spawning player");
+        println!("Spawning player at ({}, {}) with scale ({}, {})", location.x, location.y, scale.x, scale.y);
+        
         commands.spawn((
             Player,
             Name(name),

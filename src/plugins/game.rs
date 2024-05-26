@@ -1,11 +1,12 @@
 pub mod config;
 pub mod entities;
 pub mod objects;
+pub mod level;
 
 use self::entities::player::PLAYER_JUMP;
 
 use super::physics::{
-    collider::Hitbox, movement::CollisionEvent, PhysicsObject
+    movement::CollisionEvent, PhysicsObject
 };
 use crate::plugins::{
     game::{
@@ -20,6 +21,7 @@ use crate::plugins::{
     render::{Asset}
 };
 use bevy::prelude::*;
+use crate::plugins::game::level::load_objects;
 use crate::plugins::render::CameraZoom;
 
 pub struct GamePlugin;
@@ -35,53 +37,53 @@ pub struct Strength(pub u32);
 
 fn setup_game(mut commands: Commands) {
     // Make player
-    Player::spawn(
-        &mut commands,
-        "Player".into(),
-        100,
-        10,
-        Vec2::new(20.0, 80.0),
-        Vec2::new(1.0, 1.0),
-        Vec2::new(0.0, 0.0)
-    );
+    // Player::spawn(
+    //     &mut commands,
+    //     "Player".into(),
+    //     100,
+    //     10,
+    //     Vec2::new(20.0, 80.0),
+    //     Vec2::new(1.0, 1.0),
+    //     Vec2::new(0.0, 0.0)
+    // );
 
     // Make enemy
-    Enemy::spawn(
-        &mut commands,
-        Taxonomy::Human,
-        None,
-        Vec2::new(-20.0, 80.0),
-        Vec2::new(1., 1.),
-        Vec2::new(0.0, 0.0)
-    );
+    // Enemy::spawn(
+    //     &mut commands,
+    //     Taxonomy::Human,
+    //     None,
+    //     Vec2::new(-20.0, 80.0),
+    //     Vec2::new(1., 1.),
+    //     Vec2::new(0.0, 0.0)
+    // );
 
-    Platform::spawn(
-        &mut commands,
-        Vec2::new(0.0, -100.0),
-        PlatformType::Grass,
-        Vec2::new(1.0, 1.0)
-    );
-
-    Platform::spawn(
-        &mut commands,
-        Vec2::new(18.0, -100.0),
-        PlatformType::Grass,
-        Vec2::new(1.0, 1.0)
-    );
-
-    Platform::spawn(
-        &mut commands,
-        Vec2::new(-18.0, -118.0),
-        PlatformType::Grass,
-        Vec2::new(1.0, 1.0)
-    );
-
-    Platform::spawn(
-        &mut commands,
-        Vec2::new(36.0, -118.0),
-        PlatformType::Grass,
-        Vec2::new(1.0, 1.0)
-    );
+    // Platform::spawn(
+    //     &mut commands,
+    //     Vec2::new(0.0, -100.0),
+    //     PlatformType::Grass,
+    //     Vec2::new(1.0, 1.0)
+    // );
+    //
+    // Platform::spawn(
+    //     &mut commands,
+    //     Vec2::new(18.0, -100.0),
+    //     PlatformType::Grass,
+    //     Vec2::new(1.0, 1.0)
+    // );
+    //
+    // Platform::spawn(
+    //     &mut commands,
+    //     Vec2::new(-18.0, -118.0),
+    //     PlatformType::Grass,
+    //     Vec2::new(1.0, 1.0)
+    // );
+    //
+    // Platform::spawn(
+    //     &mut commands,
+    //     Vec2::new(36.0, -118.0),
+    //     PlatformType::Grass,
+    //     Vec2::new(1.0, 1.0)
+    // );
 
     commands.insert_resource(CameraZoom { zoom: 0.5 });
 }
@@ -115,6 +117,10 @@ pub fn handle_player_space(
     mut query: Query<(&mut Movable, &PhysicsObject), With<Player>>,
     time: Res<Time>
 ) {
+    if query.iter().count() != 1 {
+        return;
+    }
+
     let (mut movable, player) = query.single_mut();
 
     if keyboard_input.pressed(KeyCode::Space) {
@@ -134,5 +140,6 @@ impl Plugin for GamePlugin {
         app.add_systems(Startup, setup_game);
         app.add_systems(Update, move_player_left_right);
         app.add_systems(Update, handle_player_space);
+        app.add_systems(Startup, load_objects);
     }
 }

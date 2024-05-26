@@ -1,22 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <level adventure="Forgotten Factory">
     <spawn>
-        <player name="Player" health="100.0" strength="10.0">
-            <location x="20.0" y="80.0"/>
-            <scale x="1.0" y="1.0"/>
-            <velocity x="0.0" y="0.0"/>
-        </player>
+        <player name="Player"
+                health="100"
+                strength="10"
+                location="0, 0"
+                scale="1.0, 1.0"
+                velocity="0, 0"
+        />
 
-        <enemy name="" taxonomy="Human">
-            <location x="-20.0" y="80.0"/>
-            <scale x="1.0" y="1.0"/>
-            <velocity x="0.0" y="0.0"/>
-        </enemy>
+        <enemy name="Enemy"
+               taxonomy="Human"
+               location="-20.0, 80.0"
+               scale="1.0, 1.0"
+               velocity="0.0, 0.0"
+        />
 
-        <platform asset="grass.png" x="0" y="0" behavior="solid"/>
-
-        <array var="i" from="0" to="100" by="10">
-            <platform asset="dirt.png" x="i" y="0" behavior="solid"/>
-        </array>
+        <platform type="Grass"
+                  location="0, -100"
+                  scale="1.0, 1.0"
+        />
+        
+        <platform type="Grass"
+                  location="18, -100"
+                  scale="1.0, 1.0"
+        />
+        
+        <platform type="Grass"
+                  location="-18, -118"
+                  scale="1.0, 1.0"
+        />
+        
+        <platform type="Grass"
+                  location="36, -118"
+                  scale="1.0, 1.0"
+        />
     </spawn>
 </level>

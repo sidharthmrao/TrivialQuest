@@ -58,6 +58,16 @@ pub enum Taxonomy {
 }
 
 impl Taxonomy {
+    pub fn from_string(s: &str) -> Option<Taxonomy> {
+        match s {
+            "Human" => Some(Taxonomy::Human),
+            "Dwarf" => Some(Taxonomy::Dwarf),
+            "Elf" => Some(Taxonomy::Elf),
+            "NontrivialSolution" => Some(Taxonomy::NontrivialSolution),
+            _ => None
+        }
+    }
+    
     pub fn health(&self) -> u32 {
         match self {
             Taxonomy::Human => 100,
