@@ -51,14 +51,14 @@ fn setup_game(mut commands: Commands) {
         &mut commands,
         Vec2::new(0.0, -100.0),
         PlatformType::Grass,
-        Vec2::new(2.0, 1.0)
+        Vec2::new(1.0, 1.0)
     );
 
     Platform::spawn(
         &mut commands,
         Vec2::new(18.0, -100.0),
         PlatformType::Grass,
-        Vec2::new(2.0, 1.0)
+        Vec2::new(1.0, 1.0)
     );
 }
 

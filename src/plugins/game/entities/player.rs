@@ -29,7 +29,7 @@ impl Player {
             GlobalTransform::IDENTITY,
             Gravity,
             Scale(scale),
-            CameraFollow,
+            // CameraFollow,
             Movable::from(location, velocity),
             Collider::AABB(Aabb2d::new(
                 Vec2 { x: 0.0, y: 0.0 },
