@@ -20,6 +20,7 @@ use crate::plugins::{
     render::{Asset}
 };
 use bevy::prelude::*;
+use crate::plugins::render::CameraZoom;
 
 pub struct GamePlugin;
 
@@ -79,8 +80,10 @@ fn setup_game(mut commands: Commands) {
         &mut commands,
         Vec2::new(36.0, -118.0),
         PlatformType::Grass,
-        Vec2::new(5.0, 1.0)
+        Vec2::new(1.0, 1.0)
     );
+
+    commands.insert_resource(CameraZoom { zoom: 0.5 });
 }
 
 /// Moves the player left or right when the arrow keys are pressed.

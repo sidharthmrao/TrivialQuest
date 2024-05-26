@@ -48,6 +48,25 @@ impl Asset {
     }
 }
 
+#[derive(Resource)]
+pub struct CameraZoom {
+    pub(crate) zoom: f32
+}
+
+pub fn zoom_camera(
+    camera_zoom: Res<CameraZoom>,
+    mut camera_query: Query<&mut OrthographicProjection, With<MainCamera>>,
+) {
+    match camera_query.iter().count() {
+        0 => return,
+        1 => (),
+        _ => panic!("There can be at most one entity with the MainCamera component.")
+    }
+
+    let mut projection = camera_query.single_mut();
+    projection.scale = camera_zoom.zoom;
+}
+
 // Initializes the main camera as a 2D camera.
 fn setup_camera(mut commands: Commands) {
     commands.spawn((Camera2dBundle::default(), MainCamera));
@@ -93,5 +112,6 @@ impl Plugin for RenderPlugin {
         app.add_systems(Startup, setup_camera);
         app.add_systems(Update, update_sprites);
         app.add_systems(PostUpdate, camera_follow_player);
+        app.add_systems(PostUpdate, zoom_camera);
     }
 }
