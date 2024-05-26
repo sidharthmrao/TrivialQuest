@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"constant":["GRAVITY"],"enum":["Collider"],"struct":["Fixed","Gravity","Movable","PhysicsPlugin"]};
+window.SIDEBAR_ITEMS = {"enum":["PhysicsObject"],"mod":["collider","gravity","movement"],"struct":["Fixed","FixedPhysicsObject","Movable","MovablePhysicsObject","PhysicsPlugin"]};

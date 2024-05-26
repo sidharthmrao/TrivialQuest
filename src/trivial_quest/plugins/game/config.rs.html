@@ -27,9 +27,10 @@
 <a href="#27" id="27">27</a>
 <a href="#28" id="28">28</a>
 <a href="#29" id="29">29</a>
-</pre></div><pre class="rust"><code><span class="kw">use </span>bevy::math::{Vec2, vec2};
-<span class="kw">use </span>bevy::prelude::{Color, Component};
-<span class="kw">use </span><span class="kw">crate</span>::plugins::render::Asset;
+<a href="#30" id="30">30</a>
+<a href="#31" id="31">31</a>
+</pre></div><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::plugins::render::Asset;
+<span class="kw">use </span>bevy::{math::Vec2, prelude::Color};
 
 <span class="kw">pub const </span>BACKGROUND_COLOR: Color = Color::rgb(<span class="number">0.9</span>, <span class="number">0.9</span>, <span class="number">0.9</span>);
 <span class="kw">pub const </span>PLAYER_HORIZONTAL_MOVEMENT_SPEED: f32 = <span class="number">200.0</span>;
@@ -46,13 +47,16 @@
         <span class="kw">match </span><span class="self">self </span>{
             SpritePaths::PLAYER =&gt; Asset::new(
                 <span class="string">"textures/environment/Tiles/Characters/tile_0000.png"</span>,
-                vec2(<span class="number">24.0</span>, <span class="number">24.0</span>)),
+                Vec2::new(<span class="number">24.0</span>, <span class="number">24.0</span>)
+            ),
             SpritePaths::ENEMY =&gt; Asset::new(
                 <span class="string">"textures/environment/Tiles/Characters/tile_0004.png"</span>,
-                vec2(<span class="number">24.0</span>, <span class="number">24.0</span>)),
+                Vec2::new(<span class="number">24.0</span>, <span class="number">24.0</span>)
+            ),
             SpritePaths::GRASS =&gt; Asset::new(
                 <span class="string">"textures/environment/Tiles/tile_0000.png"</span>,
-                vec2(<span class="number">18.0</span>, <span class="number">18.0</span>))
+                Vec2::new(<span class="number">18.0</span>, <span class="number">18.0</span>)
+            )
         }
     }
 }

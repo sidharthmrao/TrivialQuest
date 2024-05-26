@@ -1,0 +1,3 @@
+(function() {var implementors = {
+"trivial_quest":[["impl Event for <a class=\"struct\" href=\"trivial_quest/plugins/physics/movement/struct.CollisionEvent.html\" title=\"struct trivial_quest::plugins::physics::movement::CollisionEvent\">CollisionEvent</a><div class=\"where\">where\n    Self: <a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/core/marker/trait.Send.html\" title=\"trait core::marker::Send\">Send</a> + <a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html\" title=\"trait core::marker::Sync\">Sync</a> + 'static,</div>"]]
+};if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

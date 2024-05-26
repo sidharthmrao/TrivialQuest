@@ -111,23 +111,77 @@
 <a href="#111" id="111">111</a>
 <a href="#112" id="112">112</a>
 <a href="#113" id="113">113</a>
-</pre></div><pre class="rust"><code><span class="kw">pub mod </span>entities;
+<a href="#114" id="114">114</a>
+<a href="#115" id="115">115</a>
+<a href="#116" id="116">116</a>
+<a href="#117" id="117">117</a>
+<a href="#118" id="118">118</a>
+<a href="#119" id="119">119</a>
+<a href="#120" id="120">120</a>
+<a href="#121" id="121">121</a>
+<a href="#122" id="122">122</a>
+<a href="#123" id="123">123</a>
+<a href="#124" id="124">124</a>
+<a href="#125" id="125">125</a>
+<a href="#126" id="126">126</a>
+<a href="#127" id="127">127</a>
+<a href="#128" id="128">128</a>
+<a href="#129" id="129">129</a>
+<a href="#130" id="130">130</a>
+<a href="#131" id="131">131</a>
+<a href="#132" id="132">132</a>
+<a href="#133" id="133">133</a>
+<a href="#134" id="134">134</a>
+<a href="#135" id="135">135</a>
+<a href="#136" id="136">136</a>
+<a href="#137" id="137">137</a>
+<a href="#138" id="138">138</a>
+<a href="#139" id="139">139</a>
+<a href="#140" id="140">140</a>
+<a href="#141" id="141">141</a>
+<a href="#142" id="142">142</a>
+<a href="#143" id="143">143</a>
+<a href="#144" id="144">144</a>
+<a href="#145" id="145">145</a>
+<a href="#146" id="146">146</a>
+<a href="#147" id="147">147</a>
+<a href="#148" id="148">148</a>
+<a href="#149" id="149">149</a>
+<a href="#150" id="150">150</a>
+<a href="#151" id="151">151</a>
+<a href="#152" id="152">152</a>
+<a href="#153" id="153">153</a>
+<a href="#154" id="154">154</a>
+<a href="#155" id="155">155</a>
+<a href="#156" id="156">156</a>
+<a href="#157" id="157">157</a>
+<a href="#158" id="158">158</a>
+<a href="#159" id="159">159</a>
+<a href="#160" id="160">160</a>
+<a href="#161" id="161">161</a>
+</pre></div><pre class="rust"><code><span class="kw">pub mod </span>config;
+<span class="kw">pub mod </span>entities;
 <span class="kw">pub mod </span>objects;
-<span class="kw">pub mod </span>config;
 
+<span class="kw">use </span>std::borrow::Borrow;
+
+<span class="kw">use </span><span class="self">self</span>::entities::player::PLAYER_JUMP;
+
+<span class="kw">use </span><span class="kw">super</span>::physics::{
+    collider::Hitbox, movement::CollisionEvent, PhysicsObject
+};
 <span class="kw">use </span><span class="kw">crate</span>::plugins::{
     game::{
+        config::{BACKGROUND_COLOR, PLAYER_HORIZONTAL_MOVEMENT_SPEED},
         entities::{
             enemy::{Enemy, Taxonomy},
             player::Player
         },
-        objects::platform::{Platform, PlatformType},
-        config::{BACKGROUND_COLOR, PLAYER_HORIZONTAL_MOVEMENT_SPEED}
+        objects::platform::{Platform, PlatformType}
     },
-    render::{Asset, Scale},
-    physics::{Collider, Movable}
+    physics::Movable,
+    render::{Asset, Scale}
 };
-
 <span class="kw">use </span>bevy::prelude::<span class="kw-2">*</span>;
 
 <span class="kw">pub struct </span>GamePlugin;
@@ -157,8 +211,14 @@
     );
 
     <span class="comment">// Make enemy
-    </span>Enemy::spawn(<span class="kw-2">&amp;mut </span>commands, Taxonomy::Human, <span class="prelude-val">None</span>, Vec2::new(-<span class="number">20.0</span>, <span class="number">80.0</span>), Vec2::new
-        (<span class="number">1.</span>, <span class="number">1.</span>), Vec2::new(<span class="number">0.0</span>, <span class="number">0.0</span>));
+    </span>Enemy::spawn(
+        <span class="kw-2">&amp;mut </span>commands,
+        Taxonomy::Human,
+        <span class="prelude-val">None</span>,
+        Vec2::new(-<span class="number">20.0</span>, <span class="number">80.0</span>),
+        Vec2::new(<span class="number">1.</span>, <span class="number">1.</span>),
+        Vec2::new(<span class="number">0.0</span>, <span class="number">0.0</span>)
+    );
 
     Platform::spawn(
         <span class="kw-2">&amp;mut </span>commands,
@@ -173,10 +233,24 @@
         PlatformType::Grass,
         Vec2::new(<span class="number">1.0</span>, <span class="number">1.0</span>)
     );
+
+    Platform::spawn(
+        <span class="kw-2">&amp;mut </span>commands,
+        Vec2::new(-<span class="number">18.0</span>, -<span class="number">118.0</span>),
+        PlatformType::Grass,
+        Vec2::new(<span class="number">1.0</span>, <span class="number">1.0</span>)
+    );
+
+    Platform::spawn(
+        <span class="kw-2">&amp;mut </span>commands,
+        Vec2::new(<span class="number">36.0</span>, -<span class="number">118.0</span>),
+        PlatformType::Grass,
+        Vec2::new(<span class="number">1.0</span>, <span class="number">1.0</span>)
+    );
 }
 
 <span class="doccomment">/// Moves the player left or right when the arrow keys are pressed.
-</span><span class="kw">pub fn </span>move_player(
+</span><span class="kw">pub fn </span>move_player_left_right(
     keyboard_input: Res&lt;ButtonInput&lt;KeyCode&gt;&gt;,
     <span class="kw-2">mut </span>query: Query&lt;<span class="kw-2">&amp;mut </span>Movable, With&lt;Player&gt;&gt;, time: Res&lt;Time&gt;
 ) {
@@ -193,18 +267,35 @@
     <span class="kw">if </span>keyboard_input.pressed(KeyCode::ArrowRight) {
         direction += <span class="number">1.0</span>;
     }
-    <span class="kw">if </span>keyboard_input.pressed(KeyCode::Space) {
-        movable.vel_mut().y += <span class="number">1000.0 </span>* time.delta_seconds();
-    }
 
-    movable.pos_mut().x += direction * PLAYER_HORIZONTAL_MOVEMENT_SPEED * time.delta_seconds();
+    movable.pos_mut().x +=
+        direction * PLAYER_HORIZONTAL_MOVEMENT_SPEED * time.delta_seconds();
 }
 
-<span class="kw">pub fn </span>update_collider(
-    <span class="kw-2">mut </span>objects: Query&lt;(<span class="kw-2">&amp;</span>Asset, <span class="kw-2">&amp;mut </span>Collider), Changed&lt;Asset&gt;&gt;
+<span class="kw">pub fn </span>handle_player_space(
+    keyboard_input: Res&lt;ButtonInput&lt;KeyCode&gt;&gt;,
+    <span class="kw-2">mut </span>collision_events: EventReader&lt;CollisionEvent&gt;,
+    <span class="kw-2">mut </span>query: Query&lt;(<span class="kw-2">&amp;mut </span>Movable, <span class="kw-2">&amp;</span>PhysicsObject), With&lt;Player&gt;&gt;,
+    time: Res&lt;Time&gt;
 ) {
-    <span class="kw">for </span>(sprite, <span class="kw-2">mut </span>collider) <span class="kw">in </span>objects.iter_mut() {
-        collider.set_size(sprite.size);
+    <span class="kw">let </span>(<span class="kw-2">mut </span>movable, player) = query.single_mut();
+
+    <span class="kw">if </span>keyboard_input.pressed(KeyCode::Space) {
+        <span class="kw">for </span>event <span class="kw">in </span>collision_events.read() {
+            <span class="kw">if </span>event.movable == <span class="kw-2">*</span>player
+                &amp;&amp; event.fixed.matches(<span class="string">"platform"</span>.into())
+            {
+                movable.vel_mut().y = PLAYER_JUMP * time.delta_seconds();
+            }
+        }
+    }
+}
+
+<span class="kw">pub fn </span>update_hitbox(
+    <span class="kw-2">mut </span>objects: Query&lt;(<span class="kw-2">&amp;</span>Asset, <span class="kw-2">&amp;mut </span>Hitbox), Changed&lt;Asset&gt;&gt;
+) {
+    <span class="kw">for </span>(sprite, <span class="kw-2">mut </span>hitbox) <span class="kw">in </span>objects.iter_mut() {
+        hitbox.set_size(sprite.size);
     }
 }
 
@@ -212,7 +303,11 @@
     <span class="kw-2">mut </span>query: Query&lt;(<span class="kw-2">&amp;</span>Asset, <span class="kw-2">&amp;mut </span>Transform, <span class="kw-2">&amp;</span>Scale), Changed&lt;Scale&gt;&gt;
 ) {
     <span class="kw">for </span>(sprite, <span class="kw-2">mut </span>transform, scale) <span class="kw">in </span>query.iter_mut() {
-        transform.scale = Vec3::new(sprite.size.x * scale.<span class="number">0</span>.x, sprite.size.y * scale.<span class="number">0</span>.y, <span class="number">1.0</span>);
+        transform.scale = Vec3::new(
+            sprite.size.x * scale.<span class="number">0</span>.x,
+            sprite.size.y * scale.<span class="number">0</span>.y,
+            <span class="number">1.0
+        </span>);
     }
 }
 
@@ -220,8 +315,9 @@
     <span class="kw">fn </span>build(<span class="kw-2">&amp;</span><span class="self">self</span>, app: <span class="kw-2">&amp;mut </span>App) {
         app.insert_resource(ClearColor(BACKGROUND_COLOR));
         app.add_systems(Startup, setup_game);
-        app.add_systems(Update, move_player);
-        app.add_systems(PostUpdate, update_collider);
+        app.add_systems(Update, move_player_left_right);
+        app.add_systems(Update, handle_player_space);
+        app.add_systems(PostUpdate, update_hitbox);
     }
 }
 </code></pre></div></section></main></body></html>

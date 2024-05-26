@@ -41,26 +41,28 @@
 <a href="#41" id="41">41</a>
 <a href="#42" id="42">42</a>
 <a href="#43" id="43">43</a>
+<a href="#44" id="44">44</a>
+<a href="#45" id="45">45</a>
+<a href="#46" id="46">46</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::plugins::{
     game::{config::SpritePaths, Health, Name, Strength},
-    physics::{Collider, Gravity, Movable},
-    render::{CameraFollow}
+    physics::{
+        collider::{Collider, ColliderBehavior, Hitbox},
+        MovablePhysicsObject, PhysicsObject
+    },
+    render::Scale
 };
-<span class="kw">use </span>bevy::{math::bounding::Aabb2d, prelude::<span class="kw-2">*</span>};
-<span class="kw">use </span><span class="kw">crate</span>::plugins::render::Scale;
+<span class="kw">use </span>bevy::prelude::<span class="kw-2">*</span>;
+
+<span class="kw">pub const </span>PLAYER_JUMP: f32 = <span class="number">1000.0</span>;
 
 <span class="attr">#[derive(Component)]
 </span><span class="kw">pub struct </span>Player;
 
 <span class="kw">impl </span>Player {
     <span class="kw">pub fn </span>spawn(
-        commands: <span class="kw-2">&amp;mut </span>Commands,
-        name: String,
-        health: u32,
-        strength: u32,
-        location: Vec2,
-        scale: Vec2,
-        velocity: Vec2
+        commands: <span class="kw-2">&amp;mut </span>Commands, name: String, health: u32, strength: u32,
+        location: Vec2, scale: Vec2, velocity: Vec2
     ) {
         commands.spawn((
             Player,
@@ -70,17 +72,21 @@
             SpritePaths::PLAYER.asset(),
             Transform::from_xyz(location.x, location.y, <span class="number">0.0</span>),
             GlobalTransform::IDENTITY,
-            Gravity,
             Scale(scale),
             <span class="comment">// CameraFollow,
-            </span>Movable::from(location, velocity),
-            Collider::AABB(Aabb2d::new(
-                Vec2 { x: <span class="number">0.0</span>, y: <span class="number">0.0 </span>},
-                Vec2 {
-                    x: SpritePaths::PLAYER.asset().size.x / <span class="number">2.0</span>,
-                    y: SpritePaths::PLAYER.asset().size.y / <span class="number">2.0</span>,
-                }
-            ))
+            </span>MovablePhysicsObject::from(
+                PhysicsObject::UniqueName(<span class="string">"player"</span>.into()),
+                location,
+                velocity,
+                <span class="bool-val">true</span>,
+                Collider::from(
+                    Hitbox::from_size(
+                        SpritePaths::PLAYER.asset().size.x / <span class="number">2.0</span>,
+                        SpritePaths::PLAYER.asset().size.y / <span class="number">2.0
+                    </span>),
+                    ColliderBehavior::Solid
+                )
+            )
         ));
     }
 }

@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"constant":["GRAVITY"],"enum":["Gravity"],"fn":["apply_gravity"]};

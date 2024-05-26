@@ -178,58 +178,6 @@
 <a href="#178" id="178">178</a>
 <a href="#179" id="179">179</a>
 <a href="#180" id="180">180</a>
-<a href="#181" id="181">181</a>
-<a href="#182" id="182">182</a>
-<a href="#183" id="183">183</a>
-<a href="#184" id="184">184</a>
-<a href="#185" id="185">185</a>
-<a href="#186" id="186">186</a>
-<a href="#187" id="187">187</a>
-<a href="#188" id="188">188</a>
-<a href="#189" id="189">189</a>
-<a href="#190" id="190">190</a>
-<a href="#191" id="191">191</a>
-<a href="#192" id="192">192</a>
-<a href="#193" id="193">193</a>
-<a href="#194" id="194">194</a>
-<a href="#195" id="195">195</a>
-<a href="#196" id="196">196</a>
-<a href="#197" id="197">197</a>
-<a href="#198" id="198">198</a>
-<a href="#199" id="199">199</a>
-<a href="#200" id="200">200</a>
-<a href="#201" id="201">201</a>
-<a href="#202" id="202">202</a>
-<a href="#203" id="203">203</a>
-<a href="#204" id="204">204</a>
-<a href="#205" id="205">205</a>
-<a href="#206" id="206">206</a>
-<a href="#207" id="207">207</a>
-<a href="#208" id="208">208</a>
-<a href="#209" id="209">209</a>
-<a href="#210" id="210">210</a>
-<a href="#211" id="211">211</a>
-<a href="#212" id="212">212</a>
-<a href="#213" id="213">213</a>
-<a href="#214" id="214">214</a>
-<a href="#215" id="215">215</a>
-<a href="#216" id="216">216</a>
-<a href="#217" id="217">217</a>
-<a href="#218" id="218">218</a>
-<a href="#219" id="219">219</a>
-<a href="#220" id="220">220</a>
-<a href="#221" id="221">221</a>
-<a href="#222" id="222">222</a>
-<a href="#223" id="223">223</a>
-<a href="#224" id="224">224</a>
-<a href="#225" id="225">225</a>
-<a href="#226" id="226">226</a>
-<a href="#227" id="227">227</a>
-<a href="#228" id="228">228</a>
-<a href="#229" id="229">229</a>
-<a href="#230" id="230">230</a>
-<a href="#231" id="231">231</a>
-<a href="#232" id="232">232</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Author: Ethan
 //!
 //! Physics are an essential part of any video game. This plugin handles basic
@@ -257,24 +205,41 @@
 //! A good thing to do now would be to read the instructions for how to use
 //! [`Movable`].
 
-</span><span class="kw">use </span>bevy::{
-    math::bounding::{Aabb2d, BoundingVolume, IntersectsVolume},
-    prelude::*
-};
+</span><span class="kw">pub mod </span>collider;
+<span class="kw">pub mod </span>gravity;
+<span class="kw">pub mod </span>movement;
 
-<span class="doccomment">/// The acceleration to due gravity.
-</span><span class="kw">pub const </span>GRAVITY: Vec2 = Vec2::new(<span class="number">0.0</span>, -<span class="number">200.0</span>);
+<span class="kw">use </span>bevy::prelude::<span class="kw-2">*</span>;
+<span class="kw">use </span>gravity::apply_gravity;
+<span class="kw">use </span>movement::{carry_out_movement, move_and_collide};
 
-<span class="doccomment">/// Use this component on a [`Movable`] to enable gravity.
-</span><span class="attr">#[derive(Component)]
-</span><span class="kw">pub struct </span>Gravity;
+<span class="kw">use </span><span class="self">self</span>::{collider::Collider, gravity::Gravity, movement::CollisionEvent};
 
-<span class="doccomment">/// A movable physics object. For a sprite to have its movement managed by the
-/// physics engine (i.e., to support collisions and gravity), you must do two
-/// things:
+<span class="doccomment">/// The physics engine uses this component to uniquely identify physics objects.
+</span><span class="attr">#[derive(Component, PartialEq, Eq, Clone, Debug)]
+</span><span class="kw">pub enum </span>PhysicsObject {
+    UniqueName(String),
+    UniqueNumber(i32),
+    UniqueNameAndNumber(String, i32)
+}
+
+<span class="kw">impl </span>PhysicsObject {
+    <span class="kw">pub fn </span>matches(<span class="kw-2">&amp;</span><span class="self">self</span>, query: String) -&gt; bool {
+        <span class="kw">match </span><span class="kw-2">&amp;</span><span class="self">self </span>{
+            <span class="self">Self</span>::UniqueName(name) | <span class="self">Self</span>::UniqueNameAndNumber(name, <span class="kw">_</span>) =&gt; {
+                name.contains(<span class="kw-2">&amp;</span>query)
+            }
+            <span class="self">Self</span>::UniqueNumber(<span class="kw">_</span>) =&gt; <span class="bool-val">false
+        </span>}
+    }
+}
+
+<span class="doccomment">/// A movable physics object (known as a "movable"). For a sprite to have its
+/// movement managed by the physics engine (i.e., to support collisions and
+/// gravity), you must do two things:
 ///
 /// 1. Add a `Transform` component.
-/// 2. Add a [`Movable`] component.
+/// 2. Add a [`Movable`] component via [`MovablePhysicsObject`].
 ///
 /// When spawning the sprite, initialize the `Transform` and [`Movable`]
 /// components to the initial position of the sprite, and the [`Movable`]
@@ -288,6 +253,9 @@
 /// movement for the requested position and velocity.
 </span><span class="attr">#[derive(Component, Clone, Copy)]
 </span><span class="kw">pub struct </span>Movable {
+    <span class="attr">#[allow(dead_code)]
+    </span>private_constructor: (),
+
     <span class="doccomment">/// The *requested* position of the object.
     </span>position: Vec2,
 
@@ -296,163 +264,90 @@
 }
 
 <span class="kw">impl </span>Movable {
-    <span class="kw">pub fn </span>new() -&gt; Movable {
-        Movable {
-            position: Vec2::ZERO,
-            velocity: Vec2::ZERO
-        }
-    }
-
-    <span class="kw">pub fn </span>from(position: Vec2, velocity: Vec2) -&gt; Movable {
-        Movable { position, velocity }
-    }
-
-    <span class="kw">pub fn </span>pos(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>Vec2 {
+    <span class="doccomment">/// The current *requested* position.
+    </span><span class="kw">pub fn </span>pos(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>Vec2 {
         <span class="kw-2">&amp;</span><span class="self">self</span>.position
     }
 
-    <span class="kw">pub fn </span>pos_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span>Vec2 {
+    <span class="doccomment">/// See [`Movable::pos`].
+    </span><span class="kw">pub fn </span>pos_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span>Vec2 {
         <span class="kw-2">&amp;mut </span><span class="self">self</span>.position
     }
 
-    <span class="kw">pub fn </span>vel(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>Vec2 {
+    <span class="doccomment">/// /// The current *requested* velocity.
+    </span><span class="kw">pub fn </span>vel(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>Vec2 {
         <span class="kw-2">&amp;</span><span class="self">self</span>.velocity
     }
 
-    <span class="kw">pub fn </span>vel_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span>Vec2 {
+    <span class="doccomment">/// See [`Movable::vel`].
+    </span><span class="kw">pub fn </span>vel_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span>Vec2 {
         <span class="kw-2">&amp;mut </span><span class="self">self</span>.velocity
     }
 }
 
-<span class="attr">#[derive(Component)]
-</span><span class="kw">pub struct </span>Fixed;
-
-<span class="attr">#[derive(Component)]
-</span><span class="kw">pub enum </span>Collider {
-    <span class="doccomment">/// The bounding box is relative to the current transform of the player, so
-    /// typically the box passed here will be centered at `Vec2::ZERO`.
-    </span>AABB(Aabb2d)
+<span class="doccomment">/// A physics object with movement and collisions. Read the discussion at
+/// [`Movable`] for very important semantics.
+</span><span class="attr">#[derive(Bundle)]
+</span><span class="kw">pub struct </span>MovablePhysicsObject {
+    object: PhysicsObject,
+    movable: Movable,
+    gravity: Gravity,
+    collider: Collider
 }
 
-<span class="kw">impl </span>Collider {
-    <span class="kw">pub fn </span>set_size(<span class="kw-2">&amp;mut </span><span class="self">self</span>, size: Vec2) {
-        <span class="kw">match </span><span class="self">self </span>{
-            Collider::AABB(aabb) =&gt; {
-                aabb.max = aabb.center() + size / <span class="number">2.</span>;
-                aabb.min = aabb.center() - size / <span class="number">2.</span>;
-            }
+<span class="kw">impl </span>MovablePhysicsObject {
+    <span class="doccomment">/// Constructs a new movable object.
+    </span><span class="kw">pub fn </span>from(
+        object: PhysicsObject, position: Vec2, velocity: Vec2,
+        has_gravity: bool, collider: Collider
+    ) -&gt; <span class="self">Self </span>{
+        <span class="self">Self </span>{
+            object,
+            movable: Movable {
+                private_constructor: (),
+                position,
+                velocity
+            },
+            gravity: <span class="kw">if </span>has_gravity {
+                Gravity::Enabled
+            } <span class="kw">else </span>{
+                Gravity::Disabled
+            },
+            collider
         }
     }
 }
 
-<span class="attr">#[derive(Event, Default)]
-</span><span class="kw">struct </span>CollisionEvent;
+<span class="doccomment">/// A fixed physics object.
+</span><span class="attr">#[derive(Component)]
+</span><span class="kw">pub struct </span>Fixed {
+    <span class="attr">#[allow(dead_code)]
+    </span>private_constructor: ()
+}
+
+<span class="doccomment">/// A physics object fixed in place and responding to collisions. Read the
+/// discussion at [`Fixed`] for details.
+</span><span class="attr">#[derive(Bundle)]
+</span><span class="kw">pub struct </span>FixedPhysicsObject {
+    object: PhysicsObject,
+    fixed: Fixed,
+    collider: Collider
+}
+
+<span class="kw">impl </span>FixedPhysicsObject {
+    <span class="doccomment">/// Constructs a new fixed object,
+    </span><span class="kw">pub fn </span>from(object: PhysicsObject, collider: Collider) -&gt; <span class="self">Self </span>{
+        <span class="self">Self </span>{
+            object,
+            fixed: Fixed {
+                private_constructor: ()
+            },
+            collider
+        }
+    }
+}
 
 <span class="kw">pub struct </span>PhysicsPlugin;
-
-<span class="doccomment">/// Applies a constant acceleration to all `Movable` `Gravity` objects.
-</span><span class="kw">fn </span>apply_gravity(
-    <span class="kw-2">mut </span>query: Query&lt;<span class="kw-2">&amp;mut </span>Movable, With&lt;Gravity&gt;&gt;, time: Res&lt;Time&gt;
-) {
-    <span class="kw">for </span><span class="kw-2">mut </span>movable <span class="kw">in </span>query.iter_mut() {
-        <span class="kw-2">*</span>movable.vel_mut() += GRAVITY * time.delta_seconds();
-    }
-}
-
-<span class="doccomment">/// Collides `Movable` `Collider` objects (with position and velocity) with
-/// `Fixed` `Collider` objects.
-</span><span class="kw">fn </span>move_and_collide(
-    <span class="kw-2">mut </span>movable_query: Query&lt;(<span class="kw-2">&amp;mut </span>Movable, <span class="kw-2">&amp;</span>Collider), Without&lt;Fixed&gt;&gt;,
-    fixed_query: Query&lt;
-        (<span class="kw-2">&amp;</span>Transform, <span class="kw-2">&amp;</span>Collider),
-        (With&lt;Fixed&gt;, Without&lt;Movable&gt;)
-    &gt;,
-    time: Res&lt;Time&gt;
-) {
-    <span class="kw">for </span>(<span class="kw-2">mut </span>mover_movable, mover_collider) <span class="kw">in </span>movable_query.iter_mut() {
-        <span class="kw">let </span>delta_pos = mover_movable.vel().clone() * time.delta_seconds();
-        <span class="kw-2">*</span>mover_movable.pos_mut() += delta_pos;
-        <span class="kw">let </span><span class="kw-2">mut </span>new_pos = mover_movable.pos().clone();
-
-        <span class="kw">for </span>(fixed_transform, fixed_collider) <span class="kw">in </span>fixed_query.iter() {
-            <span class="kw">match </span>(mover_collider, fixed_collider) {
-                (Collider::AABB(mover_aabb), Collider::AABB(fixed_aabb)) =&gt; {
-                    <span class="kw">let </span>mover_aabb = Aabb2d::new(
-                        mover_aabb.center() + mover_movable.position,
-                        mover_aabb.half_size()
-                    );
-                    <span class="kw">let </span>fixed_aabb = Aabb2d::new(
-                        fixed_aabb.center()
-                            + fixed_transform.translation.truncate(),
-                        fixed_aabb.half_size()
-                    );
-                    <span class="kw">if </span>mover_aabb.intersects(<span class="kw-2">&amp;</span>fixed_aabb) {
-                        <span class="kw">let </span>dx = mover_movable.position.x
-                            - fixed_transform.translation.x;
-                        <span class="kw">let </span>dy = mover_movable.position.y
-                            - fixed_transform.translation.y;
-
-                        <span class="kw">let </span>overlap_x = mover_aabb.half_size().x
-                            + fixed_aabb.half_size().x
-                            - dx.abs();
-                        <span class="kw">let </span>overlap_y = mover_aabb.half_size().y
-                            + fixed_aabb.half_size().y
-                            - dy.abs();
-
-                        <span class="kw">if </span>overlap_x &gt; overlap_y {
-                            mover_movable.vel_mut().y = <span class="number">0.0</span>;
-                            <span class="kw">if </span>dy &gt; <span class="number">0.0 </span>{
-                                <span class="comment">// Top side of fixed_aabb is intersecting
-                                </span>new_pos.y = f32::max(
-                                    new_pos.y,
-                                    fixed_aabb.center().y
-                                        + fixed_aabb.half_size().y
-                                        + mover_aabb.half_size().y
-                                );
-                            } <span class="kw">else </span>{
-                                <span class="comment">// Bottom side of fixed_aabb is intersecting
-                                </span>new_pos.y = f32::min(
-                                    new_pos.y,
-                                    fixed_aabb.center().y
-                                        - fixed_aabb.half_size().y
-                                        - mover_aabb.half_size().y
-                                );
-                            }
-                        } <span class="kw">else </span>{
-                            mover_movable.vel_mut().x = <span class="number">0.0</span>;
-                            <span class="kw">if </span>dx &gt; <span class="number">0.0 </span>{
-                                <span class="comment">// Right side of fixed_aabb is intersecting
-                                </span>new_pos.x = f32::max(
-                                    new_pos.x,
-                                    fixed_aabb.center().x
-                                        + fixed_aabb.half_size().x
-                                        + mover_aabb.half_size().x
-                                );
-                            } <span class="kw">else </span>{
-                                <span class="comment">// Left side of fixed_aabb is intersecting
-                                </span>new_pos.x = f32::min(
-                                    new_pos.x,
-                                    fixed_aabb.center().x
-                                        - fixed_aabb.half_size().x
-                                        - mover_aabb.half_size().x
-                                );
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        mover_movable.pos_mut().x = new_pos.x;
-        mover_movable.pos_mut().y = new_pos.y;
-    }
-}
-
-<span class="kw">fn </span>carry_out_movement(<span class="kw-2">mut </span>query: Query&lt;(<span class="kw-2">&amp;mut </span>Transform, <span class="kw-2">&amp;</span>Movable)&gt;) {
-    <span class="kw">for </span>(<span class="kw-2">mut </span>transform, movable) <span class="kw">in </span>query.iter_mut() {
-        transform.translation = movable.pos().extend(<span class="number">0.0</span>);
-    }
-}
 
 <span class="kw">impl </span>Plugin <span class="kw">for </span>PhysicsPlugin {
     <span class="kw">fn </span>build(<span class="kw-2">&amp;</span><span class="self">self</span>, app: <span class="kw-2">&amp;mut </span>App) {
@@ -460,6 +355,7 @@
             Update,
             (apply_gravity, move_and_collide, carry_out_movement).chain()
         );
+        app.add_event::&lt;CollisionEvent&gt;();
     }
 }
 </code></pre></div></section></main></body></html>
