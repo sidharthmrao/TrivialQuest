@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"constant":["BACKGROUND_COLOR","PLAYER_SPEED"],"fn":["move_player","update_collider"],"mod":["entities","objects","shared"],"struct":["Entity","GamePlugin","Health","Name","Strength"]};
+window.SIDEBAR_ITEMS = {"fn":["move_player","scale_change","update_collider"],"mod":["config","entities","objects"],"struct":["Entity","GamePlugin","Health","Name","Strength"]};

@@ -89,16 +89,20 @@
 <a href="#89" id="89">89</a>
 <a href="#90" id="90">90</a>
 <a href="#91" id="91">91</a>
+<a href="#92" id="92">92</a>
+<a href="#93" id="93">93</a>
+<a href="#94" id="94">94</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::fmt::Display;
 <span class="kw">use </span>bevy::math::bounding::Aabb2d;
 
 <span class="kw">use </span><span class="kw">crate</span>::plugins::{
-    game::{shared::SpritePaths, Health, Name, Strength},
+    game::{config::SpritePaths, Health, Name, Strength},
     physics::{Gravity, Movable},
-    render::AssetPath
+    render::{Asset}
 };
 <span class="kw">use </span>bevy::prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::plugins::physics::Collider;
+<span class="kw">use </span><span class="kw">crate</span>::plugins::render::Scale;
 
 <span class="attr">#[derive(Component)]
 </span><span class="kw">pub struct </span>Enemy(<span class="kw">pub </span>Taxonomy);
@@ -109,6 +113,7 @@
         enemy_type: Taxonomy,
         name: <span class="prelude-ty">Option</span>&lt;String&gt;,
         location: Vec2,
+        scale: Vec2,
         velocity: Vec2
     ) {
         commands.spawn((
@@ -119,12 +124,13 @@
             Transform::from_xyz(location.x, location.y, <span class="number">0.0</span>),
             GlobalTransform::IDENTITY,
             Gravity,
+            Scale(scale),
             Movable::from(location, velocity),
             Collider::AABB(Aabb2d::new(
                 Vec2 { x: <span class="number">0.0</span>, y: <span class="number">0.0 </span>},
                 Vec2 {
-                    x: enemy_type.asset().size().x / <span class="number">2.0</span>,
-                    y: enemy_type.asset().size().y / <span class="number">2.0
+                    x: enemy_type.asset().size.x / <span class="number">2.0</span>,
+                    y: enemy_type.asset().size.y / <span class="number">2.0
                 </span>}
             ))
         ));
@@ -159,12 +165,12 @@
         </span>}
     }
 
-    <span class="kw">pub fn </span>asset(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; SpritePaths {
+    <span class="kw">pub fn </span>asset(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Asset {
         <span class="kw">match </span><span class="self">self </span>{
-            Taxonomy::Human =&gt; SpritePaths::ENEMY,
-            Taxonomy::Dwarf =&gt; SpritePaths::ENEMY,
-            Taxonomy::Elf =&gt; SpritePaths::ENEMY,
-            Taxonomy::NontrivialSolution =&gt; SpritePaths::ENEMY,
+            Taxonomy::Human =&gt; SpritePaths::ENEMY.asset(),
+            Taxonomy::Dwarf =&gt; SpritePaths::ENEMY.asset(),
+            Taxonomy::Elf =&gt; SpritePaths::ENEMY.asset(),
+            Taxonomy::NontrivialSolution =&gt; SpritePaths::ENEMY.asset(),
         }
     }
 }

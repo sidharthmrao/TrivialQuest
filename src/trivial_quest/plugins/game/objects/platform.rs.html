@@ -52,11 +52,13 @@
 <a href="#52" id="52">52</a>
 <a href="#53" id="53">53</a>
 <a href="#54" id="54">54</a>
+<a href="#55" id="55">55</a>
+<a href="#56" id="56">56</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::fmt::Display;
 <span class="kw">use </span><span class="kw">crate</span>::plugins::physics::{Collider, Fixed};
 <span class="kw">use </span>bevy::{math::bounding::Aabb2d, prelude::<span class="kw-2">*</span>};
-<span class="kw">use </span><span class="kw">crate</span>::plugins::game::shared::SpritePaths;
-<span class="kw">use </span><span class="kw">crate</span>::plugins::render::AssetPath;
+<span class="kw">use </span><span class="kw">crate</span>::plugins::game::config::SpritePaths;
+<span class="kw">use </span><span class="kw">crate</span>::plugins::render::{Asset, Scale};
 
 <span class="kw">pub const </span>PLATFORM_COLOR: Color = Color::rgb(<span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">0.0</span>);
 
@@ -67,7 +69,8 @@
     <span class="kw">pub fn </span>spawn(
         commands: <span class="kw-2">&amp;mut </span>Commands,
         location: Vec2,
-        platform_type: PlatformType
+        platform_type: PlatformType,
+        scale: Vec2
     ) {
         commands.spawn((
             platform_type.asset(),
@@ -75,11 +78,12 @@
             GlobalTransform::IDENTITY,
             Platform,
             Fixed,
+            Scale(scale),
             Collider::AABB(Aabb2d::new(
                 Vec2 { x: <span class="number">0.0</span>, y: <span class="number">0.0 </span>},
                 Vec2 {
-                    x: platform_type.asset().size().x / <span class="number">2.0</span>,
-                    y: platform_type.asset().size().y / <span class="number">2.0
+                    x: platform_type.asset().size.x / <span class="number">2.0</span>,
+                    y: platform_type.asset().size.y / <span class="number">2.0
                 </span>}
             ))
         ));
@@ -92,9 +96,9 @@
 }
 
 <span class="kw">impl </span>PlatformType {
-    <span class="kw">pub fn </span>asset(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; SpritePaths {
+    <span class="kw">pub fn </span>asset(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Asset {
         <span class="kw">match </span><span class="self">self </span>{
-            PlatformType::Grass =&gt; SpritePaths::GRASS,
+            PlatformType::Grass =&gt; SpritePaths::GRASS.asset(),
         }
     }
 }

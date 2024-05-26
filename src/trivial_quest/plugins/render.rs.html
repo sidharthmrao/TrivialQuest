@@ -105,24 +105,6 @@
 <a href="#105" id="105">105</a>
 <a href="#106" id="106">106</a>
 <a href="#107" id="107">107</a>
-<a href="#108" id="108">108</a>
-<a href="#109" id="109">109</a>
-<a href="#110" id="110">110</a>
-<a href="#111" id="111">111</a>
-<a href="#112" id="112">112</a>
-<a href="#113" id="113">113</a>
-<a href="#114" id="114">114</a>
-<a href="#115" id="115">115</a>
-<a href="#116" id="116">116</a>
-<a href="#117" id="117">117</a>
-<a href="#118" id="118">118</a>
-<a href="#119" id="119">119</a>
-<a href="#120" id="120">120</a>
-<a href="#121" id="121">121</a>
-<a href="#122" id="122">122</a>
-<a href="#123" id="123">123</a>
-<a href="#124" id="124">124</a>
-<a href="#125" id="125">125</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Author: Sidharth Rao
 //!
 //! The render plugin handles game rendering, texturing, and cameras.
@@ -146,9 +128,7 @@
 //!     - PostUpdate: Follows the entity (or no entity) with the
 //!       [`CameraFollow`] component.
 
-</span><span class="kw">use </span>bevy::math::bounding::Aabb2d;
-<span class="kw">use </span>bevy::prelude::<span class="kw-2">*</span>;
-<span class="kw">use </span><span class="kw">crate</span>::plugins::game::shared::SpritePaths;
+</span><span class="kw">use </span>bevy::prelude::<span class="kw-2">*</span>;
 
 <span class="doccomment">/// Handles game rendering, texturing, and cameras.
 </span><span class="kw">pub struct </span>RenderPlugin;
@@ -161,13 +141,23 @@
 </span><span class="attr">#[derive(Component)]
 </span><span class="kw">pub struct </span>CameraFollow;
 
-<span class="doccomment">/// Path to the asset file.
+<span class="doccomment">/// Contains the path to an asset and its size.
 </span><span class="attr">#[derive(Component)]
-</span><span class="kw">pub struct </span>AssetPath(<span class="kw">pub </span>String);
+</span><span class="kw">pub struct </span>Asset {
+    <span class="kw">pub </span>path: String,
+    <span class="kw">pub </span>size: Vec2
+}
 
-<span class="doccomment">/// Bounding box of a sprite.
+<span class="kw">impl </span>Asset {
+    <span class="doccomment">/// Creates a new asset with the given path and size.
+    </span><span class="kw">pub fn </span>new(path: <span class="kw-2">&amp;</span>str, size: Vec2) -&gt; <span class="self">Self </span>{
+        <span class="self">Self </span>{ path: path.into(), size }
+    }
+}
+
+<span class="doccomment">/// Scale of a sprite (default (1, 1)).
 </span><span class="attr">#[derive(Component)]
-</span><span class="kw">pub struct </span>Size(<span class="kw">pub </span>Aabb2d);
+</span><span class="kw">pub struct </span>Scale(<span class="kw">pub </span>Vec2);
 
 <span class="comment">// Initializes the main camera as a 2D camera.
 </span><span class="kw">fn </span>setup_camera(<span class="kw-2">mut </span>commands: Commands) {
@@ -194,58 +184,32 @@
 </span><span class="kw">fn </span>make_sprites(
     <span class="kw-2">mut </span>commands: Commands,
     asset_server: Res&lt;AssetServer&gt;,
-    <span class="comment">// Only process entities with an AssetPath component that has changed.
-    </span>objects: Query&lt;(Entity, <span class="kw-2">&amp;</span>SpritePaths, <span class="kw-2">&amp;mut </span>Transform), Changed&lt;SpritePaths&gt;&gt;
+    <span class="comment">// Only process entities with an AssetPath or Scale component that has changed.
+    </span>objects: Query&lt;(Entity, <span class="kw-2">&amp;</span>Asset, <span class="kw-2">&amp;mut </span>Transform, <span class="kw-2">&amp;</span>Scale), Or&lt;(Changed&lt;Asset&gt;, Changed&lt;Scale&gt;)&gt;&gt;
 ) {
-    <span class="kw">for </span>(entity, sprite, transform) <span class="kw">in </span>objects.iter() {
+    <span class="kw">for </span>(entity, sprite, transform, scale) <span class="kw">in </span>objects.iter() {
         <span class="comment">// Remove the old Transform component and insert a SpriteBundle
         // component.
-        </span>commands.entity(entity).insert(SpriteBundle {
-            texture: asset_server.load(sprite.image_path().clone()),
-            transform: <span class="kw-2">*</span>transform,
+        </span><span class="kw">let </span>transform_ = Transform {
+            translation: transform.translation,
+            rotation: transform.rotation,
+            scale: Vec3::new(scale.<span class="number">0</span>.x, scale.<span class="number">0</span>.y, <span class="number">1.0</span>),
+        };
+
+        commands.entity(entity).insert(SpriteBundle {
+            texture: asset_server.load(sprite.path.clone()),
+            transform: transform_,
+            global_transform: GlobalTransform::IDENTITY,
             ..default()
         });
     }
 }
 
-<span class="comment">// fn update_bounds(
-//     mut commands: Commands,
-//     asset_server: Res&lt;Assets&lt;Image&gt;&gt;,
-//     // Only process entities with an AssetPath component that has changed.
-//     objects: Query&lt;
-//         (Entity, &amp;mut Transform, &amp;Handle&lt;Image&gt;),
-//         (Changed&lt;Handle&lt;Image&gt;&gt;, With&lt;Sprite&gt;)
-//     &gt;
-// ) {
-//     for (entity, transform, handle) in objects.iter() {
-//         let image_dimensions = asset_server.get(handle);
-//         match image_dimensions {
-//             Some(image) =&gt; {
-//                 let image_dimensions = image.size_f32();
-//                 let scaled_image_dimension = image_dimensions * transform.scale.truncate();
-//
-//                 let center = vec2(0., 0.);
-//                 let half_size = scaled_image_dimension / 2.0;
-//                 let bounds = Aabb2d::new(center, half_size);
-//
-//                 println!("{:?}", bounds);
-//
-//                 commands.entity(entity).remove::&lt;RenderBounds&gt;();
-//                 commands.entity(entity).insert(RenderBounds(bounds));
-//             }
-//             None =&gt; {
-//                 return
-//             }
-//         }
-//     }
-// }
-
-</span><span class="kw">impl </span>Plugin <span class="kw">for </span>RenderPlugin {
+<span class="kw">impl </span>Plugin <span class="kw">for </span>RenderPlugin {
     <span class="kw">fn </span>build(<span class="kw-2">&amp;</span><span class="self">self</span>, app: <span class="kw-2">&amp;mut </span>App) {
         app.add_systems(Startup, setup_camera);
         app.add_systems(Update, make_sprites);
-        <span class="comment">// app.add_systems(Update, (make_sprites, update_bounds).chain());
-        </span>app.add_systems(PostUpdate, camera_follow_player);
+        app.add_systems(PostUpdate, camera_follow_player);
     }
 }
 </code></pre></div></section></main></body></html>

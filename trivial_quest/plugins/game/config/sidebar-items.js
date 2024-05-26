@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"constant":["BACKGROUND_COLOR","PLAYER_HORIZONTAL_MOVEMENT_SPEED"],"enum":["SpritePaths"]};

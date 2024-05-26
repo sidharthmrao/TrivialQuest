@@ -38,12 +38,16 @@
 <a href="#38" id="38">38</a>
 <a href="#39" id="39">39</a>
 <a href="#40" id="40">40</a>
+<a href="#41" id="41">41</a>
+<a href="#42" id="42">42</a>
+<a href="#43" id="43">43</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::plugins::{
-    game::{shared::SpritePaths, Health, Name, Strength},
+    game::{config::SpritePaths, Health, Name, Strength},
     physics::{Collider, Gravity, Movable},
     render::{CameraFollow}
 };
 <span class="kw">use </span>bevy::{math::bounding::Aabb2d, prelude::<span class="kw-2">*</span>};
+<span class="kw">use </span><span class="kw">crate</span>::plugins::render::Scale;
 
 <span class="attr">#[derive(Component)]
 </span><span class="kw">pub struct </span>Player;
@@ -55,6 +59,7 @@
         health: u32,
         strength: u32,
         location: Vec2,
+        scale: Vec2,
         velocity: Vec2
     ) {
         commands.spawn((
@@ -62,17 +67,18 @@
             Name(name),
             Health(health),
             Strength(strength),
-            SpritePaths::PLAYER,
+            SpritePaths::PLAYER.asset(),
             Transform::from_xyz(location.x, location.y, <span class="number">0.0</span>),
             GlobalTransform::IDENTITY,
             Gravity,
-            CameraFollow,
-            Movable::from(location, velocity),
+            Scale(scale),
+            <span class="comment">// CameraFollow,
+            </span>Movable::from(location, velocity),
             Collider::AABB(Aabb2d::new(
                 Vec2 { x: <span class="number">0.0</span>, y: <span class="number">0.0 </span>},
                 Vec2 {
-                    x: SpritePaths::PLAYER.size().x / <span class="number">2.0</span>,
-                    y: SpritePaths::PLAYER.size().y / <span class="number">2.0</span>,
+                    x: SpritePaths::PLAYER.asset().size.x / <span class="number">2.0</span>,
+                    y: SpritePaths::PLAYER.asset().size.y / <span class="number">2.0</span>,
                 }
             ))
         ));
