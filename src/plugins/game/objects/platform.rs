@@ -2,7 +2,7 @@ use std::fmt::Display;
 use crate::plugins::physics::{Collider, Fixed};
 use bevy::{math::bounding::Aabb2d, prelude::*};
 use crate::plugins::game::config::SpritePaths;
-use crate::plugins::render::Asset;
+use crate::plugins::render::{Asset, Scale};
 
 pub const PLATFORM_COLOR: Color = Color::rgb(0.0, 0.0, 0.0);
 
@@ -13,7 +13,8 @@ impl Platform {
     pub fn spawn(
         commands: &mut Commands,
         location: Vec2,
-        platform_type: PlatformType
+        platform_type: PlatformType,
+        scale: Vec2
     ) {
         commands.spawn((
             platform_type.asset(),
@@ -21,6 +22,7 @@ impl Platform {
             GlobalTransform::IDENTITY,
             Platform,
             Fixed,
+            Scale(scale),
             Collider::AABB(Aabb2d::new(
                 Vec2 { x: 0.0, y: 0.0 },
                 Vec2 {

@@ -49,9 +49,9 @@ impl Asset {
     }
 }
 
-/// Bounding box of a sprite.
+/// Scale of a sprite (default (1, 1)).
 #[derive(Component)]
-pub struct Size(pub Aabb2d);
+pub struct Scale(pub Vec2);
 
 // Initializes the main camera as a 2D camera.
 fn setup_camera(mut commands: Commands) {
@@ -78,15 +78,21 @@ fn camera_follow_player(
 fn make_sprites(
     mut commands: Commands,
     asset_server: Res<AssetServer>,
-    // Only process entities with an AssetPath component that has changed.
-    objects: Query<(Entity, &Asset, &mut Transform), Changed<Asset>>
+    // Only process entities with an AssetPath or Scale component that has changed.
+    objects: Query<(Entity, &Asset, &mut Transform, &Scale), Or<(Changed<Asset>, Changed<Scale>)>>
 ) {
-    for (entity, sprite, transform) in objects.iter() {
+    for (entity, sprite, transform, scale) in objects.iter() {
         // Remove the old Transform component and insert a SpriteBundle
         // component.
+        let transform_ = Transform {
+            translation: transform.translation,
+            rotation: transform.rotation,
+            scale: Vec3::new(scale.0.x, scale.0.y, 1.0),
+        };
+
         commands.entity(entity).insert(SpriteBundle {
             texture: asset_server.load(sprite.path.clone()),
-            transform: *transform,
+            transform: transform_,
             ..default()
         });
     }

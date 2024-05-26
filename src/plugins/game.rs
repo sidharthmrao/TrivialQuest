@@ -1,3 +1,4 @@
+use bevy::asset::io::memory::Value::Vec;
 use crate::plugins::game::{
     entities::{
         enemy::{Enemy, Taxonomy},
@@ -8,7 +9,7 @@ use crate::plugins::game::{
 use bevy::prelude::*;
 use crate::plugins::game::objects::platform::PlatformType;
 use crate::plugins::game::config::{BACKGROUND_COLOR, PLAYER_HORIZONTAL_MOVEMENT_SPEED, SpritePaths};
-use crate::plugins::render::Asset;
+use crate::plugins::render::{Asset, Scale};
 
 use super::physics::{Collider, Movable};
 
@@ -38,22 +39,26 @@ fn setup_game(mut commands: Commands) {
         100,
         10,
         Vec2::new(20.0, 80.0),
+        Vec2::new(1.0, 1.0),
         Vec2::new(0.0, 0.0)
     );
 
     // Make enemy
-    Enemy::spawn(&mut commands, Taxonomy::Human, None, Vec2::new(-20.0, 80.0), Vec2::new(0.0, 0.0));
+    Enemy::spawn(&mut commands, Taxonomy::Human, None, Vec2::new(-20.0, 80.0), Vec2::new
+        (1., 1.), Vec2::new(0.0, 0.0));
 
     Platform::spawn(
         &mut commands,
         Vec2::new(0.0, -100.0),
-        PlatformType::Grass
+        PlatformType::Grass,
+        Vec2::new(2.0, 1.0)
     );
 
     Platform::spawn(
         &mut commands,
         Vec2::new(18.0, -100.0),
-        PlatformType::Grass
+        PlatformType::Grass,
+        Vec2::new(2.0, 1.0)
     );
 }
 
@@ -87,6 +92,14 @@ pub fn update_collider(
 ) {
     for (sprite, mut collider) in objects.iter_mut() {
         collider.set_size(sprite.size);
+    }
+}
+
+pub fn scale_change(
+    mut query: Query<(&Asset, &mut Transform, &Scale), Changed<Scale>>
+) {
+    for (sprite, mut transform, scale) in query.iter_mut() {
+        transform.scale = Vec3::new(sprite.size.x * scale.0.x, sprite.size.y * scale.0.y, 1.0);
     }
 }
 

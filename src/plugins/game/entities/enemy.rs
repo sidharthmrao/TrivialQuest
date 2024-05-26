@@ -8,6 +8,7 @@ use crate::plugins::{
 };
 use bevy::prelude::*;
 use crate::plugins::physics::Collider;
+use crate::plugins::render::Scale;
 
 #[derive(Component)]
 pub struct Enemy(pub Taxonomy);
@@ -18,6 +19,7 @@ impl Enemy {
         enemy_type: Taxonomy,
         name: Option<String>,
         location: Vec2,
+        scale: Vec2,
         velocity: Vec2
     ) {
         commands.spawn((
@@ -28,6 +30,7 @@ impl Enemy {
             Transform::from_xyz(location.x, location.y, 0.0),
             GlobalTransform::IDENTITY,
             Gravity,
+            Scale(scale),
             Movable::from(location, velocity),
             Collider::AABB(Aabb2d::new(
                 Vec2 { x: 0.0, y: 0.0 },

@@ -4,6 +4,7 @@ use crate::plugins::{
     render::{CameraFollow}
 };
 use bevy::{math::bounding::Aabb2d, prelude::*};
+use crate::plugins::render::Scale;
 
 #[derive(Component)]
 pub struct Player;
@@ -15,6 +16,7 @@ impl Player {
         health: u32,
         strength: u32,
         location: Vec2,
+        scale: Vec2,
         velocity: Vec2
     ) {
         commands.spawn((
@@ -26,6 +28,7 @@ impl Player {
             Transform::from_xyz(location.x, location.y, 0.0),
             GlobalTransform::IDENTITY,
             Gravity,
+            Scale(scale),
             CameraFollow,
             Movable::from(location, velocity),
             Collider::AABB(Aabb2d::new(
