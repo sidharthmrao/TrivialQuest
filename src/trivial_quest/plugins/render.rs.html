@@ -105,6 +105,20 @@
 <a href="#105" id="105">105</a>
 <a href="#106" id="106">106</a>
 <a href="#107" id="107">107</a>
+<a href="#108" id="108">108</a>
+<a href="#109" id="109">109</a>
+<a href="#110" id="110">110</a>
+<a href="#111" id="111">111</a>
+<a href="#112" id="112">112</a>
+<a href="#113" id="113">113</a>
+<a href="#114" id="114">114</a>
+<a href="#115" id="115">115</a>
+<a href="#116" id="116">116</a>
+<a href="#117" id="117">117</a>
+<a href="#118" id="118">118</a>
+<a href="#119" id="119">119</a>
+<a href="#120" id="120">120</a>
+<a href="#121" id="121">121</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Author: Sidharth Rao
 //!
 //! The render plugin handles game rendering, texturing, and cameras.
@@ -155,9 +169,28 @@
     }
 }
 
-<span class="doccomment">/// Scale of a sprite (default (1, 1)).
-</span><span class="attr">#[derive(Component)]
-</span><span class="kw">pub struct </span>Scale(<span class="kw">pub </span>Vec2);
+<span class="doccomment">/// Sets how much to zoom the camera. The default zoom is 1.0. A zoom of 2.0 will make objects
+/// appear twice as small.
+</span><span class="attr">#[derive(Resource)]
+</span><span class="kw">pub struct </span>CameraZoom {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) zoom: f32
+}
+
+
+<span class="doccomment">/// Zooms the [`MainCamera`] based on the [`CameraZoom`] resource.
+</span><span class="kw">pub fn </span>zoom_camera(
+    camera_zoom: Res&lt;CameraZoom&gt;,
+    <span class="kw-2">mut </span>camera_query: Query&lt;<span class="kw-2">&amp;mut </span>OrthographicProjection, With&lt;MainCamera&gt;&gt;,
+) {
+    <span class="kw">match </span>camera_query.iter().count() {
+        <span class="number">0 </span>=&gt; <span class="kw">return</span>,
+        <span class="number">1 </span>=&gt; (),
+        <span class="kw">_ </span>=&gt; <span class="macro">panic!</span>(<span class="string">"There can be at most one entity with the MainCamera component."</span>)
+    }
+
+    <span class="kw">let </span><span class="kw-2">mut </span>projection = camera_query.single_mut();
+    projection.scale = camera_zoom.zoom;
+}
 
 <span class="comment">// Initializes the main camera as a 2D camera.
 </span><span class="kw">fn </span>setup_camera(<span class="kw-2">mut </span>commands: Commands) {
@@ -180,25 +213,19 @@
     camera_transform.translation = transform.translation;
 }
 
-<span class="comment">// Loads sprites from AssetPath components.
-</span><span class="kw">fn </span>make_sprites(
+<span class="comment">// Loads sprites from Asset components.
+</span><span class="kw">fn </span>update_sprites(
     <span class="kw-2">mut </span>commands: Commands,
     asset_server: Res&lt;AssetServer&gt;,
-    <span class="comment">// Only process entities with an AssetPath or Scale component that has changed.
-    </span>objects: Query&lt;(Entity, <span class="kw-2">&amp;</span>Asset, <span class="kw-2">&amp;mut </span>Transform, <span class="kw-2">&amp;</span>Scale), Or&lt;(Changed&lt;Asset&gt;, Changed&lt;Scale&gt;)&gt;&gt;
+    <span class="comment">// Only process entities with a changed Asset component.
+    </span>objects: Query&lt;(Entity, <span class="kw-2">&amp;</span>Asset, <span class="kw-2">&amp;</span>Transform), Changed&lt;Asset&gt;&gt;
 ) {
-    <span class="kw">for </span>(entity, sprite, transform, scale) <span class="kw">in </span>objects.iter() {
+    <span class="kw">for </span>(entity, sprite, transform) <span class="kw">in </span>objects.iter() {
         <span class="comment">// Remove the old Transform component and insert a SpriteBundle
         // component.
-        </span><span class="kw">let </span>transform_ = Transform {
-            translation: transform.translation,
-            rotation: transform.rotation,
-            scale: Vec3::new(scale.<span class="number">0</span>.x, scale.<span class="number">0</span>.y, <span class="number">1.0</span>),
-        };
-
-        commands.entity(entity).insert(SpriteBundle {
+        </span>commands.entity(entity).insert(SpriteBundle {
             texture: asset_server.load(sprite.path.clone()),
-            transform: transform_,
+            transform: <span class="kw-2">*</span>transform,
             global_transform: GlobalTransform::IDENTITY,
             ..default()
         });
@@ -208,8 +235,9 @@
 <span class="kw">impl </span>Plugin <span class="kw">for </span>RenderPlugin {
     <span class="kw">fn </span>build(<span class="kw-2">&amp;</span><span class="self">self</span>, app: <span class="kw-2">&amp;mut </span>App) {
         app.add_systems(Startup, setup_camera);
-        app.add_systems(Update, make_sprites);
+        app.add_systems(Update, update_sprites);
         app.add_systems(PostUpdate, camera_follow_player);
+        app.add_systems(PostUpdate, zoom_camera);
     }
 }
 </code></pre></div></section></main></body></html>

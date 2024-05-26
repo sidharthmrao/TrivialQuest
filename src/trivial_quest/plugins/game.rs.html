@@ -136,34 +136,9 @@
 <a href="#136" id="136">136</a>
 <a href="#137" id="137">137</a>
 <a href="#138" id="138">138</a>
-<a href="#139" id="139">139</a>
-<a href="#140" id="140">140</a>
-<a href="#141" id="141">141</a>
-<a href="#142" id="142">142</a>
-<a href="#143" id="143">143</a>
-<a href="#144" id="144">144</a>
-<a href="#145" id="145">145</a>
-<a href="#146" id="146">146</a>
-<a href="#147" id="147">147</a>
-<a href="#148" id="148">148</a>
-<a href="#149" id="149">149</a>
-<a href="#150" id="150">150</a>
-<a href="#151" id="151">151</a>
-<a href="#152" id="152">152</a>
-<a href="#153" id="153">153</a>
-<a href="#154" id="154">154</a>
-<a href="#155" id="155">155</a>
-<a href="#156" id="156">156</a>
-<a href="#157" id="157">157</a>
-<a href="#158" id="158">158</a>
-<a href="#159" id="159">159</a>
-<a href="#160" id="160">160</a>
-<a href="#161" id="161">161</a>
 </pre></div><pre class="rust"><code><span class="kw">pub mod </span>config;
 <span class="kw">pub mod </span>entities;
 <span class="kw">pub mod </span>objects;
-
-<span class="kw">use </span>std::borrow::Borrow;
 
 <span class="kw">use </span><span class="self">self</span>::entities::player::PLAYER_JUMP;
 
@@ -180,14 +155,12 @@
         objects::platform::{Platform, PlatformType}
     },
     physics::Movable,
-    render::{Asset, Scale}
+    render::{Asset}
 };
 <span class="kw">use </span>bevy::prelude::<span class="kw-2">*</span>;
+<span class="kw">use </span><span class="kw">crate</span>::plugins::render::CameraZoom;
 
 <span class="kw">pub struct </span>GamePlugin;
-
-<span class="attr">#[derive(Component)]
-</span><span class="kw">pub struct </span>Entity;
 
 <span class="attr">#[derive(Component)]
 </span><span class="kw">pub struct </span>Name(<span class="kw">pub </span>String);
@@ -247,6 +220,8 @@
         PlatformType::Grass,
         Vec2::new(<span class="number">1.0</span>, <span class="number">1.0</span>)
     );
+
+    commands.insert_resource(CameraZoom { zoom: <span class="number">0.5 </span>});
 }
 
 <span class="doccomment">/// Moves the player left or right when the arrow keys are pressed.
@@ -291,33 +266,12 @@
     }
 }
 
-<span class="kw">pub fn </span>update_hitbox(
-    <span class="kw-2">mut </span>objects: Query&lt;(<span class="kw-2">&amp;</span>Asset, <span class="kw-2">&amp;mut </span>Hitbox), Changed&lt;Asset&gt;&gt;
-) {
-    <span class="kw">for </span>(sprite, <span class="kw-2">mut </span>hitbox) <span class="kw">in </span>objects.iter_mut() {
-        hitbox.set_size(sprite.size);
-    }
-}
-
-<span class="kw">pub fn </span>scale_change(
-    <span class="kw-2">mut </span>query: Query&lt;(<span class="kw-2">&amp;</span>Asset, <span class="kw-2">&amp;mut </span>Transform, <span class="kw-2">&amp;</span>Scale), Changed&lt;Scale&gt;&gt;
-) {
-    <span class="kw">for </span>(sprite, <span class="kw-2">mut </span>transform, scale) <span class="kw">in </span>query.iter_mut() {
-        transform.scale = Vec3::new(
-            sprite.size.x * scale.<span class="number">0</span>.x,
-            sprite.size.y * scale.<span class="number">0</span>.y,
-            <span class="number">1.0
-        </span>);
-    }
-}
-
 <span class="kw">impl </span>Plugin <span class="kw">for </span>GamePlugin {
     <span class="kw">fn </span>build(<span class="kw-2">&amp;</span><span class="self">self</span>, app: <span class="kw-2">&amp;mut </span>App) {
         app.insert_resource(ClearColor(BACKGROUND_COLOR));
         app.add_systems(Startup, setup_game);
         app.add_systems(Update, move_player_left_right);
         app.add_systems(Update, handle_player_space);
-        app.add_systems(PostUpdate, update_hitbox);
     }
 }
 </code></pre></div></section></main></body></html>

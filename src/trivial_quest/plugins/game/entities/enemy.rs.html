@@ -105,7 +105,7 @@
             collider::{Collider, ColliderBehavior, Hitbox},
             MovablePhysicsObject, PhysicsObject
         },
-        render::{Asset, Scale}
+        render::{Asset}
     }
 };
 <span class="kw">use </span>bevy::prelude::<span class="kw-2">*</span>;
@@ -124,9 +124,9 @@
             Health(enemy_type.health()),
             Strength(enemy_type.strength()),
             enemy_type.asset(),
-            Transform::from_xyz(location.x, location.y, <span class="number">0.0</span>),
+            Transform::from_xyz(location.x, location.y, <span class="number">0.0</span>).with_scale(
+                Vec3::new(scale.x, scale.y, <span class="number">1.0</span>)),
             GlobalTransform::IDENTITY,
-            Scale(scale),
             MovablePhysicsObject::from(
                 PhysicsObject::UniqueNameAndNumber(
                     <span class="string">"enemy"</span>.into(),
@@ -137,9 +137,9 @@
                 <span class="bool-val">true</span>,
                 Collider::from(
                     Hitbox::from_size(
-                        enemy_type.asset().size.x / <span class="number">2.0</span>,
-                        enemy_type.asset().size.y / <span class="number">2.0
-                    </span>),
+                        enemy_type.asset().size.x / <span class="number">2.0 </span>* scale.x,
+                        enemy_type.asset().size.y / <span class="number">2.0 </span>* scale.y
+                    ),
                     ColliderBehavior::Solid
                 )
             )

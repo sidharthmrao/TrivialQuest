@@ -43,14 +43,12 @@
 <a href="#43" id="43">43</a>
 <a href="#44" id="44">44</a>
 <a href="#45" id="45">45</a>
-<a href="#46" id="46">46</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::plugins::{
     game::{config::SpritePaths, Health, Name, Strength},
     physics::{
         collider::{Collider, ColliderBehavior, Hitbox},
         MovablePhysicsObject, PhysicsObject
     },
-    render::Scale
 };
 <span class="kw">use </span>bevy::prelude::<span class="kw-2">*</span>;
 
@@ -70,9 +68,9 @@
             Health(health),
             Strength(strength),
             SpritePaths::PLAYER.asset(),
-            Transform::from_xyz(location.x, location.y, <span class="number">0.0</span>),
+            Transform::from_xyz(location.x, location.y, <span class="number">0.0</span>).with_scale(
+                Vec3::new(scale.x, scale.y, <span class="number">1.0</span>)),
             GlobalTransform::IDENTITY,
-            Scale(scale),
             <span class="comment">// CameraFollow,
             </span>MovablePhysicsObject::from(
                 PhysicsObject::UniqueName(<span class="string">"player"</span>.into()),
@@ -81,9 +79,9 @@
                 <span class="bool-val">true</span>,
                 Collider::from(
                     Hitbox::from_size(
-                        SpritePaths::PLAYER.asset().size.x / <span class="number">2.0</span>,
-                        SpritePaths::PLAYER.asset().size.y / <span class="number">2.0
-                    </span>),
+                        SpritePaths::PLAYER.asset().size.x / <span class="number">2.0 </span>* scale.x,
+                        SpritePaths::PLAYER.asset().size.y / <span class="number">2.0 </span>* scale.y
+                    ),
                     ColliderBehavior::Solid
                 )
             )
