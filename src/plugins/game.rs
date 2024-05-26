@@ -7,6 +7,7 @@ use crate::plugins::game::{
 };
 use bevy::prelude::*;
 use crate::plugins::game::objects::platform::PlatformType;
+use crate::plugins::game::shared::SpritePaths;
 
 use super::physics::{Collider, Movable};
 
@@ -50,6 +51,12 @@ fn setup_game(mut commands: Commands) {
         Vec2::new(0.0, -100.0),
         PlatformType::Grass
     );
+
+    Platform::spawn(
+        &mut commands,
+        Vec2::new(18.0, -100.0),
+        PlatformType::Grass
+    );
 }
 
 /// Moves the player left or right when the arrow keys are pressed.
@@ -77,28 +84,19 @@ pub fn move_player(
     movable.pos_mut().x += direction * PLAYER_SPEED * time.delta_seconds();
 }
 
-// pub fn create_collider_on_bounding_box_change(
-//     mut commands: Commands,
-//     objects: Query<(bevy::prelude::Entity, &RenderBounds), Changed<RenderBounds>>
-// ) {
-//     for (entity, bounds) in objects.iter() {
-//         commands.entity(entity).remove::<Collider>();
-//
-//         commands.entity(entity).insert(Collider::AABB(Aabb2d::new(
-//             Vec2 { x: 0.0, y: 0.0 },
-//             Vec2 {
-//                 x: bounds.0.width(),
-//                 y: bounds.0.height()
-//             }
-//         )));
-//     }
-// }
+pub fn update_collider(
+    mut objects: Query<(&SpritePaths, &mut Collider), Changed<SpritePaths>>
+) {
+    for (sprite, mut collider) in objects.iter_mut() {
+        collider.set_size(sprite.size());
+    }
+}
 
 impl Plugin for GamePlugin {
     fn build(&self, app: &mut App) {
         app.insert_resource(ClearColor(BACKGROUND_COLOR));
         app.add_systems(Startup, setup_game);
         app.add_systems(Update, move_player);
-        // app.add_systems(PostUpdate, create_collider_on_bounding_box_change);
+        app.add_systems(PostUpdate, update_collider);
     }
 }
