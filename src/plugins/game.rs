@@ -2,8 +2,6 @@ pub mod config;
 pub mod entities;
 pub mod objects;
 
-use std::borrow::Borrow;
-
 use self::entities::player::PLAYER_JUMP;
 
 use super::physics::{
@@ -19,14 +17,11 @@ use crate::plugins::{
         objects::platform::{Platform, PlatformType}
     },
     physics::Movable,
-    render::{Asset, Scale}
+    render::{Asset}
 };
 use bevy::prelude::*;
 
 pub struct GamePlugin;
-
-#[derive(Component)]
-pub struct Entity;
 
 #[derive(Component)]
 pub struct Name(pub String);
@@ -84,7 +79,7 @@ fn setup_game(mut commands: Commands) {
         &mut commands,
         Vec2::new(36.0, -118.0),
         PlatformType::Grass,
-        Vec2::new(1.0, 1.0)
+        Vec2::new(5.0, 1.0)
     );
 }
 
@@ -130,32 +125,11 @@ pub fn handle_player_space(
     }
 }
 
-pub fn update_hitbox(
-    mut objects: Query<(&Asset, &mut Hitbox), Changed<Asset>>
-) {
-    for (sprite, mut hitbox) in objects.iter_mut() {
-        hitbox.set_size(sprite.size);
-    }
-}
-
-pub fn scale_change(
-    mut query: Query<(&Asset, &mut Transform, &Scale), Changed<Scale>>
-) {
-    for (sprite, mut transform, scale) in query.iter_mut() {
-        transform.scale = Vec3::new(
-            sprite.size.x * scale.0.x,
-            sprite.size.y * scale.0.y,
-            1.0
-        );
-    }
-}
-
 impl Plugin for GamePlugin {
     fn build(&self, app: &mut App) {
         app.insert_resource(ClearColor(BACKGROUND_COLOR));
         app.add_systems(Startup, setup_game);
         app.add_systems(Update, move_player_left_right);
         app.add_systems(Update, handle_player_space);
-        app.add_systems(PostUpdate, update_hitbox);
     }
 }

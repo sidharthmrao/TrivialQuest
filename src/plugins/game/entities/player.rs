@@ -4,7 +4,6 @@ use crate::plugins::{
         collider::{Collider, ColliderBehavior, Hitbox},
         MovablePhysicsObject, PhysicsObject
     },
-    render::Scale
 };
 use bevy::prelude::*;
 
@@ -24,9 +23,9 @@ impl Player {
             Health(health),
             Strength(strength),
             SpritePaths::PLAYER.asset(),
-            Transform::from_xyz(location.x, location.y, 0.0),
+            Transform::from_xyz(location.x, location.y, 0.0).with_scale(
+                Vec3::new(scale.x, scale.y, 1.0)),
             GlobalTransform::IDENTITY,
-            Scale(scale),
             // CameraFollow,
             MovablePhysicsObject::from(
                 PhysicsObject::UniqueName("player".into()),
@@ -35,8 +34,8 @@ impl Player {
                 true,
                 Collider::from(
                     Hitbox::from_size(
-                        SpritePaths::PLAYER.asset().size.x / 2.0,
-                        SpritePaths::PLAYER.asset().size.y / 2.0
+                        SpritePaths::PLAYER.asset().size.x / 2.0 * scale.x,
+                        SpritePaths::PLAYER.asset().size.y / 2.0 * scale.y
                     ),
                     ColliderBehavior::Solid
                 )

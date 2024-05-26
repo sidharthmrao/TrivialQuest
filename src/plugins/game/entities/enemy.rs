@@ -6,7 +6,7 @@ use crate::{
             collider::{Collider, ColliderBehavior, Hitbox},
             MovablePhysicsObject, PhysicsObject
         },
-        render::{Asset, Scale}
+        render::{Asset}
     }
 };
 use bevy::prelude::*;
@@ -25,9 +25,9 @@ impl Enemy {
             Health(enemy_type.health()),
             Strength(enemy_type.strength()),
             enemy_type.asset(),
-            Transform::from_xyz(location.x, location.y, 0.0),
+            Transform::from_xyz(location.x, location.y, 0.0).with_scale(
+                Vec3::new(scale.x, scale.y, 1.0)),
             GlobalTransform::IDENTITY,
-            Scale(scale),
             MovablePhysicsObject::from(
                 PhysicsObject::UniqueNameAndNumber(
                     "enemy".into(),
@@ -38,8 +38,8 @@ impl Enemy {
                 true,
                 Collider::from(
                     Hitbox::from_size(
-                        enemy_type.asset().size.x / 2.0,
-                        enemy_type.asset().size.y / 2.0
+                        enemy_type.asset().size.x / 2.0 * scale.x,
+                        enemy_type.asset().size.y / 2.0 * scale.y
                     ),
                     ColliderBehavior::Solid
                 )
