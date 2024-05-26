@@ -91,6 +91,7 @@
 <a href="#91" id="91">91</a>
 <a href="#92" id="92">92</a>
 <a href="#93" id="93">93</a>
+<a href="#94" id="94">94</a>
 </pre></div><pre class="rust"><code><span class="kw">pub mod </span>config;
 <span class="kw">pub mod </span>entities;
 <span class="kw">pub mod </span>objects;
@@ -111,7 +112,7 @@
     physics::Movable,
 };
 <span class="kw">use </span>bevy::prelude::<span class="kw-2">*</span>;
-<span class="kw">use </span><span class="kw">crate</span>::plugins::game::level::load_objects;
+<span class="kw">use </span><span class="kw">crate</span>::plugins::game::level::{LevelFile, load_objects};
 <span class="kw">use </span><span class="kw">crate</span>::plugins::render::CameraZoom;
 
 <span class="kw">pub struct </span>GamePlugin;
@@ -125,8 +126,7 @@
 <span class="attr">#[derive(Component)]
 </span><span class="kw">pub struct </span>Strength(<span class="kw">pub </span>u32);
 
-<span class="kw">fn </span>setup_game(<span class="kw-2">mut </span>commands: Commands) {
-    commands.insert_resource(CameraZoom { zoom: <span class="number">0.5 </span>});
+<span class="kw">fn </span>setup_game() {
 }
 
 <span class="doccomment">/// Moves the player left or right when the arrow keys are pressed.
@@ -178,10 +178,12 @@
 <span class="kw">impl </span>Plugin <span class="kw">for </span>GamePlugin {
     <span class="kw">fn </span>build(<span class="kw-2">&amp;</span><span class="self">self</span>, app: <span class="kw-2">&amp;mut </span>App) {
         app.insert_resource(ClearColor(BACKGROUND_COLOR));
+        app.insert_resource(CameraZoom { zoom: <span class="number">0.5 </span>});
+        app.insert_resource(LevelFile { path: <span class="string">"assets/levels/level_0.xml"</span>.into() });
         app.add_systems(Startup, setup_game);
+        app.add_systems(Startup, load_objects);
         app.add_systems(Update, move_player_left_right);
         app.add_systems(Update, handle_player_space);
-        app.add_systems(Startup, load_objects);
     }
 }
 </code></pre></div></section></main></body></html>

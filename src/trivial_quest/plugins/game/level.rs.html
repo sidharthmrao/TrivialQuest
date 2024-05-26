@@ -213,12 +213,44 @@
 <a href="#213" id="213">213</a>
 <a href="#214" id="214">214</a>
 <a href="#215" id="215">215</a>
-</pre></div><pre class="rust"><code><span class="kw">use </span>std::fmt::Debug;
+<a href="#216" id="216">216</a>
+<a href="#217" id="217">217</a>
+<a href="#218" id="218">218</a>
+<a href="#219" id="219">219</a>
+<a href="#220" id="220">220</a>
+<a href="#221" id="221">221</a>
+<a href="#222" id="222">222</a>
+<a href="#223" id="223">223</a>
+<a href="#224" id="224">224</a>
+<a href="#225" id="225">225</a>
+<a href="#226" id="226">226</a>
+<a href="#227" id="227">227</a>
+<a href="#228" id="228">228</a>
+<a href="#229" id="229">229</a>
+<a href="#230" id="230">230</a>
+<a href="#231" id="231">231</a>
+<a href="#232" id="232">232</a>
+<a href="#233" id="233">233</a>
+<a href="#234" id="234">234</a>
+<a href="#235" id="235">235</a>
+<a href="#236" id="236">236</a>
+<a href="#237" id="237">237</a>
+<a href="#238" id="238">238</a>
+</pre></div><pre class="rust"><code><span class="doccomment">//! Author: Sidharth Rao
+//!
+//! The level mod handles loading levels from XML files. It uses the `xml` crate to parse xml
+//! files and then deserialize them into game objects of [`ObjectType`]. The game objects are then
+//! spawned.
+//!
+//! To load a level, first set the [`LevelFile`] resource to the path of the level file. Then,
+//! schedule the [`load_objects`] function.
+
+</span><span class="kw">use </span>std::fmt::Debug;
 <span class="kw">use </span>std::fs::File;
 <span class="kw">use </span>std::io::BufReader;
+<span class="kw">use </span>bevy::log::Level;
 <span class="kw">use </span>bevy::math::Vec2;
-<span class="kw">use </span>bevy::prelude::Commands;
-<span class="kw">use </span>bevy::utils::info;
+<span class="kw">use </span>bevy::prelude::{Commands, Res, Resource};
 
 <span class="kw">use </span>xml::reader::{EventReader, XmlEvent};
 <span class="kw">use </span><span class="kw">crate</span>::plugins::game::entities::enemy::Taxonomy;
@@ -246,7 +278,7 @@
     scale: (f32, f32)
 }
 
-<span class="kw">enum </span>ObjectType {
+<span class="kw">pub enum </span>ObjectType {
     Player,
     Enemy,
     Platform,
@@ -409,8 +441,22 @@
     }
 }
 
-<span class="kw">pub fn </span>load_objects(<span class="kw-2">mut </span>commands: Commands)  {
-    <span class="kw">let </span>file = File::open(<span class="string">"assets/levels/level_0.xml"</span>).unwrap();
+<span class="attr">#[derive(Debug, Resource)]
+</span><span class="kw">pub struct </span>LevelFile {
+    <span class="kw">pub </span>path: String
+}
+
+<span class="kw">impl </span>Default <span class="kw">for </span>LevelFile {
+    <span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
+        LevelFile {
+            path: <span class="string">"assets/levels/level_0.xml"</span>.to_string()
+        }
+    }
+}
+
+<span class="kw">pub fn </span>load_objects(<span class="kw-2">mut </span>commands: Commands, level_file: Res&lt;LevelFile&gt;)  {
+    <span class="macro">println!</span>(<span class="string">"Loading level from {}"</span>, level_file.path.as_str());
+    <span class="kw">let </span>file = File::open(level_file.path.as_str()).unwrap();
     <span class="kw">let </span>file = BufReader::new(file);
 
     <span class="kw">let </span>parser = EventReader::new(file);

@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"fn":["load_objects"]};
+window.SIDEBAR_ITEMS = {"enum":["ObjectType"],"fn":["load_objects"],"struct":["LevelFile"]};
