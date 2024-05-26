@@ -22,8 +22,8 @@
 //!       [`CameraFollow`] component.
 
 use bevy::math::bounding::Aabb2d;
-use bevy::math::Rect;
 use bevy::prelude::*;
+use crate::plugins::game::shared::SpritePaths;
 
 /// Handles game rendering, texturing, and cameras.
 pub struct RenderPlugin;
@@ -42,7 +42,7 @@ pub struct AssetPath(pub String);
 
 /// Bounding box of a sprite.
 #[derive(Component)]
-pub struct RenderBounds(pub Rect);
+pub struct Size(pub Aabb2d);
 
 // Initializes the main camera as a 2D camera.
 fn setup_camera(mut commands: Commands) {
@@ -70,29 +70,56 @@ fn make_sprites(
     mut commands: Commands,
     asset_server: Res<AssetServer>,
     // Only process entities with an AssetPath component that has changed.
-    objects: Query<(Entity, &AssetPath, &mut Transform), Changed<AssetPath>>
+    objects: Query<(Entity, &SpritePaths, &mut Transform), Changed<SpritePaths>>
 ) {
-    for (entity, asset_path, transform) in objects.iter() {
+    for (entity, sprite, transform) in objects.iter() {
         // Remove the old Transform component and insert a SpriteBundle
         // component.
-        commands.entity(entity).remove::<Transform>();
         commands.entity(entity).insert(SpriteBundle {
-            texture: asset_server.load(asset_path.0.clone()),
+            texture: asset_server.load(sprite.image_path().clone()),
             transform: *transform,
             ..default()
         });
-        // Insert a RenderBounds component to serve as sprite bounding box.
-        commands.entity(entity).insert(RenderBounds(Rect::from_center_size(
-            transform.translation.truncate(),
-            Vec2::new(1.0, 1.0)
-        )));
     }
 }
+
+// fn update_bounds(
+//     mut commands: Commands,
+//     asset_server: Res<Assets<Image>>,
+//     // Only process entities with an AssetPath component that has changed.
+//     objects: Query<
+//         (Entity, &mut Transform, &Handle<Image>),
+//         (Changed<Handle<Image>>, With<Sprite>)
+//     >
+// ) {
+//     for (entity, transform, handle) in objects.iter() {
+//         let image_dimensions = asset_server.get(handle);
+//         match image_dimensions {
+//             Some(image) => {
+//                 let image_dimensions = image.size_f32();
+//                 let scaled_image_dimension = image_dimensions * transform.scale.truncate();
+//
+//                 let center = vec2(0., 0.);
+//                 let half_size = scaled_image_dimension / 2.0;
+//                 let bounds = Aabb2d::new(center, half_size);
+//
+//                 println!("{:?}", bounds);
+//
+//                 commands.entity(entity).remove::<RenderBounds>();
+//                 commands.entity(entity).insert(RenderBounds(bounds));
+//             }
+//             None => {
+//                 return
+//             }
+//         }
+//     }
+// }
 
 impl Plugin for RenderPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(Startup, setup_camera);
         app.add_systems(Update, make_sprites);
+        // app.add_systems(Update, (make_sprites, update_bounds).chain());
         app.add_systems(PostUpdate, camera_follow_player);
     }
 }

@@ -7,9 +7,7 @@ use crate::plugins::{
     render::AssetPath
 };
 use bevy::prelude::*;
-use crate::plugins::game::entities::player::Player;
 use crate::plugins::physics::Collider;
-use crate::plugins::render::CameraFollow;
 
 #[derive(Component)]
 pub struct Enemy(pub Taxonomy);
@@ -26,7 +24,7 @@ impl Enemy {
             Name(name.unwrap_or("Enemy".to_string())),
             Health(enemy_type.health()),
             Strength(enemy_type.strength()),
-            AssetPath(enemy_type.image_path()),
+            enemy_type.asset(),
             Transform::from_xyz(location.x, location.y, 0.0),
             GlobalTransform::IDENTITY,
             Gravity,
@@ -34,8 +32,8 @@ impl Enemy {
             Collider::AABB(Aabb2d::new(
                 Vec2 { x: 0.0, y: 0.0 },
                 Vec2 {
-                    x: SpritePaths::TILE_SIZE / 2.0,
-                    y: SpritePaths::TILE_SIZE / 2.0
+                    x: enemy_type.asset().size().x / 2.0,
+                    y: enemy_type.asset().size().y / 2.0
                 }
             ))
         ));
@@ -70,14 +68,13 @@ impl Taxonomy {
         }
     }
 
-    pub fn image_path(&self) -> String {
+    pub fn asset(&self) -> SpritePaths {
         match self {
             Taxonomy::Human => SpritePaths::ENEMY,
             Taxonomy::Dwarf => SpritePaths::ENEMY,
             Taxonomy::Elf => SpritePaths::ENEMY,
-            Taxonomy::NontrivialSolution => SpritePaths::ENEMY
+            Taxonomy::NontrivialSolution => SpritePaths::ENEMY,
         }
-        .into()
     }
 }
 

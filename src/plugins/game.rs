@@ -8,7 +8,7 @@ use crate::plugins::game::{
 use bevy::prelude::*;
 use crate::plugins::game::objects::platform::PlatformType;
 
-use super::physics::Movable;
+use super::physics::{Collider, Movable};
 
 pub mod entities;
 pub mod objects;
@@ -77,10 +77,28 @@ pub fn move_player(
     movable.pos_mut().x += direction * PLAYER_SPEED * time.delta_seconds();
 }
 
+// pub fn create_collider_on_bounding_box_change(
+//     mut commands: Commands,
+//     objects: Query<(bevy::prelude::Entity, &RenderBounds), Changed<RenderBounds>>
+// ) {
+//     for (entity, bounds) in objects.iter() {
+//         commands.entity(entity).remove::<Collider>();
+//
+//         commands.entity(entity).insert(Collider::AABB(Aabb2d::new(
+//             Vec2 { x: 0.0, y: 0.0 },
+//             Vec2 {
+//                 x: bounds.0.width(),
+//                 y: bounds.0.height()
+//             }
+//         )));
+//     }
+// }
+
 impl Plugin for GamePlugin {
     fn build(&self, app: &mut App) {
         app.insert_resource(ClearColor(BACKGROUND_COLOR));
         app.add_systems(Startup, setup_game);
         app.add_systems(Update, move_player);
+        // app.add_systems(PostUpdate, create_collider_on_bounding_box_change);
     }
 }

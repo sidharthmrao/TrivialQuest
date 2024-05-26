@@ -1,7 +1,6 @@
 use std::fmt::Display;
-use crate::plugins::physics::{Collider, Fixed, Gravity, Movable};
+use crate::plugins::physics::{Collider, Fixed};
 use bevy::{math::bounding::Aabb2d, prelude::*};
-use crate::plugins::game::{Health, Name, Strength};
 use crate::plugins::game::shared::SpritePaths;
 use crate::plugins::render::AssetPath;
 
@@ -17,7 +16,7 @@ impl Platform {
         platform_type: PlatformType
     ) {
         commands.spawn((
-            AssetPath(platform_type.image_path()),
+            platform_type.asset(),
             Transform::from_xyz(location.x, location.y, 0.0),
             GlobalTransform::IDENTITY,
             Platform,
@@ -25,8 +24,8 @@ impl Platform {
             Collider::AABB(Aabb2d::new(
                 Vec2 { x: 0.0, y: 0.0 },
                 Vec2 {
-                    x: SpritePaths::TILE_SIZE / 2.0,
-                    y: SpritePaths::TILE_SIZE / 2.0
+                    x: platform_type.asset().size().x / 2.0,
+                    y: platform_type.asset().size().y / 2.0
                 }
             ))
         ));
@@ -39,11 +38,10 @@ pub enum PlatformType {
 }
 
 impl PlatformType {
-    pub fn image_path(&self) -> String {
+    pub fn asset(&self) -> SpritePaths {
         match self {
-            PlatformType::Grass => SpritePaths::GRASS_BLOCK,
+            PlatformType::Grass => SpritePaths::GRASS,
         }
-        .into()
     }
 }
 
