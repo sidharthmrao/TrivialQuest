@@ -1,4 +1,5 @@
 use std::fmt::Display;
+use bevy::math::bounding::Aabb2d;
 
 use crate::plugins::{
     game::{shared::SpritePaths, Health, Name, Strength},
@@ -6,25 +7,35 @@ use crate::plugins::{
     render::AssetPath
 };
 use bevy::prelude::*;
+use crate::plugins::physics::Collider;
 
 #[derive(Component)]
 pub struct Enemy(pub Taxonomy);
 
 impl Enemy {
     pub fn spawn(
-        commands: &mut Commands, enemy_type: Taxonomy, name: Option<String>,
-        location: Vec2
+        commands: &mut Commands,
+        enemy_type: Taxonomy,
+        name: Option<String>,
+        location: Vec2,
+        velocity: Vec2
     ) {
         commands.spawn((
             Name(name.unwrap_or("Enemy".to_string())),
             Health(enemy_type.health()),
             Strength(enemy_type.strength()),
-            AssetPath(enemy_type.image_path()),
+            enemy_type.asset(),
             Transform::from_xyz(location.x, location.y, 0.0),
             GlobalTransform::IDENTITY,
             Gravity,
-            Movable::new(),
-            Enemy(enemy_type)
+            Movable::from(location, velocity),
+            Collider::AABB(Aabb2d::new(
+                Vec2 { x: 0.0, y: 0.0 },
+                Vec2 {
+                    x: enemy_type.asset().size().x / 2.0,
+                    y: enemy_type.asset().size().y / 2.0
+                }
+            ))
         ));
     }
 }
@@ -57,14 +68,13 @@ impl Taxonomy {
         }
     }
 
-    pub fn image_path(&self) -> String {
+    pub fn asset(&self) -> SpritePaths {
         match self {
             Taxonomy::Human => SpritePaths::ENEMY,
             Taxonomy::Dwarf => SpritePaths::ENEMY,
             Taxonomy::Elf => SpritePaths::ENEMY,
-            Taxonomy::NontrivialSolution => SpritePaths::ENEMY
+            Taxonomy::NontrivialSolution => SpritePaths::ENEMY,
         }
-        .into()
     }
 }
 

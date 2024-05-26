@@ -100,6 +100,17 @@ pub enum Collider {
     AABB(Aabb2d)
 }
 
+impl Collider {
+    pub fn set_size(&mut self, size: Vec2) {
+        match self {
+            Collider::AABB(aabb) => {
+                aabb.max = aabb.center() + size / 2.;
+                aabb.min = aabb.center() - size / 2.;
+            }
+        }
+    }
+}
+
 #[derive(Event, Default)]
 struct CollisionEvent;
 

@@ -50,6 +50,7 @@
     "org.rust.disableDetachedFileInspection/home/sloth/Programming/Rust/TrivialQuest/src/objects/entities/shared_components.rs": "true",
     "org.rust.disableDetachedFileInspection/home/sloth/Programming/Rust/TrivialQuest/src/player/player.rs": "true",
     "org.rust.disableDetachedFileInspection/home/sloth/Programming/Rust/TrivialQuest/src/plugins/hello.rs": "true",
+    "org.rust.disableDetachedFileInspection/home/sloth/Programming/Rust/TrivialQuest/src/plugins/render.rs": "true",
     "org.rust.first.attach.projects": "true",
     "settings.editor.selected.configurable": "preferences.pluginManager"
   }

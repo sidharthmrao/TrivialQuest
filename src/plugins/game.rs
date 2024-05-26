@@ -6,8 +6,10 @@ use crate::plugins::game::{
     objects::platform::Platform
 };
 use bevy::prelude::*;
+use crate::plugins::game::objects::platform::PlatformType;
+use crate::plugins::game::shared::SpritePaths;
 
-use super::physics::Movable;
+use super::physics::{Collider, Movable};
 
 pub mod entities;
 pub mod objects;
@@ -42,10 +44,19 @@ fn setup_game(mut commands: Commands) {
     );
 
     // Make enemy
-    Enemy::spawn(&mut commands, Taxonomy::Human, None, Vec2::new(-20.0, 80.0));
+    Enemy::spawn(&mut commands, Taxonomy::Human, None, Vec2::new(-20.0, 80.0), Vec2::new(0.0, 0.0));
 
-    // Make platform
-    Platform::spawn(&mut commands, Vec2::new(0.0, 0.0), 200.0, 100.0);
+    Platform::spawn(
+        &mut commands,
+        Vec2::new(0.0, -100.0),
+        PlatformType::Grass
+    );
+
+    Platform::spawn(
+        &mut commands,
+        Vec2::new(18.0, -100.0),
+        PlatformType::Grass
+    );
 }
 
 /// Moves the player left or right when the arrow keys are pressed.
@@ -73,10 +84,19 @@ pub fn move_player(
     movable.pos_mut().x += direction * PLAYER_SPEED * time.delta_seconds();
 }
 
+pub fn update_collider(
+    mut objects: Query<(&SpritePaths, &mut Collider), Changed<SpritePaths>>
+) {
+    for (sprite, mut collider) in objects.iter_mut() {
+        collider.set_size(sprite.size());
+    }
+}
+
 impl Plugin for GamePlugin {
     fn build(&self, app: &mut App) {
         app.insert_resource(ClearColor(BACKGROUND_COLOR));
         app.add_systems(Startup, setup_game);
         app.add_systems(Update, move_player);
+        app.add_systems(PostUpdate, update_collider);
     }
 }
