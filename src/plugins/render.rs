@@ -48,16 +48,16 @@ impl Asset {
     }
 }
 
-/// Sets how much to zoom the camera. The default zoom is 1.0. A zoom of 2.0 will make objects
-/// appear twice as small.
+/// Sets how much to zoom the [`MainCamera`]. The default zoom is 1.0. A zoom of 2.0 will make
+/// objects appear twice as small.
 #[derive(Resource)]
 pub struct CameraZoom {
-    pub(crate) zoom: f32
+    pub zoom: f32
 }
 
 
-/// Zooms the [`MainCamera`] based on the [`CameraZoom`] resource.
-pub fn zoom_camera(
+// Zooms the MainCamera based on the CameraZoom resource.
+fn zoom_camera(
     camera_zoom: Res<CameraZoom>,
     mut camera_query: Query<&mut OrthographicProjection, With<MainCamera>>,
 ) {
