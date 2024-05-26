@@ -228,6 +228,8 @@
 <a href="#228" id="228">228</a>
 <a href="#229" id="229">229</a>
 <a href="#230" id="230">230</a>
+<a href="#231" id="231">231</a>
+<a href="#232" id="232">232</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Author: Ethan
 //!
 //! Physics are an essential part of any video game. This plugin handles basic
@@ -327,7 +329,9 @@
 
 <span class="attr">#[derive(Component)]
 </span><span class="kw">pub enum </span>Collider {
-    AABB(Aabb2d)
+    <span class="doccomment">/// The bounding box is relative to the current transform of the player, so
+    /// typically the box passed here will be centered at `Vec2::ZERO`.
+    </span>AABB(Aabb2d)
 }
 
 <span class="kw">impl </span>Collider {
@@ -428,8 +432,8 @@
                                 <span class="comment">// Left side of fixed_aabb is intersecting
                                 </span>new_pos.x = f32::min(
                                     new_pos.x,
-                                    mover_aabb.center().x
-                                        - mover_aabb.half_size().x
+                                    fixed_aabb.center().x
+                                        - fixed_aabb.half_size().x
                                         - mover_aabb.half_size().x
                                 );
                             }
