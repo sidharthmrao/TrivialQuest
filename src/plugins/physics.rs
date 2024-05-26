@@ -97,6 +97,8 @@ pub struct Fixed;
 
 #[derive(Component)]
 pub enum Collider {
+    /// The bounding box is relative to the current transform of the player, so
+    /// typically the box passed here will be centered at `Vec2::ZERO`.
     AABB(Aabb2d)
 }
 
@@ -198,8 +200,8 @@ fn move_and_collide(
                                 // Left side of fixed_aabb is intersecting
                                 new_pos.x = f32::min(
                                     new_pos.x,
-                                    mover_aabb.center().x
-                                        - mover_aabb.half_size().x
+                                    fixed_aabb.center().x
+                                        - fixed_aabb.half_size().x
                                         - mover_aabb.half_size().x
                                 );
                             }
