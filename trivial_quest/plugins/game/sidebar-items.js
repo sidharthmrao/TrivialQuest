@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"fn":["handle_player_space","move_player_left_right"],"mod":["config","entities","objects"],"struct":["GamePlugin","Health","Name","Strength"]};
+window.SIDEBAR_ITEMS = {"fn":["handle_player_space","move_player_left_right"],"mod":["config","entities","level","objects"],"struct":["GamePlugin","Health","Name","Strength"]};

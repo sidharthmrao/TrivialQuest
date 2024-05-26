@@ -169,16 +169,16 @@
     }
 }
 
-<span class="doccomment">/// Sets how much to zoom the camera. The default zoom is 1.0. A zoom of 2.0 will make objects
-/// appear twice as small.
+<span class="doccomment">/// Sets how much to zoom the [`MainCamera`]. The default zoom is 1.0. A zoom of 2.0 will make
+/// objects appear twice as small.
 </span><span class="attr">#[derive(Resource)]
 </span><span class="kw">pub struct </span>CameraZoom {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) zoom: f32
+    <span class="kw">pub </span>zoom: f32
 }
 
 
-<span class="doccomment">/// Zooms the [`MainCamera`] based on the [`CameraZoom`] resource.
-</span><span class="kw">pub fn </span>zoom_camera(
+<span class="comment">// Zooms the MainCamera based on the CameraZoom resource.
+</span><span class="kw">fn </span>zoom_camera(
     camera_zoom: Res&lt;CameraZoom&gt;,
     <span class="kw-2">mut </span>camera_query: Query&lt;<span class="kw-2">&amp;mut </span>OrthographicProjection, With&lt;MainCamera&gt;&gt;,
 ) {

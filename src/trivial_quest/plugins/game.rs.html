@@ -136,14 +136,22 @@
 <a href="#136" id="136">136</a>
 <a href="#137" id="137">137</a>
 <a href="#138" id="138">138</a>
+<a href="#139" id="139">139</a>
+<a href="#140" id="140">140</a>
+<a href="#141" id="141">141</a>
+<a href="#142" id="142">142</a>
+<a href="#143" id="143">143</a>
+<a href="#144" id="144">144</a>
+<a href="#145" id="145">145</a>
 </pre></div><pre class="rust"><code><span class="kw">pub mod </span>config;
 <span class="kw">pub mod </span>entities;
 <span class="kw">pub mod </span>objects;
+<span class="kw">pub mod </span>level;
 
 <span class="kw">use </span><span class="self">self</span>::entities::player::PLAYER_JUMP;
 
 <span class="kw">use </span><span class="kw">super</span>::physics::{
-    collider::Hitbox, movement::CollisionEvent, PhysicsObject
+    movement::CollisionEvent, PhysicsObject
 };
 <span class="kw">use </span><span class="kw">crate</span>::plugins::{
     game::{
@@ -158,6 +166,7 @@
     render::{Asset}
 };
 <span class="kw">use </span>bevy::prelude::<span class="kw-2">*</span>;
+<span class="kw">use </span><span class="kw">crate</span>::plugins::game::level::load_objects;
 <span class="kw">use </span><span class="kw">crate</span>::plugins::render::CameraZoom;
 
 <span class="kw">pub struct </span>GamePlugin;
@@ -173,55 +182,55 @@
 
 <span class="kw">fn </span>setup_game(<span class="kw-2">mut </span>commands: Commands) {
     <span class="comment">// Make player
-    </span>Player::spawn(
-        <span class="kw-2">&amp;mut </span>commands,
-        <span class="string">"Player"</span>.into(),
-        <span class="number">100</span>,
-        <span class="number">10</span>,
-        Vec2::new(<span class="number">20.0</span>, <span class="number">80.0</span>),
-        Vec2::new(<span class="number">1.0</span>, <span class="number">1.0</span>),
-        Vec2::new(<span class="number">0.0</span>, <span class="number">0.0</span>)
-    );
+    // Player::spawn(
+    //     &amp;mut commands,
+    //     "Player".into(),
+    //     100,
+    //     10,
+    //     Vec2::new(20.0, 80.0),
+    //     Vec2::new(1.0, 1.0),
+    //     Vec2::new(0.0, 0.0)
+    // );
 
-    <span class="comment">// Make enemy
-    </span>Enemy::spawn(
-        <span class="kw-2">&amp;mut </span>commands,
-        Taxonomy::Human,
-        <span class="prelude-val">None</span>,
-        Vec2::new(-<span class="number">20.0</span>, <span class="number">80.0</span>),
-        Vec2::new(<span class="number">1.</span>, <span class="number">1.</span>),
-        Vec2::new(<span class="number">0.0</span>, <span class="number">0.0</span>)
-    );
+    // Make enemy
+    // Enemy::spawn(
+    //     &amp;mut commands,
+    //     Taxonomy::Human,
+    //     None,
+    //     Vec2::new(-20.0, 80.0),
+    //     Vec2::new(1., 1.),
+    //     Vec2::new(0.0, 0.0)
+    // );
 
-    Platform::spawn(
-        <span class="kw-2">&amp;mut </span>commands,
-        Vec2::new(<span class="number">0.0</span>, -<span class="number">100.0</span>),
-        PlatformType::Grass,
-        Vec2::new(<span class="number">1.0</span>, <span class="number">1.0</span>)
-    );
+    // Platform::spawn(
+    //     &amp;mut commands,
+    //     Vec2::new(0.0, -100.0),
+    //     PlatformType::Grass,
+    //     Vec2::new(1.0, 1.0)
+    // );
+    //
+    // Platform::spawn(
+    //     &amp;mut commands,
+    //     Vec2::new(18.0, -100.0),
+    //     PlatformType::Grass,
+    //     Vec2::new(1.0, 1.0)
+    // );
+    //
+    // Platform::spawn(
+    //     &amp;mut commands,
+    //     Vec2::new(-18.0, -118.0),
+    //     PlatformType::Grass,
+    //     Vec2::new(1.0, 1.0)
+    // );
+    //
+    // Platform::spawn(
+    //     &amp;mut commands,
+    //     Vec2::new(36.0, -118.0),
+    //     PlatformType::Grass,
+    //     Vec2::new(1.0, 1.0)
+    // );
 
-    Platform::spawn(
-        <span class="kw-2">&amp;mut </span>commands,
-        Vec2::new(<span class="number">18.0</span>, -<span class="number">100.0</span>),
-        PlatformType::Grass,
-        Vec2::new(<span class="number">1.0</span>, <span class="number">1.0</span>)
-    );
-
-    Platform::spawn(
-        <span class="kw-2">&amp;mut </span>commands,
-        Vec2::new(-<span class="number">18.0</span>, -<span class="number">118.0</span>),
-        PlatformType::Grass,
-        Vec2::new(<span class="number">1.0</span>, <span class="number">1.0</span>)
-    );
-
-    Platform::spawn(
-        <span class="kw-2">&amp;mut </span>commands,
-        Vec2::new(<span class="number">36.0</span>, -<span class="number">118.0</span>),
-        PlatformType::Grass,
-        Vec2::new(<span class="number">1.0</span>, <span class="number">1.0</span>)
-    );
-
-    commands.insert_resource(CameraZoom { zoom: <span class="number">0.5 </span>});
+    </span>commands.insert_resource(CameraZoom { zoom: <span class="number">0.5 </span>});
 }
 
 <span class="doccomment">/// Moves the player left or right when the arrow keys are pressed.
@@ -253,6 +262,10 @@
     <span class="kw-2">mut </span>query: Query&lt;(<span class="kw-2">&amp;mut </span>Movable, <span class="kw-2">&amp;</span>PhysicsObject), With&lt;Player&gt;&gt;,
     time: Res&lt;Time&gt;
 ) {
+    <span class="kw">if </span>query.iter().count() != <span class="number">1 </span>{
+        <span class="kw">return</span>;
+    }
+
     <span class="kw">let </span>(<span class="kw-2">mut </span>movable, player) = query.single_mut();
 
     <span class="kw">if </span>keyboard_input.pressed(KeyCode::Space) {
@@ -272,6 +285,7 @@
         app.add_systems(Startup, setup_game);
         app.add_systems(Update, move_player_left_right);
         app.add_systems(Update, handle_player_space);
+        app.add_systems(Startup, load_objects);
     }
 }
 </code></pre></div></section></main></body></html>

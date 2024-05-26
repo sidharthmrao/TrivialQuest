@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"fn":["zoom_camera"],"struct":["Asset","CameraFollow","CameraZoom","MainCamera","RenderPlugin"]};
+window.SIDEBAR_ITEMS = {"struct":["Asset","CameraFollow","CameraZoom","MainCamera","RenderPlugin"]};
