@@ -6,7 +6,7 @@ use crate::{
             collider::{Collider, ColliderBehavior, Hitbox},
             FixedPhysicsObject, PhysicsObject
         },
-        render::{Asset, Scale}
+        render::{Asset}
     }
 };
 use bevy::prelude::*;
@@ -22,12 +22,15 @@ impl Platform {
         commands: &mut Commands, location: Vec2, platform_type: PlatformType,
         scale: Vec2
     ) {
+        println!("Spawning platform at ({}, {}) with scale ({}, {})", location.x, location.y, scale.x, scale.y);
+        println!("Hitbox size: ({}, {})", platform_type.asset().size.x / 2.0 * scale.x, platform_type.asset().size.y / 2.0 * scale.y);
+
         commands.spawn((
             platform_type.asset(),
-            Transform::from_xyz(location.x, location.y, 0.0),
+            Transform::from_xyz(location.x, location.y, 0.0).with_scale(
+                Vec3::new(scale.x, scale.y, 1.0)),
             GlobalTransform::IDENTITY,
             Platform,
-            Scale(scale),
             FixedPhysicsObject::from(
                 PhysicsObject::UniqueNameAndNumber(
                     "platform".into(),
@@ -35,8 +38,8 @@ impl Platform {
                 ),
                 Collider::from(
                     Hitbox::from_size(
-                        platform_type.asset().size.x / 2.0,
-                        platform_type.asset().size.y / 2.0
+                        platform_type.asset().size.x / 2.0 * scale.x,
+                        platform_type.asset().size.y / 2.0 * scale.y
                     ),
                     ColliderBehavior::Solid
                 )

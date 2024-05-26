@@ -48,9 +48,28 @@ impl Asset {
     }
 }
 
-/// Scale of a sprite (default (1, 1)).
-#[derive(Component)]
-pub struct Scale(pub Vec2);
+/// Sets how much to zoom the camera. The default zoom is 1.0. A zoom of 2.0 will make objects
+/// appear twice as small.
+#[derive(Resource)]
+pub struct CameraZoom {
+    pub(crate) zoom: f32
+}
+
+
+/// Zooms the [`MainCamera`] based on the [`CameraZoom`] resource.
+pub fn zoom_camera(
+    camera_zoom: Res<CameraZoom>,
+    mut camera_query: Query<&mut OrthographicProjection, With<MainCamera>>,
+) {
+    match camera_query.iter().count() {
+        0 => return,
+        1 => (),
+        _ => panic!("There can be at most one entity with the MainCamera component.")
+    }
+
+    let mut projection = camera_query.single_mut();
+    projection.scale = camera_zoom.zoom;
+}
 
 // Initializes the main camera as a 2D camera.
 fn setup_camera(mut commands: Commands) {
@@ -73,25 +92,19 @@ fn camera_follow_player(
     camera_transform.translation = transform.translation;
 }
 
-// Loads sprites from AssetPath components.
-fn make_sprites(
+// Loads sprites from Asset components.
+fn update_sprites(
     mut commands: Commands,
     asset_server: Res<AssetServer>,
-    // Only process entities with an AssetPath or Scale component that has changed.
-    objects: Query<(Entity, &Asset, &mut Transform, &Scale), Or<(Changed<Asset>, Changed<Scale>)>>
+    // Only process entities with a changed Asset component.
+    objects: Query<(Entity, &Asset, &Transform), Changed<Asset>>
 ) {
-    for (entity, sprite, transform, scale) in objects.iter() {
+    for (entity, sprite, transform) in objects.iter() {
         // Remove the old Transform component and insert a SpriteBundle
         // component.
-        let transform_ = Transform {
-            translation: transform.translation,
-            rotation: transform.rotation,
-            scale: Vec3::new(scale.0.x, scale.0.y, 1.0),
-        };
-
         commands.entity(entity).insert(SpriteBundle {
             texture: asset_server.load(sprite.path.clone()),
-            transform: transform_,
+            transform: *transform,
             global_transform: GlobalTransform::IDENTITY,
             ..default()
         });
@@ -101,7 +114,8 @@ fn make_sprites(
 impl Plugin for RenderPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(Startup, setup_camera);
-        app.add_systems(Update, make_sprites);
+        app.add_systems(Update, update_sprites);
         app.add_systems(PostUpdate, camera_follow_player);
+        app.add_systems(PostUpdate, zoom_camera);
     }
 }
