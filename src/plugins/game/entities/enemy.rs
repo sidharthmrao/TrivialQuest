@@ -4,7 +4,7 @@ use bevy::math::bounding::Aabb2d;
 use crate::plugins::{
     game::{config::SpritePaths, Health, Name, Strength},
     physics::{Gravity, Movable},
-    render::AssetPath
+    render::{Asset}
 };
 use bevy::prelude::*;
 use crate::plugins::physics::Collider;
@@ -32,8 +32,8 @@ impl Enemy {
             Collider::AABB(Aabb2d::new(
                 Vec2 { x: 0.0, y: 0.0 },
                 Vec2 {
-                    x: enemy_type.asset().size().x / 2.0,
-                    y: enemy_type.asset().size().y / 2.0
+                    x: enemy_type.asset().size.x / 2.0,
+                    y: enemy_type.asset().size.y / 2.0
                 }
             ))
         ));
@@ -68,12 +68,12 @@ impl Taxonomy {
         }
     }
 
-    pub fn asset(&self) -> SpritePaths {
+    pub fn asset(&self) -> Asset {
         match self {
-            Taxonomy::Human => SpritePaths::ENEMY,
-            Taxonomy::Dwarf => SpritePaths::ENEMY,
-            Taxonomy::Elf => SpritePaths::ENEMY,
-            Taxonomy::NontrivialSolution => SpritePaths::ENEMY,
+            Taxonomy::Human => SpritePaths::ENEMY.asset(),
+            Taxonomy::Dwarf => SpritePaths::ENEMY.asset(),
+            Taxonomy::Elf => SpritePaths::ENEMY.asset(),
+            Taxonomy::NontrivialSolution => SpritePaths::ENEMY.asset(),
         }
     }
 }

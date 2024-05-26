@@ -2,7 +2,7 @@ use std::fmt::Display;
 use crate::plugins::physics::{Collider, Fixed};
 use bevy::{math::bounding::Aabb2d, prelude::*};
 use crate::plugins::game::config::SpritePaths;
-use crate::plugins::render::AssetPath;
+use crate::plugins::render::Asset;
 
 pub const PLATFORM_COLOR: Color = Color::rgb(0.0, 0.0, 0.0);
 
@@ -24,8 +24,8 @@ impl Platform {
             Collider::AABB(Aabb2d::new(
                 Vec2 { x: 0.0, y: 0.0 },
                 Vec2 {
-                    x: platform_type.asset().size().x / 2.0,
-                    y: platform_type.asset().size().y / 2.0
+                    x: platform_type.asset().size.x / 2.0,
+                    y: platform_type.asset().size.y / 2.0
                 }
             ))
         ));
@@ -38,9 +38,9 @@ pub enum PlatformType {
 }
 
 impl PlatformType {
-    pub fn asset(&self) -> SpritePaths {
+    pub fn asset(&self) -> Asset {
         match self {
-            PlatformType::Grass => SpritePaths::GRASS,
+            PlatformType::Grass => SpritePaths::GRASS.asset(),
         }
     }
 }

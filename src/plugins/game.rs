@@ -8,6 +8,7 @@ use crate::plugins::game::{
 use bevy::prelude::*;
 use crate::plugins::game::objects::platform::PlatformType;
 use crate::plugins::game::config::{BACKGROUND_COLOR, PLAYER_HORIZONTAL_MOVEMENT_SPEED, SpritePaths};
+use crate::plugins::render::Asset;
 
 use super::physics::{Collider, Movable};
 
@@ -82,10 +83,10 @@ pub fn move_player(
 }
 
 pub fn update_collider(
-    mut objects: Query<(&SpritePaths, &mut Collider), Changed<SpritePaths>>
+    mut objects: Query<(&Asset, &mut Collider), Changed<Asset>>
 ) {
     for (sprite, mut collider) in objects.iter_mut() {
-        collider.set_size(sprite.size());
+        collider.set_size(sprite.size);
     }
 }
 
