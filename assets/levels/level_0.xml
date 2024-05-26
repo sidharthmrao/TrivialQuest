@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<level adventure="Forgotten Factory">
+    <spawn>
+        <player name="Player"
+                health="100"
+                strength="10"
+                location="0, 0"
+                scale="1.0, 1.0"
+                velocity="0, 0"
+        />
+
+        <enemy name="Enemy"
+               taxonomy="Human"
+               location="-20.0, 80.0"
+               scale="1.0, 1.0"
+               velocity="0.0, 0.0"
+        />
+
+        <platform type="Grass"
+                  location="0, -100"
+                  scale="1.0, 1.0"
+        />
+        
+        <platform type="Grass"
+                  location="18, -100"
+                  scale="1.0, 1.0"
+        />
+        
+        <platform type="Grass"
+                  location="-18, -118"
+                  scale="1.0, 1.0"
+        />
+        
+        <platform type="Grass"
+                  location="36, -118"
+                  scale="1.0, 1.0"
+        />
+    </spawn>
+</level>
