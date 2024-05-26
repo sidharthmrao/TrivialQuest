@@ -1,25 +1,21 @@
 pub mod config;
 pub mod entities;
-pub mod objects;
 pub mod level;
+pub mod objects;
 
 use self::entities::player::PLAYER_JUMP;
 
-use super::physics::{
-    movement::CollisionEvent, PhysicsObject
-};
+use super::physics::{movement::CollisionEvent, PhysicsObject};
 use crate::plugins::{
     game::{
         config::{BACKGROUND_COLOR, PLAYER_HORIZONTAL_MOVEMENT_SPEED},
-        entities::{
-            player::Player
-        },
+        entities::player::Player,
+        level::{load_objects, LevelFile}
     },
     physics::Movable,
+    render::CameraZoom
 };
 use bevy::prelude::*;
-use crate::plugins::game::level::{LevelFile, load_objects};
-use crate::plugins::render::CameraZoom;
 
 pub struct GamePlugin;
 
@@ -32,8 +28,7 @@ pub struct Health(pub u32);
 #[derive(Component)]
 pub struct Strength(pub u32);
 
-fn setup_game() {
-}
+fn setup_game() {}
 
 /// Moves the player left or right when the arrow keys are pressed.
 pub fn move_player_left_right(
@@ -85,7 +80,9 @@ impl Plugin for GamePlugin {
     fn build(&self, app: &mut App) {
         app.insert_resource(ClearColor(BACKGROUND_COLOR));
         app.insert_resource(CameraZoom { zoom: 0.5 });
-        app.insert_resource(LevelFile { path: "assets/levels/level_0.xml".into() });
+        app.insert_resource(LevelFile {
+            path: "assets/levels/level_0.xml".into()
+        });
         app.add_systems(Startup, setup_game);
         app.add_systems(Startup, load_objects);
         app.add_systems(Update, move_player_left_right);

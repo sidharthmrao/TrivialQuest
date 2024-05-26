@@ -1,3 +1,7 @@
+use std::fmt::Display;
+
+use bevy::prelude::*;
+
 use crate::{
     id::Gen,
     plugins::{
@@ -6,11 +10,9 @@ use crate::{
             collider::{Collider, ColliderBehavior, Hitbox},
             FixedPhysicsObject, PhysicsObject
         },
-        render::{Asset}
+        render::Asset
     }
 };
-use bevy::prelude::*;
-use std::fmt::Display;
 
 pub const PLATFORM_COLOR: Color = Color::rgb(0.0, 0.0, 0.0);
 
@@ -22,13 +24,20 @@ impl Platform {
         commands: &mut Commands, location: Vec2, platform_type: PlatformType,
         scale: Vec2
     ) {
-        println!("Spawning platform at ({}, {}) with scale ({}, {})", location.x, location.y, scale.x, scale.y);
-        println!("Hitbox size: ({}, {})", platform_type.asset().size.x / 2.0 * scale.x, platform_type.asset().size.y / 2.0 * scale.y);
+        println!(
+            "Spawning platform at ({}, {}) with scale ({}, {})",
+            location.x, location.y, scale.x, scale.y
+        );
+        println!(
+            "Hitbox size: ({}, {})",
+            platform_type.asset().size.x / 2.0 * scale.x,
+            platform_type.asset().size.y / 2.0 * scale.y
+        );
 
         commands.spawn((
             platform_type.asset(),
-            Transform::from_xyz(location.x, location.y, 0.0).with_scale(
-                Vec3::new(scale.x, scale.y, 1.0)),
+            Transform::from_xyz(location.x, location.y, 0.0)
+                .with_scale(Vec3::new(scale.x, scale.y, 1.0)),
             GlobalTransform::IDENTITY,
             Platform,
             FixedPhysicsObject::from(

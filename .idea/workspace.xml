@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AnalysisUIOptions">
+    <option name="ANALYZE_INJECTED_CODE" value="false" />
+  </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="ALL" />
   </component>
@@ -7,7 +10,16 @@
     <cargoProject FILE="$PROJECT_DIR$/Cargo.toml" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d43c63cb-5fda-467d-8d42-1170bd3c17a1" name="Changes" comment="" />
+    <list default="true" id="d43c63cb-5fda-467d-8d42-1170bd3c17a1" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/levels/level_0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/assets/levels/level_0.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/plugins/game.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/plugins/game.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/plugins/game/entities/enemy.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/plugins/game/entities/enemy.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/plugins/game/entities/player.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/plugins/game/entities/player.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/plugins/game/level.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/plugins/game/level.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/plugins/game/objects/platform.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/plugins/game/objects/platform.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/plugins/render.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/plugins/render.rs" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -38,7 +50,7 @@
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.rust.reset.selective.auto.import": "true",
-    "git-widget-placeholder": "render",
+    "git-widget-placeholder": "main",
     "last_opened_file_path": "/home/sloth/Programming/Rust/TrivialQuest",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -52,7 +64,8 @@
     "org.rust.disableDetachedFileInspection/home/sloth/Programming/Rust/TrivialQuest/src/plugins/hello.rs": "true",
     "org.rust.disableDetachedFileInspection/home/sloth/Programming/Rust/TrivialQuest/src/plugins/render.rs": "true",
     "org.rust.first.attach.projects": "true",
-    "settings.editor.selected.configurable": "preferences.pluginManager"
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "project.propVCSSupport.CommitDialog"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -67,6 +80,9 @@
   </component>
   <component name="RustProjectSettings">
     <option name="toolchainHomeDirectory" value="/usr/bin" />
+  </component>
+  <component name="RustfmtProjectSettings">
+    <option name="useRustfmt" value="true" />
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -84,6 +100,7 @@
       <workItem from="1716520769294" duration="11266000" />
       <workItem from="1716587157541" duration="3303000" />
       <workItem from="1716664330982" duration="4162000" />
+      <workItem from="1716712363868" duration="68000" />
     </task>
     <servers />
   </component>
@@ -100,5 +117,8 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
 </project>

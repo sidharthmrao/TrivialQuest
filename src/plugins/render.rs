@@ -44,27 +44,31 @@ pub struct Asset {
 impl Asset {
     /// Creates a new asset with the given path and size.
     pub fn new(path: &str, size: Vec2) -> Self {
-        Self { path: path.into(), size }
+        Self {
+            path: path.into(),
+            size
+        }
     }
 }
 
-/// Sets how much to zoom the [`MainCamera`]. The default zoom is 1.0. A zoom of 2.0 will make
-/// objects appear twice as small.
+/// Sets how much to zoom the [`MainCamera`]. The default zoom is 1.0. A zoom of
+/// 2.0 will make objects appear twice as small.
 #[derive(Resource)]
 pub struct CameraZoom {
     pub zoom: f32
 }
 
-
 // Zooms the MainCamera based on the CameraZoom resource.
 fn zoom_camera(
     camera_zoom: Res<CameraZoom>,
-    mut camera_query: Query<&mut OrthographicProjection, With<MainCamera>>,
+    mut camera_query: Query<&mut OrthographicProjection, With<MainCamera>>
 ) {
     match camera_query.iter().count() {
         0 => return,
         1 => (),
-        _ => panic!("There can be at most one entity with the MainCamera component.")
+        _ => panic!(
+            "There can be at most one entity with the MainCamera component."
+        )
     }
 
     let mut projection = camera_query.single_mut();

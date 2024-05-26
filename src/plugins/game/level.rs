@@ -1,22 +1,22 @@
 //! Author: Sidharth Rao
 //!
-//! The level mod handles loading levels from XML files. It uses the `xml` crate to parse xml
-//! files and then deserialize them into game objects of [`ObjectType`]. The game objects are then
-//! spawned.
+//! The level mod handles loading levels from XML files. It uses the `xml` crate
+//! to parse xml files and then deserialize them into game objects of
+//! [`ObjectType`]. The game objects are then spawned.
 //!
-//! To load a level, first set the [`LevelFile`] resource to the path of the level file. Then,
-//! schedule the [`load_objects`] function.
+//! To load a level, first set the [`LevelFile`] resource to the path of the
+//! level file. Then, schedule the [`load_objects`] function.
 
-use std::fmt::Debug;
-use std::fs::File;
-use std::io::BufReader;
-use bevy::log::Level;
-use bevy::math::Vec2;
-use bevy::prelude::{Commands, Res, Resource};
+use bevy::{
+    math::Vec2,
+    prelude::{Commands, Res, Resource}
+};
+use std::{fmt::Debug, fs::File, io::BufReader};
 
+use crate::plugins::game::{
+    entities::enemy::Taxonomy, objects::platform::PlatformType
+};
 use xml::reader::{EventReader, XmlEvent};
-use crate::plugins::game::entities::enemy::Taxonomy;
-use crate::plugins::game::objects::platform::PlatformType;
 
 #[derive(Debug)]
 struct Player {
@@ -59,7 +59,10 @@ impl ObjectType {
         }
     }
 
-    fn handle(&self, commands: &mut Commands, attributes: Vec<xml::attribute::OwnedAttribute>) {
+    fn handle(
+        &self, commands: &mut Commands,
+        attributes: Vec<xml::attribute::OwnedAttribute>
+    ) {
         match self {
             ObjectType::Player => {
                 let mut player = Player {
@@ -75,7 +78,9 @@ impl ObjectType {
                     match attr.name.local_name.as_str() {
                         "name" => player.name = attr.value,
                         "health" => player.health = attr.value.parse().unwrap(),
-                        "strength" => player.strength = attr.value.parse().unwrap(),
+                        "strength" => {
+                            player.strength = attr.value.parse().unwrap()
+                        }
                         "location" => {
                             let mut split = attr.value.split(", ");
 
@@ -83,21 +88,21 @@ impl ObjectType {
                                 split.next().unwrap().parse().unwrap(),
                                 split.next().unwrap().parse().unwrap()
                             );
-                        },
+                        }
                         "scale" => {
                             let mut split = attr.value.split(", ");
                             player.scale = (
                                 split.next().unwrap().parse().unwrap(),
                                 split.next().unwrap().parse().unwrap()
                             );
-                        },
+                        }
                         "velocity" => {
                             let mut split = attr.value.split(", ");
                             player.velocity = (
                                 split.next().unwrap().parse().unwrap(),
                                 split.next().unwrap().parse().unwrap()
                             );
-                        },
+                        }
                         _ => {}
                     }
                 }
@@ -111,7 +116,7 @@ impl ObjectType {
                     Vec2::new(player.scale.0, player.scale.1),
                     Vec2::new(player.velocity.0, player.velocity.1)
                 );
-            },
+            }
             ObjectType::Enemy => {
                 let mut enemy = Enemy {
                     name: String::new(),
@@ -124,7 +129,11 @@ impl ObjectType {
                 for attr in attributes {
                     match attr.name.local_name.as_str() {
                         "name" => enemy.name = attr.value,
-                        "taxonomy" => enemy.taxonomy = Taxonomy::from_string(attr.value.as_str()).unwrap(),
+                        "taxonomy" => {
+                            enemy.taxonomy =
+                                Taxonomy::from_string(attr.value.as_str())
+                                    .unwrap()
+                        }
                         "location" => {
                             let mut split = attr.value.split(", ");
 
@@ -132,21 +141,21 @@ impl ObjectType {
                                 split.next().unwrap().parse().unwrap(),
                                 split.next().unwrap().parse().unwrap()
                             );
-                        },
+                        }
                         "scale" => {
                             let mut split = attr.value.split(", ");
                             enemy.scale = (
                                 split.next().unwrap().parse().unwrap(),
                                 split.next().unwrap().parse().unwrap()
                             );
-                        },
+                        }
                         "velocity" => {
                             let mut split = attr.value.split(", ");
                             enemy.velocity = (
                                 split.next().unwrap().parse().unwrap(),
                                 split.next().unwrap().parse().unwrap()
                             );
-                        },
+                        }
                         _ => {}
                     }
                 }
@@ -176,16 +185,19 @@ impl ObjectType {
                                 split.next().unwrap().parse().unwrap(),
                                 split.next().unwrap().parse().unwrap()
                             );
-                        },
-                        "type" => platform.platform_type = PlatformType::from_string(attr.value
-                            .as_str()).unwrap(),
+                        }
+                        "type" => {
+                            platform.platform_type =
+                                PlatformType::from_string(attr.value.as_str())
+                                    .unwrap()
+                        }
                         "scale" => {
                             let mut split = attr.value.split(", ");
                             platform.scale = (
                                 split.next().unwrap().parse().unwrap(),
                                 split.next().unwrap().parse().unwrap()
                             );
-                        },
+                        }
                         _ => {}
                     }
                 }
@@ -216,7 +228,7 @@ impl Default for LevelFile {
     }
 }
 
-pub fn load_objects(mut commands: Commands, level_file: Res<LevelFile>)  {
+pub fn load_objects(mut commands: Commands, level_file: Res<LevelFile>) {
     println!("Loading level from {}", level_file.path.as_str());
     let file = File::open(level_file.path.as_str()).unwrap();
     let file = BufReader::new(file);
@@ -225,8 +237,11 @@ pub fn load_objects(mut commands: Commands, level_file: Res<LevelFile>)  {
 
     for event in parser {
         match event {
-            Ok(XmlEvent::StartElement { name, attributes, .. }) => {
-                ObjectType::from_string(name.local_name.as_str()).handle(&mut commands, attributes);
+            Ok(XmlEvent::StartElement {
+                name, attributes, ..
+            }) => {
+                ObjectType::from_string(name.local_name.as_str())
+                    .handle(&mut commands, attributes);
             }
             Err(e) => {
                 println!("Error: {}", e);

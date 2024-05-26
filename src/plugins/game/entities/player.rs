@@ -3,10 +3,9 @@ use crate::plugins::{
     physics::{
         collider::{Collider, ColliderBehavior, Hitbox},
         MovablePhysicsObject, PhysicsObject
-    },
+    }
 };
-use bevy::prelude::*;
-use bevy::utils::info;
+use bevy::{prelude::*, utils::info};
 
 pub const PLAYER_JUMP: f32 = 1000.0;
 
@@ -19,16 +18,19 @@ impl Player {
         location: Vec2, scale: Vec2, velocity: Vec2
     ) {
         info("Spawning player");
-        println!("Spawning player at ({}, {}) with scale ({}, {})", location.x, location.y, scale.x, scale.y);
-        
+        println!(
+            "Spawning player at ({}, {}) with scale ({}, {})",
+            location.x, location.y, scale.x, scale.y
+        );
+
         commands.spawn((
             Player,
             Name(name),
             Health(health),
             Strength(strength),
             SpritePaths::PLAYER.asset(),
-            Transform::from_xyz(location.x, location.y, 0.0).with_scale(
-                Vec3::new(scale.x, scale.y, 1.0)),
+            Transform::from_xyz(location.x, location.y, 0.0)
+                .with_scale(Vec3::new(scale.x, scale.y, 1.0)),
             GlobalTransform::IDENTITY,
             // CameraFollow,
             MovablePhysicsObject::from(

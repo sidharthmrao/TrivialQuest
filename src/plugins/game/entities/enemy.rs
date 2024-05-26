@@ -6,7 +6,7 @@ use crate::{
             collider::{Collider, ColliderBehavior, Hitbox},
             MovablePhysicsObject, PhysicsObject
         },
-        render::{Asset}
+        render::Asset
     }
 };
 use bevy::prelude::*;
@@ -25,8 +25,8 @@ impl Enemy {
             Health(enemy_type.health()),
             Strength(enemy_type.strength()),
             enemy_type.asset(),
-            Transform::from_xyz(location.x, location.y, 0.0).with_scale(
-                Vec3::new(scale.x, scale.y, 1.0)),
+            Transform::from_xyz(location.x, location.y, 0.0)
+                .with_scale(Vec3::new(scale.x, scale.y, 1.0)),
             GlobalTransform::IDENTITY,
             MovablePhysicsObject::from(
                 PhysicsObject::UniqueNameAndNumber(
@@ -67,7 +67,7 @@ impl Taxonomy {
             _ => None
         }
     }
-    
+
     pub fn health(&self) -> u32 {
         match self {
             Taxonomy::Human => 100,

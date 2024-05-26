@@ -35,5 +35,20 @@
                   location="36, -118"
                   scale="1.0, 1.0"
         />
+        
+        <platform type="Slime"
+                  location="54, -118"
+                  scale="1.0, 1.0"
+        />
+        
+        <platform type="Slime"
+                  location="72, -118"
+                  scale="1.0, 1.0"
+        />
+        
+        <platform type="Slime"
+                  location="90, -118"
+                  scale="1.0, 10.0"
+        />
     </spawn>
 </level>
