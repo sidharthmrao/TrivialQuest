@@ -1,5 +1,5 @@
 use crate::plugins::{
-    game::{shared::SpritePaths, Health, Name, Strength},
+    game::{config::SpritePaths, Health, Name, Strength},
     physics::{Collider, Gravity, Movable},
     render::{CameraFollow}
 };

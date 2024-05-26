@@ -1,5 +1,8 @@
 use bevy::math::{Vec2, vec2};
-use bevy::prelude::Component;
+use bevy::prelude::{Color, Component};
+
+pub const BACKGROUND_COLOR: Color = Color::rgb(0.9, 0.9, 0.9);
+pub const PLAYER_HORIZONTAL_MOVEMENT_SPEED: f32 = 200.0;
 
 #[derive(Debug, Clone, Copy, Component)]
 pub enum SpritePaths {

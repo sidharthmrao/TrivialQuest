@@ -23,7 +23,7 @@
 
 use bevy::math::bounding::Aabb2d;
 use bevy::prelude::*;
-use crate::plugins::game::shared::SpritePaths;
+use crate::plugins::game::config::SpritePaths;
 
 /// Handles game rendering, texturing, and cameras.
 pub struct RenderPlugin;

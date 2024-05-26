@@ -7,16 +7,13 @@ use crate::plugins::game::{
 };
 use bevy::prelude::*;
 use crate::plugins::game::objects::platform::PlatformType;
-use crate::plugins::game::shared::SpritePaths;
+use crate::plugins::game::config::{BACKGROUND_COLOR, PLAYER_HORIZONTAL_MOVEMENT_SPEED, SpritePaths};
 
 use super::physics::{Collider, Movable};
 
 pub mod entities;
 pub mod objects;
-pub mod shared;
-
-pub const BACKGROUND_COLOR: Color = Color::rgb(0.9, 0.9, 0.9);
-pub const PLAYER_SPEED: f32 = 200.0;
+pub mod config;
 
 pub struct GamePlugin;
 
@@ -81,7 +78,7 @@ pub fn move_player(
         movable.vel_mut().y += 1000.0 * time.delta_seconds();
     }
 
-    movable.pos_mut().x += direction * PLAYER_SPEED * time.delta_seconds();
+    movable.pos_mut().x += direction * PLAYER_HORIZONTAL_MOVEMENT_SPEED * time.delta_seconds();
 }
 
 pub fn update_collider(

@@ -2,7 +2,7 @@ use std::fmt::Display;
 use bevy::math::bounding::Aabb2d;
 
 use crate::plugins::{
-    game::{shared::SpritePaths, Health, Name, Strength},
+    game::{config::SpritePaths, Health, Name, Strength},
     physics::{Gravity, Movable},
     render::AssetPath
 };

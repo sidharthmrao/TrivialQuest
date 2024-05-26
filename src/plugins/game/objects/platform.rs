@@ -1,7 +1,7 @@
 use std::fmt::Display;
 use crate::plugins::physics::{Collider, Fixed};
 use bevy::{math::bounding::Aabb2d, prelude::*};
-use crate::plugins::game::shared::SpritePaths;
+use crate::plugins::game::config::SpritePaths;
 use crate::plugins::render::AssetPath;
 
 pub const PLATFORM_COLOR: Color = Color::rgb(0.0, 0.0, 0.0);
