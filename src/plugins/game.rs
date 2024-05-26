@@ -1,21 +1,21 @@
-use bevy::asset::io::memory::Value::Vec;
-use crate::plugins::game::{
-    entities::{
-        enemy::{Enemy, Taxonomy},
-        player::Player
-    },
-    objects::platform::Platform
-};
-use bevy::prelude::*;
-use crate::plugins::game::objects::platform::PlatformType;
-use crate::plugins::game::config::{BACKGROUND_COLOR, PLAYER_HORIZONTAL_MOVEMENT_SPEED, SpritePaths};
-use crate::plugins::render::{Asset, Scale};
-
-use super::physics::{Collider, Movable};
-
 pub mod entities;
 pub mod objects;
 pub mod config;
+
+use crate::plugins::{
+    game::{
+        entities::{
+            enemy::{Enemy, Taxonomy},
+            player::Player
+        },
+        objects::platform::{Platform, PlatformType},
+        config::{BACKGROUND_COLOR, PLAYER_HORIZONTAL_MOVEMENT_SPEED}
+    },
+    render::{Asset, Scale},
+    physics::{Collider, Movable}
+};
+
+use bevy::prelude::*;
 
 pub struct GamePlugin;
 

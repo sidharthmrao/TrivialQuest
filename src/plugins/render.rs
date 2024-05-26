@@ -21,7 +21,6 @@
 //!     - PostUpdate: Follows the entity (or no entity) with the
 //!       [`CameraFollow`] component.
 
-use bevy::math::bounding::Aabb2d;
 use bevy::prelude::*;
 
 /// Handles game rendering, texturing, and cameras.
@@ -93,6 +92,7 @@ fn make_sprites(
         commands.entity(entity).insert(SpriteBundle {
             texture: asset_server.load(sprite.path.clone()),
             transform: transform_,
+            global_transform: GlobalTransform::IDENTITY,
             ..default()
         });
     }
