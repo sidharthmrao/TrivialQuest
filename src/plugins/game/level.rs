@@ -63,8 +63,6 @@ impl ObjectType {
                 };
 
                 for attr in attributes {
-                    println!("{:?}", attr);
-
                     match attr.name.local_name.as_str() {
                         "name" => player.name = attr.value,
                         "health" => player.health = attr.value.parse().unwrap(),
@@ -115,8 +113,6 @@ impl ObjectType {
                 };
 
                 for attr in attributes {
-                    println!("{:?}", attr);
-
                     match attr.name.local_name.as_str() {
                         "name" => enemy.name = attr.value,
                         "taxonomy" => enemy.taxonomy = Taxonomy::from_string(attr.value.as_str()).unwrap(),
@@ -163,8 +159,6 @@ impl ObjectType {
                 };
 
                 for attr in attributes {
-                    println!("{:?}", attr);
-
                     match attr.name.local_name.as_str() {
                         "location" => {
                             let mut split = attr.value.split(", ");
@@ -174,7 +168,8 @@ impl ObjectType {
                                 split.next().unwrap().parse().unwrap()
                             );
                         },
-                        "platform_type" => platform.platform_type = PlatformType::from_string(attr.value.as_str()).unwrap(),
+                        "type" => platform.platform_type = PlatformType::from_string(attr.value
+                            .as_str()).unwrap(),
                         "scale" => {
                             let mut split = attr.value.split(", ");
                             platform.scale = (
