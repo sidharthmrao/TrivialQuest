@@ -18,7 +18,7 @@ use crate::plugins::{
     physics::Movable,
 };
 use bevy::prelude::*;
-use crate::plugins::game::level::load_objects;
+use crate::plugins::game::level::{LevelFile, load_objects};
 use crate::plugins::render::CameraZoom;
 
 pub struct GamePlugin;
@@ -32,8 +32,7 @@ pub struct Health(pub u32);
 #[derive(Component)]
 pub struct Strength(pub u32);
 
-fn setup_game(mut commands: Commands) {
-    commands.insert_resource(CameraZoom { zoom: 0.5 });
+fn setup_game() {
 }
 
 /// Moves the player left or right when the arrow keys are pressed.
@@ -85,9 +84,11 @@ pub fn handle_player_space(
 impl Plugin for GamePlugin {
     fn build(&self, app: &mut App) {
         app.insert_resource(ClearColor(BACKGROUND_COLOR));
+        app.insert_resource(CameraZoom { zoom: 0.5 });
+        app.insert_resource(LevelFile { path: "assets/levels/level_0.xml".into() });
         app.add_systems(Startup, setup_game);
+        app.add_systems(Startup, load_objects);
         app.add_systems(Update, move_player_left_right);
         app.add_systems(Update, handle_player_space);
-        app.add_systems(Startup, load_objects);
     }
 }

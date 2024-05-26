@@ -1,9 +1,18 @@
+//! Author: Sidharth Rao
+//!
+//! The level mod handles loading levels from XML files. It uses the `xml` crate to parse xml
+//! files and then deserialize them into game objects of [`ObjectType`]. The game objects are then
+//! spawned.
+//!
+//! To load a level, first set the [`LevelFile`] resource to the path of the level file. Then,
+//! schedule the [`load_objects`] function.
+
 use std::fmt::Debug;
 use std::fs::File;
 use std::io::BufReader;
+use bevy::log::Level;
 use bevy::math::Vec2;
-use bevy::prelude::Commands;
-use bevy::utils::info;
+use bevy::prelude::{Commands, Res, Resource};
 
 use xml::reader::{EventReader, XmlEvent};
 use crate::plugins::game::entities::enemy::Taxonomy;
@@ -31,7 +40,7 @@ struct Platform {
     scale: (f32, f32)
 }
 
-enum ObjectType {
+pub enum ObjectType {
     Player,
     Enemy,
     Platform,
@@ -194,8 +203,22 @@ impl ObjectType {
     }
 }
 
-pub fn load_objects(mut commands: Commands)  {
-    let file = File::open("assets/levels/level_0.xml").unwrap();
+#[derive(Debug, Resource)]
+pub struct LevelFile {
+    pub path: String
+}
+
+impl Default for LevelFile {
+    fn default() -> Self {
+        LevelFile {
+            path: "assets/levels/level_0.xml".to_string()
+        }
+    }
+}
+
+pub fn load_objects(mut commands: Commands, level_file: Res<LevelFile>)  {
+    println!("Loading level from {}", level_file.path.as_str());
+    let file = File::open(level_file.path.as_str()).unwrap();
     let file = BufReader::new(file);
 
     let parser = EventReader::new(file);
