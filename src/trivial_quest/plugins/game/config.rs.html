@@ -29,6 +29,11 @@
 <a href="#29" id="29">29</a>
 <a href="#30" id="30">30</a>
 <a href="#31" id="31">31</a>
+<a href="#32" id="32">32</a>
+<a href="#33" id="33">33</a>
+<a href="#34" id="34">34</a>
+<a href="#35" id="35">35</a>
+<a href="#36" id="36">36</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::plugins::render::Asset;
 <span class="kw">use </span>bevy::{math::Vec2, prelude::Color};
 
@@ -39,7 +44,8 @@
 </span><span class="kw">pub enum </span>SpritePaths {
     PLAYER,
     ENEMY,
-    GRASS
+    GRASS,
+    SLIME
 }
 
 <span class="kw">impl </span>SpritePaths {
@@ -55,6 +61,10 @@
             ),
             SpritePaths::GRASS =&gt; Asset::new(
                 <span class="string">"textures/environment/Tiles/tile_0000.png"</span>,
+                Vec2::new(<span class="number">18.0</span>, <span class="number">18.0</span>)
+            ),
+            SpritePaths::SLIME =&gt; Asset::new(
+                <span class="string">"textures/environment/Tiles/tile_0018.png"</span>,
                 Vec2::new(<span class="number">18.0</span>, <span class="number">18.0</span>)
             )
         }

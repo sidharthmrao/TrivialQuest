@@ -78,6 +78,9 @@
 <a href="#78" id="78">78</a>
 <a href="#79" id="79">79</a>
 <a href="#80" id="80">80</a>
+<a href="#81" id="81">81</a>
+<a href="#82" id="82">82</a>
+<a href="#83" id="83">83</a>
 </pre></div><pre class="rust"><code><span class="kw">use crate</span>::{
     id::Gen,
     plugins::{
@@ -91,7 +94,6 @@
 };
 <span class="kw">use </span>bevy::prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span>std::fmt::Display;
-<span class="kw">use </span><span class="kw">crate</span>::plugins::game::entities::enemy::Taxonomy;
 
 <span class="kw">pub const </span>PLATFORM_COLOR: Color = Color::rgb(<span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">0.0</span>);
 
@@ -131,13 +133,15 @@
 
 <span class="comment">// Describes the platform type.
 </span><span class="kw">pub enum </span>PlatformType {
-    Grass
+    Grass,
+    Slime
 }
 
 <span class="kw">impl </span>PlatformType {
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>from_string(str: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;PlatformType&gt; {
         <span class="kw">match </span>str {
             <span class="string">"Grass" </span>=&gt; <span class="prelude-val">Some</span>(PlatformType::Grass),
+            <span class="string">"Slime" </span>=&gt; <span class="prelude-val">Some</span>(PlatformType::Slime),
             <span class="kw">_ </span>=&gt; <span class="prelude-val">None
         </span>}
     }
@@ -146,7 +150,8 @@
 <span class="kw">impl </span>PlatformType {
     <span class="kw">pub fn </span>asset(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Asset {
         <span class="kw">match </span><span class="self">self </span>{
-            PlatformType::Grass =&gt; SpritePaths::GRASS.asset()
+            PlatformType::Grass =&gt; SpritePaths::GRASS.asset(),
+            PlatformType::Slime =&gt; SpritePaths::SLIME.asset()
         }
     }
 }
@@ -154,7 +159,8 @@
 <span class="kw">impl </span>Display <span class="kw">for </span>PlatformType {
     <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>std::fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; std::fmt::Result {
         <span class="kw">match </span><span class="self">self </span>{
-            PlatformType::Grass =&gt; <span class="macro">write!</span>(f, <span class="string">"Grass"</span>)
+            PlatformType::Grass =&gt; <span class="macro">write!</span>(f, <span class="string">"Grass"</span>),
+            PlatformType::Slime =&gt; <span class="macro">write!</span>(f, <span class="string">"Slime"</span>)
         }
     }
 }
