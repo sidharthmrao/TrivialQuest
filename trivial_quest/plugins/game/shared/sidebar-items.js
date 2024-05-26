@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"struct":["SpritePaths"]};
+window.SIDEBAR_ITEMS = {"enum":["SpritePaths"]};

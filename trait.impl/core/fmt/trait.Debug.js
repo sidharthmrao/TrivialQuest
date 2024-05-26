@@ -1,0 +1,3 @@
+(function() {var implementors = {
+"trivial_quest":[["impl <a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html\" title=\"trait core::fmt::Debug\">Debug</a> for <a class=\"enum\" href=\"trivial_quest/plugins/game/shared/enum.SpritePaths.html\" title=\"enum trivial_quest::plugins::game::shared::SpritePaths\">SpritePaths</a>"]]
+};if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

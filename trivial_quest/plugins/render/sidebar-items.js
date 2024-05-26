@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"struct":["AssetPath","CameraFollow","MainCamera","RenderPlugin"]};
+window.SIDEBAR_ITEMS = {"struct":["AssetPath","CameraFollow","MainCamera","RenderPlugin","Size"]};

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/plugins/render.rs`."><title>render.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-dd39b87e5fcfba68.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="trivial_quest" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (36153f1a4 2024-05-24)" data-channel="nightly" data-search-js="search-d52510db62a78183.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/plugins/render.rs`."><title>render.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-dd39b87e5fcfba68.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="trivial_quest" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (1ba35e9bb 2024-05-25)" data-channel="nightly" data-search-js="search-d52510db62a78183.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -83,6 +83,46 @@
 <a href="#83" id="83">83</a>
 <a href="#84" id="84">84</a>
 <a href="#85" id="85">85</a>
+<a href="#86" id="86">86</a>
+<a href="#87" id="87">87</a>
+<a href="#88" id="88">88</a>
+<a href="#89" id="89">89</a>
+<a href="#90" id="90">90</a>
+<a href="#91" id="91">91</a>
+<a href="#92" id="92">92</a>
+<a href="#93" id="93">93</a>
+<a href="#94" id="94">94</a>
+<a href="#95" id="95">95</a>
+<a href="#96" id="96">96</a>
+<a href="#97" id="97">97</a>
+<a href="#98" id="98">98</a>
+<a href="#99" id="99">99</a>
+<a href="#100" id="100">100</a>
+<a href="#101" id="101">101</a>
+<a href="#102" id="102">102</a>
+<a href="#103" id="103">103</a>
+<a href="#104" id="104">104</a>
+<a href="#105" id="105">105</a>
+<a href="#106" id="106">106</a>
+<a href="#107" id="107">107</a>
+<a href="#108" id="108">108</a>
+<a href="#109" id="109">109</a>
+<a href="#110" id="110">110</a>
+<a href="#111" id="111">111</a>
+<a href="#112" id="112">112</a>
+<a href="#113" id="113">113</a>
+<a href="#114" id="114">114</a>
+<a href="#115" id="115">115</a>
+<a href="#116" id="116">116</a>
+<a href="#117" id="117">117</a>
+<a href="#118" id="118">118</a>
+<a href="#119" id="119">119</a>
+<a href="#120" id="120">120</a>
+<a href="#121" id="121">121</a>
+<a href="#122" id="122">122</a>
+<a href="#123" id="123">123</a>
+<a href="#124" id="124">124</a>
+<a href="#125" id="125">125</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Author: Sidharth Rao
 //!
 //! The render plugin handles game rendering, texturing, and cameras.
@@ -106,20 +146,28 @@
 //!     - PostUpdate: Follows the entity (or no entity) with the
 //!       [`CameraFollow`] component.
 
-</span><span class="kw">use </span>bevy::prelude::<span class="kw-2">*</span>;
+</span><span class="kw">use </span>bevy::math::bounding::Aabb2d;
+<span class="kw">use </span>bevy::prelude::<span class="kw-2">*</span>;
+<span class="kw">use </span><span class="kw">crate</span>::plugins::game::shared::SpritePaths;
 
 <span class="doccomment">/// Handles game rendering, texturing, and cameras.
 </span><span class="kw">pub struct </span>RenderPlugin;
 
-<span class="attr">#[derive(Component)]
+<span class="doccomment">/// Main camera.
+</span><span class="attr">#[derive(Component)]
 </span><span class="kw">pub struct </span>MainCamera;
 
 <span class="doccomment">/// If exactly one entity has this component, the camera will follow it.
 </span><span class="attr">#[derive(Component)]
 </span><span class="kw">pub struct </span>CameraFollow;
 
-<span class="attr">#[derive(Component)]
+<span class="doccomment">/// Path to the asset file.
+</span><span class="attr">#[derive(Component)]
 </span><span class="kw">pub struct </span>AssetPath(<span class="kw">pub </span>String);
+
+<span class="doccomment">/// Bounding box of a sprite.
+</span><span class="attr">#[derive(Component)]
+</span><span class="kw">pub struct </span>Size(<span class="kw">pub </span>Aabb2d);
 
 <span class="comment">// Initializes the main camera as a 2D camera.
 </span><span class="kw">fn </span>setup_camera(<span class="kw-2">mut </span>commands: Commands) {
@@ -147,25 +195,57 @@
     <span class="kw-2">mut </span>commands: Commands,
     asset_server: Res&lt;AssetServer&gt;,
     <span class="comment">// Only process entities with an AssetPath component that has changed.
-    </span>objects: Query&lt;(Entity, <span class="kw-2">&amp;</span>AssetPath, <span class="kw-2">&amp;mut </span>Transform), Changed&lt;AssetPath&gt;&gt;
+    </span>objects: Query&lt;(Entity, <span class="kw-2">&amp;</span>SpritePaths, <span class="kw-2">&amp;mut </span>Transform), Changed&lt;SpritePaths&gt;&gt;
 ) {
-    <span class="kw">for </span>(entity, asset_path, transform) <span class="kw">in </span>objects.iter() {
+    <span class="kw">for </span>(entity, sprite, transform) <span class="kw">in </span>objects.iter() {
         <span class="comment">// Remove the old Transform component and insert a SpriteBundle
         // component.
-        </span>commands.entity(entity).remove::&lt;Transform&gt;();
-        commands.entity(entity).insert(SpriteBundle {
-            texture: asset_server.load(asset_path.<span class="number">0</span>.clone()),
+        </span>commands.entity(entity).insert(SpriteBundle {
+            texture: asset_server.load(sprite.image_path().clone()),
             transform: <span class="kw-2">*</span>transform,
             ..default()
         });
     }
 }
 
-<span class="kw">impl </span>Plugin <span class="kw">for </span>RenderPlugin {
+<span class="comment">// fn update_bounds(
+//     mut commands: Commands,
+//     asset_server: Res&lt;Assets&lt;Image&gt;&gt;,
+//     // Only process entities with an AssetPath component that has changed.
+//     objects: Query&lt;
+//         (Entity, &amp;mut Transform, &amp;Handle&lt;Image&gt;),
+//         (Changed&lt;Handle&lt;Image&gt;&gt;, With&lt;Sprite&gt;)
+//     &gt;
+// ) {
+//     for (entity, transform, handle) in objects.iter() {
+//         let image_dimensions = asset_server.get(handle);
+//         match image_dimensions {
+//             Some(image) =&gt; {
+//                 let image_dimensions = image.size_f32();
+//                 let scaled_image_dimension = image_dimensions * transform.scale.truncate();
+//
+//                 let center = vec2(0., 0.);
+//                 let half_size = scaled_image_dimension / 2.0;
+//                 let bounds = Aabb2d::new(center, half_size);
+//
+//                 println!("{:?}", bounds);
+//
+//                 commands.entity(entity).remove::&lt;RenderBounds&gt;();
+//                 commands.entity(entity).insert(RenderBounds(bounds));
+//             }
+//             None =&gt; {
+//                 return
+//             }
+//         }
+//     }
+// }
+
+</span><span class="kw">impl </span>Plugin <span class="kw">for </span>RenderPlugin {
     <span class="kw">fn </span>build(<span class="kw-2">&amp;</span><span class="self">self</span>, app: <span class="kw-2">&amp;mut </span>App) {
         app.add_systems(Startup, setup_camera);
         app.add_systems(Update, make_sprites);
-        app.add_systems(PostUpdate, camera_follow_player);
+        <span class="comment">// app.add_systems(Update, (make_sprites, update_bounds).chain());
+        </span>app.add_systems(PostUpdate, camera_follow_player);
     }
 }
 </code></pre></div></section></main></body></html>

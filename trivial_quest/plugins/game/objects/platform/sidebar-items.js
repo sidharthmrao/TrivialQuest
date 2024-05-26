@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"constant":["PLATFORM_COLOR"],"struct":["Platform"]};
+window.SIDEBAR_ITEMS = {"constant":["PLATFORM_COLOR"],"enum":["PlatformType"],"struct":["Platform"]};
