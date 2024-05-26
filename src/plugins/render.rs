@@ -35,7 +35,7 @@ pub struct MainCamera;
 #[derive(Component)]
 pub struct CameraFollow;
 
-/// Path to the asset file.
+/// Contains the path to an asset and its size.
 #[derive(Component)]
 pub struct Asset {
     pub path: String,
@@ -43,6 +43,7 @@ pub struct Asset {
 }
 
 impl Asset {
+    /// Creates a new asset with the given path and size.
     pub fn new(path: &str, size: Vec2) -> Self {
         Self { path: path.into(), size }
     }
