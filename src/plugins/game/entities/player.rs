@@ -1,9 +1,10 @@
 use crate::plugins::{
-    game::{shared::SpritePaths, Health, Name, Strength},
+    game::{config::SpritePaths, Health, Name, Strength},
     physics::{Collider, Gravity, Movable},
     render::{CameraFollow}
 };
 use bevy::{math::bounding::Aabb2d, prelude::*};
+use crate::plugins::render::Scale;
 
 #[derive(Component)]
 pub struct Player;
@@ -15,6 +16,7 @@ impl Player {
         health: u32,
         strength: u32,
         location: Vec2,
+        scale: Vec2,
         velocity: Vec2
     ) {
         commands.spawn((
@@ -22,17 +24,18 @@ impl Player {
             Name(name),
             Health(health),
             Strength(strength),
-            SpritePaths::PLAYER,
+            SpritePaths::PLAYER.asset(),
             Transform::from_xyz(location.x, location.y, 0.0),
             GlobalTransform::IDENTITY,
             Gravity,
-            CameraFollow,
+            Scale(scale),
+            // CameraFollow,
             Movable::from(location, velocity),
             Collider::AABB(Aabb2d::new(
                 Vec2 { x: 0.0, y: 0.0 },
                 Vec2 {
-                    x: SpritePaths::PLAYER.size().x / 2.0,
-                    y: SpritePaths::PLAYER.size().y / 2.0,
+                    x: SpritePaths::PLAYER.asset().size.x / 2.0,
+                    y: SpritePaths::PLAYER.asset().size.y / 2.0,
                 }
             ))
         ));

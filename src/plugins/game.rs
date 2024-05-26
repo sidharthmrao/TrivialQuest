@@ -1,22 +1,21 @@
-use crate::plugins::game::{
-    entities::{
-        enemy::{Enemy, Taxonomy},
-        player::Player
-    },
-    objects::platform::Platform
-};
-use bevy::prelude::*;
-use crate::plugins::game::objects::platform::PlatformType;
-use crate::plugins::game::shared::SpritePaths;
-
-use super::physics::{Collider, Movable};
-
 pub mod entities;
 pub mod objects;
-pub mod shared;
+pub mod config;
 
-pub const BACKGROUND_COLOR: Color = Color::rgb(0.9, 0.9, 0.9);
-pub const PLAYER_SPEED: f32 = 200.0;
+use crate::plugins::{
+    game::{
+        entities::{
+            enemy::{Enemy, Taxonomy},
+            player::Player
+        },
+        objects::platform::{Platform, PlatformType},
+        config::{BACKGROUND_COLOR, PLAYER_HORIZONTAL_MOVEMENT_SPEED}
+    },
+    render::{Asset, Scale},
+    physics::{Collider, Movable}
+};
+
+use bevy::prelude::*;
 
 pub struct GamePlugin;
 
@@ -40,22 +39,26 @@ fn setup_game(mut commands: Commands) {
         100,
         10,
         Vec2::new(20.0, 80.0),
+        Vec2::new(1.0, 1.0),
         Vec2::new(0.0, 0.0)
     );
 
     // Make enemy
-    Enemy::spawn(&mut commands, Taxonomy::Human, None, Vec2::new(-20.0, 80.0), Vec2::new(0.0, 0.0));
+    Enemy::spawn(&mut commands, Taxonomy::Human, None, Vec2::new(-20.0, 80.0), Vec2::new
+        (1., 1.), Vec2::new(0.0, 0.0));
 
     Platform::spawn(
         &mut commands,
         Vec2::new(0.0, -100.0),
-        PlatformType::Grass
+        PlatformType::Grass,
+        Vec2::new(1.0, 1.0)
     );
 
     Platform::spawn(
         &mut commands,
         Vec2::new(18.0, -100.0),
-        PlatformType::Grass
+        PlatformType::Grass,
+        Vec2::new(1.0, 1.0)
     );
 }
 
@@ -81,14 +84,22 @@ pub fn move_player(
         movable.vel_mut().y += 1000.0 * time.delta_seconds();
     }
 
-    movable.pos_mut().x += direction * PLAYER_SPEED * time.delta_seconds();
+    movable.pos_mut().x += direction * PLAYER_HORIZONTAL_MOVEMENT_SPEED * time.delta_seconds();
 }
 
 pub fn update_collider(
-    mut objects: Query<(&SpritePaths, &mut Collider), Changed<SpritePaths>>
+    mut objects: Query<(&Asset, &mut Collider), Changed<Asset>>
 ) {
     for (sprite, mut collider) in objects.iter_mut() {
-        collider.set_size(sprite.size());
+        collider.set_size(sprite.size);
+    }
+}
+
+pub fn scale_change(
+    mut query: Query<(&Asset, &mut Transform, &Scale), Changed<Scale>>
+) {
+    for (sprite, mut transform, scale) in query.iter_mut() {
+        transform.scale = Vec3::new(sprite.size.x * scale.0.x, sprite.size.y * scale.0.y, 1.0);
     }
 }
 
