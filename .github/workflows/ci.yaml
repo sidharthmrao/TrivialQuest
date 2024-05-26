@@ -23,8 +23,6 @@ jobs:
         uses: actions/checkout@v4
       - name: Configure cache
         uses: Swatinem/rust-cache@v2.7.3
-        with:
-          shared-key: ${{ runner.os }}-rust-${{ hashFiles('**/Cargo.lock') }}
       - name: Install Dependencies
         run: |
           sudo apt-get install -y libudev-dev alsa librust-alsa-sys-dev
