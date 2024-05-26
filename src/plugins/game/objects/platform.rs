@@ -1,8 +1,16 @@
+use crate::{
+    id::Gen,
+    plugins::{
+        game::config::SpritePaths,
+        physics::{
+            collider::{Collider, ColliderBehavior, Hitbox},
+            FixedPhysicsObject, PhysicsObject
+        },
+        render::{Asset, Scale}
+    }
+};
+use bevy::prelude::*;
 use std::fmt::Display;
-use crate::plugins::physics::{Collider, Fixed};
-use bevy::{math::bounding::Aabb2d, prelude::*};
-use crate::plugins::game::config::SpritePaths;
-use crate::plugins::render::{Asset, Scale};
 
 pub const PLATFORM_COLOR: Color = Color::rgb(0.0, 0.0, 0.0);
 
@@ -11,9 +19,7 @@ pub struct Platform;
 
 impl Platform {
     pub fn spawn(
-        commands: &mut Commands,
-        location: Vec2,
-        platform_type: PlatformType,
+        commands: &mut Commands, location: Vec2, platform_type: PlatformType,
         scale: Vec2
     ) {
         commands.spawn((
@@ -21,28 +27,33 @@ impl Platform {
             Transform::from_xyz(location.x, location.y, 0.0),
             GlobalTransform::IDENTITY,
             Platform,
-            Fixed,
             Scale(scale),
-            Collider::AABB(Aabb2d::new(
-                Vec2 { x: 0.0, y: 0.0 },
-                Vec2 {
-                    x: platform_type.asset().size.x / 2.0,
-                    y: platform_type.asset().size.y / 2.0
-                }
-            ))
+            FixedPhysicsObject::from(
+                PhysicsObject::UniqueNameAndNumber(
+                    "platform".into(),
+                    Gen::next("platforms")
+                ),
+                Collider::from(
+                    Hitbox::from_size(
+                        platform_type.asset().size.x / 2.0,
+                        platform_type.asset().size.y / 2.0
+                    ),
+                    ColliderBehavior::Solid
+                )
+            )
         ));
     }
 }
 
 // Describes the platform type.
 pub enum PlatformType {
-    Grass,
+    Grass
 }
 
 impl PlatformType {
     pub fn asset(&self) -> Asset {
         match self {
-            PlatformType::Grass => SpritePaths::GRASS.asset(),
+            PlatformType::Grass => SpritePaths::GRASS.asset()
         }
     }
 }
@@ -50,7 +61,7 @@ impl PlatformType {
 impl Display for PlatformType {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            PlatformType::Grass => write!(f, "Grass"),
+            PlatformType::Grass => write!(f, "Grass")
         }
     }
 }

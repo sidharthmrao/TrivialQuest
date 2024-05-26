@@ -1,20 +1,26 @@
+pub mod config;
 pub mod entities;
 pub mod objects;
-pub mod config;
 
+use std::borrow::Borrow;
+
+use self::entities::player::PLAYER_JUMP;
+
+use super::physics::{
+    collider::Hitbox, movement::CollisionEvent, PhysicsObject
+};
 use crate::plugins::{
     game::{
+        config::{BACKGROUND_COLOR, PLAYER_HORIZONTAL_MOVEMENT_SPEED},
         entities::{
             enemy::{Enemy, Taxonomy},
             player::Player
         },
-        objects::platform::{Platform, PlatformType},
-        config::{BACKGROUND_COLOR, PLAYER_HORIZONTAL_MOVEMENT_SPEED}
+        objects::platform::{Platform, PlatformType}
     },
-    render::{Asset, Scale},
-    physics::{Collider, Movable}
+    physics::Movable,
+    render::{Asset, Scale}
 };
-
 use bevy::prelude::*;
 
 pub struct GamePlugin;
@@ -44,8 +50,14 @@ fn setup_game(mut commands: Commands) {
     );
 
     // Make enemy
-    Enemy::spawn(&mut commands, Taxonomy::Human, None, Vec2::new(-20.0, 80.0), Vec2::new
-        (1., 1.), Vec2::new(0.0, 0.0));
+    Enemy::spawn(
+        &mut commands,
+        Taxonomy::Human,
+        None,
+        Vec2::new(-20.0, 80.0),
+        Vec2::new(1., 1.),
+        Vec2::new(0.0, 0.0)
+    );
 
     Platform::spawn(
         &mut commands,
@@ -60,10 +72,24 @@ fn setup_game(mut commands: Commands) {
         PlatformType::Grass,
         Vec2::new(1.0, 1.0)
     );
+
+    Platform::spawn(
+        &mut commands,
+        Vec2::new(-18.0, -118.0),
+        PlatformType::Grass,
+        Vec2::new(1.0, 1.0)
+    );
+
+    Platform::spawn(
+        &mut commands,
+        Vec2::new(36.0, -118.0),
+        PlatformType::Grass,
+        Vec2::new(1.0, 1.0)
+    );
 }
 
 /// Moves the player left or right when the arrow keys are pressed.
-pub fn move_player(
+pub fn move_player_left_right(
     keyboard_input: Res<ButtonInput<KeyCode>>,
     mut query: Query<&mut Movable, With<Player>>, time: Res<Time>
 ) {
@@ -80,18 +106,35 @@ pub fn move_player(
     if keyboard_input.pressed(KeyCode::ArrowRight) {
         direction += 1.0;
     }
-    if keyboard_input.pressed(KeyCode::Space) {
-        movable.vel_mut().y += 1000.0 * time.delta_seconds();
-    }
 
-    movable.pos_mut().x += direction * PLAYER_HORIZONTAL_MOVEMENT_SPEED * time.delta_seconds();
+    movable.pos_mut().x +=
+        direction * PLAYER_HORIZONTAL_MOVEMENT_SPEED * time.delta_seconds();
 }
 
-pub fn update_collider(
-    mut objects: Query<(&Asset, &mut Collider), Changed<Asset>>
+pub fn handle_player_space(
+    keyboard_input: Res<ButtonInput<KeyCode>>,
+    mut collision_events: EventReader<CollisionEvent>,
+    mut query: Query<(&mut Movable, &PhysicsObject), With<Player>>,
+    time: Res<Time>
 ) {
-    for (sprite, mut collider) in objects.iter_mut() {
-        collider.set_size(sprite.size);
+    let (mut movable, player) = query.single_mut();
+
+    if keyboard_input.pressed(KeyCode::Space) {
+        for event in collision_events.read() {
+            if event.movable == *player
+                && event.fixed.matches("platform".into())
+            {
+                movable.vel_mut().y = PLAYER_JUMP * time.delta_seconds();
+            }
+        }
+    }
+}
+
+pub fn update_hitbox(
+    mut objects: Query<(&Asset, &mut Hitbox), Changed<Asset>>
+) {
+    for (sprite, mut hitbox) in objects.iter_mut() {
+        hitbox.set_size(sprite.size);
     }
 }
 
@@ -99,7 +142,11 @@ pub fn scale_change(
     mut query: Query<(&Asset, &mut Transform, &Scale), Changed<Scale>>
 ) {
     for (sprite, mut transform, scale) in query.iter_mut() {
-        transform.scale = Vec3::new(sprite.size.x * scale.0.x, sprite.size.y * scale.0.y, 1.0);
+        transform.scale = Vec3::new(
+            sprite.size.x * scale.0.x,
+            sprite.size.y * scale.0.y,
+            1.0
+        );
     }
 }
 
@@ -107,7 +154,8 @@ impl Plugin for GamePlugin {
     fn build(&self, app: &mut App) {
         app.insert_resource(ClearColor(BACKGROUND_COLOR));
         app.add_systems(Startup, setup_game);
-        app.add_systems(Update, move_player);
-        app.add_systems(PostUpdate, update_collider);
+        app.add_systems(Update, move_player_left_right);
+        app.add_systems(Update, handle_player_space);
+        app.add_systems(PostUpdate, update_hitbox);
     }
 }

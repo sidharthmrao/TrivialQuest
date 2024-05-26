@@ -3403,6 +3403,7 @@ dependencies = [
  "bevy",
  "colored",
  "insta",
+ "lazy_static",
  "proptest",
 ]
 

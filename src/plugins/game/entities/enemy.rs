@@ -1,26 +1,24 @@
-use std::fmt::Display;
-use bevy::math::bounding::Aabb2d;
-
-use crate::plugins::{
-    game::{config::SpritePaths, Health, Name, Strength},
-    physics::{Gravity, Movable},
-    render::{Asset}
+use crate::{
+    id::Gen,
+    plugins::{
+        game::{config::SpritePaths, Health, Name, Strength},
+        physics::{
+            collider::{Collider, ColliderBehavior, Hitbox},
+            MovablePhysicsObject, PhysicsObject
+        },
+        render::{Asset, Scale}
+    }
 };
 use bevy::prelude::*;
-use crate::plugins::physics::Collider;
-use crate::plugins::render::Scale;
+use std::fmt::Display;
 
 #[derive(Component)]
 pub struct Enemy(pub Taxonomy);
 
 impl Enemy {
     pub fn spawn(
-        commands: &mut Commands,
-        enemy_type: Taxonomy,
-        name: Option<String>,
-        location: Vec2,
-        scale: Vec2,
-        velocity: Vec2
+        commands: &mut Commands, enemy_type: Taxonomy, name: Option<String>,
+        location: Vec2, scale: Vec2, velocity: Vec2
     ) {
         commands.spawn((
             Name(name.unwrap_or("Enemy".to_string())),
@@ -29,16 +27,23 @@ impl Enemy {
             enemy_type.asset(),
             Transform::from_xyz(location.x, location.y, 0.0),
             GlobalTransform::IDENTITY,
-            Gravity,
             Scale(scale),
-            Movable::from(location, velocity),
-            Collider::AABB(Aabb2d::new(
-                Vec2 { x: 0.0, y: 0.0 },
-                Vec2 {
-                    x: enemy_type.asset().size.x / 2.0,
-                    y: enemy_type.asset().size.y / 2.0
-                }
-            ))
+            MovablePhysicsObject::from(
+                PhysicsObject::UniqueNameAndNumber(
+                    "enemy".into(),
+                    Gen::next("enemy")
+                ),
+                location,
+                velocity,
+                true,
+                Collider::from(
+                    Hitbox::from_size(
+                        enemy_type.asset().size.x / 2.0,
+                        enemy_type.asset().size.y / 2.0
+                    ),
+                    ColliderBehavior::Solid
+                )
+            )
         ));
     }
 }
@@ -76,7 +81,7 @@ impl Taxonomy {
             Taxonomy::Human => SpritePaths::ENEMY.asset(),
             Taxonomy::Dwarf => SpritePaths::ENEMY.asset(),
             Taxonomy::Elf => SpritePaths::ENEMY.asset(),
-            Taxonomy::NontrivialSolution => SpritePaths::ENEMY.asset(),
+            Taxonomy::NontrivialSolution => SpritePaths::ENEMY.asset()
         }
     }
 }
