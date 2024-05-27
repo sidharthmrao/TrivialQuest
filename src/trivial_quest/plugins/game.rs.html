@@ -89,17 +89,79 @@
 <a href="#89" id="89">89</a>
 <a href="#90" id="90">90</a>
 <a href="#91" id="91">91</a>
+<a href="#92" id="92">92</a>
+<a href="#93" id="93">93</a>
+<a href="#94" id="94">94</a>
+<a href="#95" id="95">95</a>
+<a href="#96" id="96">96</a>
+<a href="#97" id="97">97</a>
+<a href="#98" id="98">98</a>
+<a href="#99" id="99">99</a>
+<a href="#100" id="100">100</a>
+<a href="#101" id="101">101</a>
+<a href="#102" id="102">102</a>
+<a href="#103" id="103">103</a>
+<a href="#104" id="104">104</a>
+<a href="#105" id="105">105</a>
+<a href="#106" id="106">106</a>
+<a href="#107" id="107">107</a>
+<a href="#108" id="108">108</a>
+<a href="#109" id="109">109</a>
+<a href="#110" id="110">110</a>
+<a href="#111" id="111">111</a>
+<a href="#112" id="112">112</a>
+<a href="#113" id="113">113</a>
+<a href="#114" id="114">114</a>
+<a href="#115" id="115">115</a>
+<a href="#116" id="116">116</a>
+<a href="#117" id="117">117</a>
+<a href="#118" id="118">118</a>
+<a href="#119" id="119">119</a>
+<a href="#120" id="120">120</a>
+<a href="#121" id="121">121</a>
+<a href="#122" id="122">122</a>
+<a href="#123" id="123">123</a>
+<a href="#124" id="124">124</a>
+<a href="#125" id="125">125</a>
+<a href="#126" id="126">126</a>
+<a href="#127" id="127">127</a>
+<a href="#128" id="128">128</a>
+<a href="#129" id="129">129</a>
+<a href="#130" id="130">130</a>
+<a href="#131" id="131">131</a>
+<a href="#132" id="132">132</a>
+<a href="#133" id="133">133</a>
+<a href="#134" id="134">134</a>
+<a href="#135" id="135">135</a>
+<a href="#136" id="136">136</a>
+<a href="#137" id="137">137</a>
+<a href="#138" id="138">138</a>
+<a href="#139" id="139">139</a>
+<a href="#140" id="140">140</a>
+<a href="#141" id="141">141</a>
+<a href="#142" id="142">142</a>
+<a href="#143" id="143">143</a>
+<a href="#144" id="144">144</a>
+<a href="#145" id="145">145</a>
+<a href="#146" id="146">146</a>
+<a href="#147" id="147">147</a>
+<a href="#148" id="148">148</a>
+<a href="#149" id="149">149</a>
+<a href="#150" id="150">150</a>
+<a href="#151" id="151">151</a>
+<a href="#152" id="152">152</a>
+<a href="#153" id="153">153</a>
+<a href="#154" id="154">154</a>
 </pre></div><pre class="rust"><code><span class="kw">pub mod </span>config;
 <span class="kw">pub mod </span>entities;
 <span class="kw">pub mod </span>level;
 <span class="kw">pub mod </span>objects;
 
-<span class="kw">use </span><span class="self">self</span>::entities::player::PLAYER_JUMP;
+<span class="comment">// use self::entities::player::PLAYER_JUMP;
 
-<span class="kw">use </span><span class="kw">super</span>::physics::{movement::CollisionEvent, PhysicsObject};
+</span><span class="kw">use </span><span class="kw">super</span>::physics::{movement::CollisionEvent, PhysicsObject};
 <span class="kw">use </span><span class="kw">crate</span>::plugins::{
     game::{
-        config::{BACKGROUND_COLOR, PLAYER_HORIZONTAL_MOVEMENT_SPEED},
         entities::player::Player,
         level::{load_objects, LevelFile}
     },
@@ -107,6 +169,7 @@
     render::CameraZoom
 };
 <span class="kw">use </span>bevy::prelude::<span class="kw-2">*</span>;
+<span class="kw">use </span><span class="kw">crate</span>::plugins::game::config::GameSettings;
 
 <span class="kw">pub struct </span>GamePlugin;
 
@@ -124,7 +187,9 @@
 <span class="doccomment">/// Moves the player left or right when the arrow keys are pressed.
 </span><span class="kw">pub fn </span>move_player_left_right(
     keyboard_input: Res&lt;ButtonInput&lt;KeyCode&gt;&gt;,
-    <span class="kw-2">mut </span>query: Query&lt;<span class="kw-2">&amp;mut </span>Movable, With&lt;Player&gt;&gt;, time: Res&lt;Time&gt;
+    <span class="kw-2">mut </span>query: Query&lt;<span class="kw-2">&amp;mut </span>Movable, With&lt;Player&gt;&gt;,
+    time: Res&lt;Time&gt;,
+    settings: Res&lt;GameSettings&gt;
 ) {
     <span class="kw">if </span>query.iter().count() != <span class="number">1 </span>{
         <span class="kw">return</span>;
@@ -141,43 +206,104 @@
     }
 
     movable.pos_mut().x +=
-        direction * PLAYER_HORIZONTAL_MOVEMENT_SPEED * time.delta_seconds();
+        direction * settings.player_horizontal_movement_speed * time.delta_seconds();
 }
 
-<span class="kw">pub fn </span>handle_player_space(
-    keyboard_input: Res&lt;ButtonInput&lt;KeyCode&gt;&gt;,
+<span class="attr">#[derive(Event)]
+</span><span class="kw">pub struct </span>PlayerJumpEvent;
+
+<span class="attr">#[derive(Resource)]
+</span><span class="kw">pub struct </span>PlayerJumpable {
+    <span class="kw">pub </span>can_jump: bool
+}
+
+<span class="kw">pub fn </span>handle_collision(
+    <span class="kw-2">mut </span>jumpable: ResMut&lt;PlayerJumpable&gt;,
     <span class="kw-2">mut </span>collision_events: EventReader&lt;CollisionEvent&gt;,
-    <span class="kw-2">mut </span>query: Query&lt;(<span class="kw-2">&amp;mut </span>Movable, <span class="kw-2">&amp;</span>PhysicsObject), With&lt;Player&gt;&gt;,
-    time: Res&lt;Time&gt;
+    query: Query&lt;<span class="kw-2">&amp;</span>PhysicsObject, With&lt;Player&gt;&gt;
+) {
+    <span class="kw">for </span>event <span class="kw">in </span>collision_events.read() {
+        <span class="kw">if </span>query.iter().count() != <span class="number">1 </span>{
+            <span class="kw">return</span>;
+        }
+
+        <span class="kw">let </span>player = query.single();
+
+        <span class="kw">if </span>event.movable == <span class="kw-2">*</span>player
+            &amp;&amp; event.fixed.matches(<span class="string">"platform"</span>.into())
+        {
+            jumpable.can_jump = <span class="bool-val">true</span>;
+        }
+    }
+}
+
+<span class="kw">pub fn </span>handle_player_jump(
+    <span class="kw-2">mut </span>jumpable: ResMut&lt;PlayerJumpable&gt;,
+    <span class="kw-2">mut </span>query: Query&lt;<span class="kw-2">&amp;mut </span>Movable, With&lt;Player&gt;&gt;,
+    <span class="kw-2">mut </span>jump_events: EventReader&lt;PlayerJumpEvent&gt;,
+    settings: Res&lt;GameSettings&gt;
 ) {
     <span class="kw">if </span>query.iter().count() != <span class="number">1 </span>{
         <span class="kw">return</span>;
     }
 
-    <span class="kw">let </span>(<span class="kw-2">mut </span>movable, player) = query.single_mut();
+    <span class="kw">let </span><span class="kw-2">mut </span>movable = query.single_mut();
 
-    <span class="kw">if </span>keyboard_input.pressed(KeyCode::Space) {
-        <span class="kw">for </span>event <span class="kw">in </span>collision_events.read() {
-            <span class="kw">if </span>event.movable == <span class="kw-2">*</span>player
-                &amp;&amp; event.fixed.matches(<span class="string">"platform"</span>.into())
-            {
-                movable.vel_mut().y = PLAYER_JUMP * time.delta_seconds();
-            }
+    <span class="kw">for _ in </span>jump_events.read() {
+        <span class="kw">if </span>jumpable.can_jump {
+            <span class="macro">println!</span>(<span class="string">"Jumping {}"</span>, settings.player_jump_vel);
+            movable.vel_mut().y = settings.player_jump_vel;
+            jumpable.can_jump = <span class="bool-val">false</span>;
         }
     }
 }
 
-<span class="kw">impl </span>Plugin <span class="kw">for </span>GamePlugin {
+<span class="kw">pub fn </span>keymap(
+    <span class="kw-2">mut </span>jump_event_writer: EventWriter&lt;PlayerJumpEvent&gt;,
+    keyboard_input: Res&lt;ButtonInput&lt;KeyCode&gt;&gt;,
+) {
+    <span class="kw">if </span>keyboard_input.just_pressed(KeyCode::Space) {
+        jump_event_writer.send(PlayerJumpEvent);
+    }
+}
+
+<span class="comment">// pub fn handle_player_space(
+//     keyboard_input: Res&lt;ButtonInput&lt;KeyCode&gt;&gt;,
+//     mut collision_events: EventReader&lt;CollisionEvent&gt;,
+//     mut query: Query&lt;(&amp;mut Movable, &amp;PhysicsObject), With&lt;Player&gt;&gt;,
+//     time: Res&lt;Time&gt;
+// ) {
+//     if query.iter().count() != 1 {
+//         return;
+//     }
+//
+//     let (mut movable, player) = query.single_mut();
+//
+//     if keyboard_input.pressed(KeyCode::Space) {
+//         for event in collision_events.read() {
+//             if event.movable == *player
+//                 &amp;&amp; event.fixed.matches("platform".into())
+//             {
+//                 movable.vel_mut().y = PLAYER_JUMP * time.delta_seconds();
+//             }
+//         }
+//     }
+// }
+
+</span><span class="kw">impl </span>Plugin <span class="kw">for </span>GamePlugin {
     <span class="kw">fn </span>build(<span class="kw-2">&amp;</span><span class="self">self</span>, app: <span class="kw-2">&amp;mut </span>App) {
-        app.insert_resource(ClearColor(BACKGROUND_COLOR));
+        GameSettings::load_config(app);
         app.insert_resource(CameraZoom { zoom: <span class="number">0.5 </span>});
         app.insert_resource(LevelFile {
             path: <span class="string">"assets/levels/level_0.xml"</span>.into()
         });
+        app.insert_resource(PlayerJumpable { can_jump: <span class="bool-val">false </span>});
+        app.add_event::&lt;PlayerJumpEvent&gt;();
         app.add_systems(Startup, setup_game);
         app.add_systems(Startup, load_objects);
         app.add_systems(Update, move_player_left_right);
-        app.add_systems(Update, handle_player_space);
+        app.add_systems(Update, keymap);
+        app.add_systems(Update, (handle_collision, handle_player_jump).chain());
     }
 }
 </code></pre></div></section></main></body></html>

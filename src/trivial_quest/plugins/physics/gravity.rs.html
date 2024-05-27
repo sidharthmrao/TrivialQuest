@@ -21,11 +21,20 @@
 <a href="#21" id="21">21</a>
 <a href="#22" id="22">22</a>
 <a href="#23" id="23">23</a>
+<a href="#24" id="24">24</a>
+<a href="#25" id="25">25</a>
+<a href="#26" id="26">26</a>
+<a href="#27" id="27">27</a>
+<a href="#28" id="28">28</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span><span class="kw">super</span>::Movable;
 <span class="kw">use </span>bevy::prelude::<span class="kw-2">*</span>;
 
-<span class="doccomment">/// The acceleration to due gravity.
-</span><span class="kw">pub const </span>GRAVITY: Vec2 = Vec2::new(<span class="number">0.0</span>, -<span class="number">200.0</span>);
+<span class="doccomment">/// The settings for the physics plugin.
+</span><span class="attr">#[derive(Resource)]
+</span><span class="kw">pub struct </span>PhysicsSettings {
+    <span class="doccomment">/// The acceleration due to gravity.
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) gravity: Vec2
+}
 
 <span class="doccomment">/// Use this component on a [`Movable`] to enable gravity.
 </span><span class="attr">#[derive(Component, PartialEq, Eq)]
@@ -36,11 +45,12 @@
 
 <span class="doccomment">/// Applies a constant acceleration to all `Movable` `Gravity` objects.
 </span><span class="kw">pub fn </span>apply_gravity(
-    <span class="kw-2">mut </span>query: Query&lt;(<span class="kw-2">&amp;mut </span>Movable, <span class="kw-2">&amp;</span>Gravity)&gt;, time: Res&lt;Time&gt;
+    <span class="kw-2">mut </span>query: Query&lt;(<span class="kw-2">&amp;mut </span>Movable, <span class="kw-2">&amp;</span>Gravity)&gt;, time: Res&lt;Time&gt;,
+    settings: Res&lt;PhysicsSettings&gt;
 ) {
     <span class="kw">for </span>(<span class="kw-2">mut </span>movable, gravity) <span class="kw">in </span>query.iter_mut() {
         <span class="kw">if </span><span class="kw-2">*</span>gravity == Gravity::Enabled {
-            <span class="kw-2">*</span>movable.vel_mut() += GRAVITY * time.delta_seconds();
+            <span class="kw-2">*</span>movable.vel_mut() += settings.gravity * time.delta_seconds();
         }
     }
 }

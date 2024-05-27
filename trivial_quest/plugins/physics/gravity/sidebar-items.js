@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"constant":["GRAVITY"],"enum":["Gravity"],"fn":["apply_gravity"]};
+window.SIDEBAR_ITEMS = {"enum":["Gravity"],"fn":["apply_gravity"],"struct":["PhysicsSettings"]};
