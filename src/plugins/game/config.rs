@@ -3,13 +3,6 @@ use bevy::{math::Vec2, prelude::Color};
 use bevy::prelude::{App, ClearColor, Resource};
 use crate::plugins::physics::gravity::PhysicsSettings;
 
-unit! {
-    system: uom::si;
-    quantity: uom::si::length;
-
-    @pixel: 1.0/18.0; "px", "pixel", "pixels";
-}
-
 #[derive(Debug, Resource)]
 pub struct GameSettings {
     pub player_jump_height: f32,
