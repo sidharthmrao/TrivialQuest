@@ -12,13 +12,13 @@
   <component name="ChangeListManager">
     <list default="true" id="d43c63cb-5fda-467d-8d42-1170bd3c17a1" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/levels/level_0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/assets/levels/level_0.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cargo.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Cargo.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cargo.toml" beforeDir="false" afterPath="$PROJECT_DIR$/Cargo.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lib.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/plugins/game.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/plugins/game.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/plugins/game/entities/enemy.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/plugins/game/entities/enemy.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/plugins/game/config.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/plugins/game/config.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/plugins/game/entities/player.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/plugins/game/entities/player.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/plugins/game/level.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/plugins/game/level.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/plugins/game/objects/platform.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/plugins/game/objects/platform.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/plugins/render.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/plugins/render.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/plugins/physics/gravity.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/plugins/physics/gravity.rs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,28 +46,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.rust.reset.selective.auto.import": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "/home/sloth/Programming/Rust/TrivialQuest",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "org.rust.cargo.project.model.PROJECT_DISCOVERY": "true",
-    "org.rust.cargo.project.model.impl.CargoExternalSystemProjectAware.subscribe.first.balloon": "",
-    "org.rust.disableDetachedFileInspection/home/sloth/Programming/Rust/TrivialQuest/src/graphics/camera.rs": "true",
-    "org.rust.disableDetachedFileInspection/home/sloth/Programming/Rust/TrivialQuest/src/objects/entities.rs": "true",
-    "org.rust.disableDetachedFileInspection/home/sloth/Programming/Rust/TrivialQuest/src/objects/entities/shared_components.rs": "true",
-    "org.rust.disableDetachedFileInspection/home/sloth/Programming/Rust/TrivialQuest/src/player/player.rs": "true",
-    "org.rust.disableDetachedFileInspection/home/sloth/Programming/Rust/TrivialQuest/src/plugins/hello.rs": "true",
-    "org.rust.disableDetachedFileInspection/home/sloth/Programming/Rust/TrivialQuest/src/plugins/render.rs": "true",
-    "org.rust.first.attach.projects": "true",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "project.propVCSSupport.CommitDialog"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.rust.reset.selective.auto.import&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;jump&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/sloth/Programming/Rust/TrivialQuest&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;org.rust.cargo.project.model.PROJECT_DISCOVERY&quot;: &quot;true&quot;,
+    &quot;org.rust.cargo.project.model.impl.CargoExternalSystemProjectAware.subscribe.first.balloon&quot;: &quot;&quot;,
+    &quot;org.rust.disableDetachedFileInspection/home/sloth/Programming/Rust/TrivialQuest/src/graphics/camera.rs&quot;: &quot;true&quot;,
+    &quot;org.rust.disableDetachedFileInspection/home/sloth/Programming/Rust/TrivialQuest/src/objects/entities.rs&quot;: &quot;true&quot;,
+    &quot;org.rust.disableDetachedFileInspection/home/sloth/Programming/Rust/TrivialQuest/src/objects/entities/shared_components.rs&quot;: &quot;true&quot;,
+    &quot;org.rust.disableDetachedFileInspection/home/sloth/Programming/Rust/TrivialQuest/src/player/player.rs&quot;: &quot;true&quot;,
+    &quot;org.rust.disableDetachedFileInspection/home/sloth/Programming/Rust/TrivialQuest/src/plugins/hello.rs&quot;: &quot;true&quot;,
+    &quot;org.rust.disableDetachedFileInspection/home/sloth/Programming/Rust/TrivialQuest/src/plugins/render.rs&quot;: &quot;true&quot;,
+    &quot;org.rust.first.attach.projects&quot;: &quot;true&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.CommitDialog&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/plugins/game" />
@@ -101,6 +101,8 @@
       <workItem from="1716587157541" duration="3303000" />
       <workItem from="1716664330982" duration="4162000" />
       <workItem from="1716712363868" duration="68000" />
+      <workItem from="1716743847109" duration="94000" />
+      <workItem from="1716743949010" duration="7436000" />
     </task>
     <servers />
   </component>

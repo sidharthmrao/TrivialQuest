@@ -1,8 +1,47 @@
 use crate::plugins::render::Asset;
 use bevy::{math::Vec2, prelude::Color};
+use bevy::prelude::{App, ClearColor, Resource};
+use crate::plugins::physics::gravity::PhysicsSettings;
 
-pub const BACKGROUND_COLOR: Color = Color::rgb(0.9, 0.9, 0.9);
-pub const PLAYER_HORIZONTAL_MOVEMENT_SPEED: f32 = 200.0;
+unit! {
+    system: uom::si;
+    quantity: uom::si::length;
+
+    @pixel: 1.0/18.0; "px", "pixel", "pixels";
+}
+
+#[derive(Debug, Resource)]
+pub struct GameSettings {
+    pub player_jump_height: f32,
+    pub jump_time: f32,
+    pub player_jump_vel: f32,
+    pub player_horizontal_movement_speed: f32
+}
+
+impl GameSettings {
+    pub fn load_config(app: &mut App) {
+        app.insert_resource(ClearColor(Color::rgb(0.9, 0.9, 0.9)));
+
+        let player_jump_height: f32 = 24.0; // Pixels
+        let jump_time: f32 = 0.16; // Seconds
+        let gravity: f32 = -player_jump_height / 2.0 / jump_time / jump_time; // Pixels per
+        // second^2
+        let player_jump_vel: f32 = (2.0 * player_jump_height * -gravity).sqrt(); // Pixels per
+        // second
+        let player_horizontal_movement_speed: f32 = 75.0; // Pixels per second
+
+        app.insert_resource(PhysicsSettings {
+            gravity: Vec2::new(0.0, gravity)
+        });
+
+        app.insert_resource(Self {
+            player_jump_height,
+            jump_time,
+            player_jump_vel,
+            player_horizontal_movement_speed
+        });
+    }
+}
 
 #[derive(Debug, Clone, Copy)]
 pub enum SpritePaths {

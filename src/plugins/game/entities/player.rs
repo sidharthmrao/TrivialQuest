@@ -7,7 +7,6 @@ use crate::plugins::{
 };
 use bevy::{prelude::*, utils::info};
 
-pub const PLAYER_JUMP: f32 = 1000.0;
 
 #[derive(Component)]
 pub struct Player;
