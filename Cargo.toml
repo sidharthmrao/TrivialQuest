@@ -14,7 +14,6 @@ crate-type = ["lib"]
 bevy = { version = "0.13.2" } # Revert before game release
 colored = "2"
 lazy_static = "1.4.0"
-minidom = "0.15.2"
 xml-rs = "0.8.20"
 
 [dev-dependencies]
@@ -31,7 +30,6 @@ opt-level = 3
 
 [profile.dev.package]
 insta.opt-level = 3
-similar.opt-level = 3
 
 [features]
 disable_color = ["colored/no-color"]
